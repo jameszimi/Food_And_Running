@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">FoodAndRunning</string>
+    <string name="username">Username</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="loginTH">เข้าสู่ระบบ</string>
+    <string name="registerTH">สมัครสมาชิก</string>
+    <string name="passwordTH">รหัสผ่าน (Password)</string>
+    <string name="confirmPassTH">ยืนยันรหัสผ่าน</string>
+    <string name="e_mailEN">E-mail</string>
+    <string name="birthday">วัน/เดือน/ปี เกิด</string>
+    <string name="height">ส่วนสูง</string>
+    <string name="weight">น้ำหนัก</string>
+    <string name="sexTH">เพศ</string>
+    <string name="routine">กิจวัตรประจำวัน</string>
+    <string name="nav_calorie">Calorie</string>
+    <string name="nav_workout">Workout</string>
+    <string name="nav_user">User</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

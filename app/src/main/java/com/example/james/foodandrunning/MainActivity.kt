@@ -1,0 +1,108 @@
+package com.example.james.foodandrunning
+
+
+import android.support.v7.app.AppCompatActivity
+import android.os.Bundle
+import android.support.design.widget.BottomNavigationView
+import android.support.v4.app.Fragment
+import android.support.v4.app.Person
+import android.support.v7.app.ActionBar
+import android.util.Log
+import android.widget.FrameLayout
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
+
+
+class MainActivity : AppCompatActivity() {
+
+    val TAG = "MainActivity"
+    lateinit var toolbar : ActionBar
+    lateinit var mMainFrame : FrameLayout
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        //pre data
+        //val testdatahash =
+        predata()
+
+        mMainFrame = findViewById(R.id.main_frame)
+
+        setSupportActionBar(findViewById(R.id.mtoolbar))
+        toolbar = supportActionBar!!
+        toolbar.title = "บันทึกรายการอาหาร"
+
+        val calorieFragment = CalorieFragment.newInstance()
+        openFragment(calorieFragment)
+
+        val bottomNavigation: BottomNavigationView = findViewById(R.id.main_nav)
+        bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
+    }
+
+    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        when (item.itemId) {
+            R.id.nav_calorie -> {
+                toolbar.title = "บันทึกรายการอาหาร"
+                val calorieFragment = CalorieFragment.newInstance()
+                openFragment(calorieFragment)
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.nav_workout -> {
+                toolbar.title = "ออกกำลังกาย"
+                val workoutFragment = WorkoutFragment.newInstance()
+                openFragment(workoutFragment)
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.nav_user -> {
+                toolbar.title = "ข้อมูลผู้ใช้"
+                val userFragment = UserFragment.newInstance()
+                openFragment(userFragment)
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+        false
+    }
+
+    //ทำการเรียกหน้า fragment
+    private fun openFragment(fragment: Fragment) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.main_frame, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
+    private fun predata() {
+
+        val db = FirebaseFirestore.getInstance()
+        val json = """{
+    "name": "Kolineer",
+    "age": 26,
+    "messages": [
+      "Master Kotlin",
+      "At JavaSampleApproach"
+    ]
+  },
+  {
+    "name": "Kolineer Master",
+    "age": 30,
+    "messages": [
+      "I am Kotlin Master",
+      "still learning Kotlin at JavaSampleAproach"
+    ]
+  }"""
+        println(TAG+json)
+
+        val gson = Gson()
+        //val person = gson.fromJson(json,Person::class.java)
+
+        val person1 = gson.fromJson(json, Person::class.java)
+        Log.d(TAG,person1.toString())
+
+
+    }
+
+}

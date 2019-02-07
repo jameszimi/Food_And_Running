@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        android:orientation="vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".UserEditdataActivity"
+>
+    <include android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             layout="@layout/main_toolbar"
+             tools:layout_editor_absoluteY="65dp"
+             tools:layout_editor_absoluteX="82dp"/>
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/mtoolbar">
+
+
+        <TextView
+                android:text="แก้ไขข้อมูลส่วนตัว"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView24" android:layout_marginTop="16dp"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp"/>
+        <ImageView
+                android:layout_width="156dp"
+                android:layout_height="96dp" app:srcCompat="@drawable/baseline_person_black_24dp"
+                android:id="@+id/imageView5" android:layout_marginTop="64dp" app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="124dp"/>
+        <TextView
+                android:text="ชื่อ - นามสกุล:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView25" android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/imageView5" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp"/>
+        <TextView
+                android:text="Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/member_name" app:layout_constraintStart_toEndOf="@+id/textView25"
+                android:layout_marginStart="20dp"
+                app:layout_constraintTop_toTopOf="@+id/textView25"/>
+        <TextView
+                android:text="ชื่อผู้ใช้:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView28"
+                app:layout_constraintTop_toBottomOf="@+id/textView25" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp" android:layout_marginTop="16dp"/>
+        <TextView
+                android:text="Username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/member_username"
+                app:layout_constraintTop_toTopOf="@+id/textView28" app:layout_constraintStart_toEndOf="@+id/textView28"
+                android:layout_marginStart="56dp"/>
+        <TextView
+                android:text="รหัสผ่าน:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView30" android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView28" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp"/>
+        <TextView
+                android:text="Pass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/member_password"
+                tools:layout_editor_absoluteY="250dp" tools:layout_editor_absoluteX="117dp"/>
+        <TextView
+                android:text="เปลี่ยน"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView32"
+                app:layout_constraintTop_toTopOf="@+id/member_password" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="16dp"/>
+        <TextView
+                android:text="ส่วนสูง:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView33" android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView30" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp"/>
+        <TextView
+                android:text="Hight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/member_height"
+                app:layout_constraintTop_toTopOf="@+id/textView33" app:layout_constraintStart_toEndOf="@+id/textView33"
+                android:layout_marginStart="56dp"/>
+        <TextView
+                android:text="เปลี่ยน"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView35" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
+                app:layout_constraintTop_toTopOf="@+id/member_height"/>
+        <TextView
+                android:text="กิจวัตรประจำวัน:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView36" android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView33" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp"/>
+        <TextView
+                android:text="Route"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/member_diaryroutine" app:layout_constraintStart_toEndOf="@+id/textView36"
+                android:layout_marginStart="4dp"
+                app:layout_constraintTop_toTopOf="@+id/textView36"/>
+        <TextView
+                android:text="เปลี่ยน"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView38"
+                app:layout_constraintTop_toTopOf="@+id/member_diaryroutine" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="16dp"/>
+        <TextView
+                android:text="E-mail:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView39" android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView36" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp"/>
+        <TextView
+                android:text="Email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/member_email"
+                app:layout_constraintTop_toTopOf="@+id/textView39" app:layout_constraintStart_toEndOf="@+id/textView39"
+                android:layout_marginStart="56dp"/>
+        <TextView
+                android:text="เปลี่ยน"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView41" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
+                app:layout_constraintTop_toTopOf="@+id/member_email"/>
+        <TextView
+                android:text="วัน/เดือน/ปี:"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView42" android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView39" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="16dp"/>
+        <TextView
+                android:text="Date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/member_birthday"
+                app:layout_constraintTop_toTopOf="@+id/textView42" app:layout_constraintStart_toEndOf="@+id/textView42"
+                android:layout_marginStart="28dp"/>
+        <TextView
+                android:text="เปลี่ยน"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView44" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
+                app:layout_constraintTop_toTopOf="@+id/member_birthday"/>
+        <Button
+                android:text="บันทึก"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button2" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
+                android:layout_marginTop="28dp" app:layout_constraintTop_toBottomOf="@+id/textView44"/>
+    </android.support.constraint.ConstraintLayout>
+
+</RelativeLayout>

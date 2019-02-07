@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/nav_calorie" android:icon="@drawable/baseline_fastfood_black_24dp"
+          android:id="@+id/nav_calorie"/>
+    <item android:title="@string/nav_workout" android:icon="@drawable/baseline_directions_run_black_24dp"
+          android:id="@+id/nav_workout"/>
+    <item android:title="@string/nav_user" android:icon="@drawable/baseline_person_black_24dp"
+          android:id="@+id/nav_user"/>
+</menu>

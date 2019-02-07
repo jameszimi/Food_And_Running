@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "158658553890",
+    "firebase_url": "https://run-and-calories-management.firebaseio.com",
+    "project_id": "run-and-calories-management",
+    "storage_bucket": "run-and-calories-management.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:158658553890:android:27c5ea0319c79bab",
+        "android_client_info": {
+          "package_name": "com.example.james.foodandrunning"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "158658553890-sjdtrsaiqu8sonef6rejs4q5tatrh4jg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAygWuAoIIo5CEDX2vXj9-EycbOv-53nVI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
