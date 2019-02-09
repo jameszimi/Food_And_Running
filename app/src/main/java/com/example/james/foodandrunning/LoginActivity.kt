@@ -45,6 +45,11 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java)) //for test not login
 
         }
+
+        addfood.setOnClickListener {
+            startActivity(Intent(this, AddfoodActivity::class.java))
+        }
+
     }
 
     private fun loginPerform() {
