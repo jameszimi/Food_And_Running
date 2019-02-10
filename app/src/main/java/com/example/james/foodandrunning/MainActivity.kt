@@ -27,7 +27,6 @@ class MainActivity : AppCompatActivity() {
 
         //pre data
         //val testdatahash =
-        predata()
 
         mMainFrame = findViewById(R.id.main_frame)
 
@@ -73,36 +72,6 @@ class MainActivity : AppCompatActivity() {
         transaction.replace(R.id.main_frame, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
-    }
-
-    private fun predata() {
-
-        val db = FirebaseFirestore.getInstance()
-        val json = """{
-    "name": "Kolineer",
-    "age": 26,
-    "messages": [
-      "Master Kotlin",
-      "At JavaSampleApproach"
-    ]
-  },
-  {
-    "name": "Kolineer Master",
-    "age": 30,
-    "messages": [
-      "I am Kotlin Master",
-      "still learning Kotlin at JavaSampleAproach"
-    ]
-  }"""
-        println(TAG+json)
-
-        val gson = Gson()
-        //val person = gson.fromJson(json,Person::class.java)
-
-        val person1 = gson.fromJson(json, Person::class.java)
-        Log.d(TAG,person1.toString())
-
-
     }
 
 }

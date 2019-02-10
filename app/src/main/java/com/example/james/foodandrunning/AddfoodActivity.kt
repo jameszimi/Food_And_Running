@@ -10,12 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
 import com.google.firebase.firestore.FieldValue
-import java.util.Date
-import java.util.concurrent.TimeUnit
-import com.google.firebase.database.ServerValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ServerTimestamp
-import com.google.firebase.Timestamp
 import kotlinx.android.synthetic.main.activity_addfood.*
 
 
@@ -24,11 +19,13 @@ import kotlinx.android.synthetic.main.activity_addfood.*
 class AddfoodActivity : AppCompatActivity() {
 
     lateinit var unittype : Spinner
-    val TAG = "AddfoodActivity"
+    private val TAG = "AddfoodActivity"
+    private val db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_addfood)
+
 
         val listOfType = arrayOf("กรัม", "มิลลิลิตร", "ซอง", "อัน", "ชิ้น")
         var type = 0
@@ -73,55 +70,48 @@ class AddfoodActivity : AppCompatActivity() {
 
             if (databarcode_id.isEmpty()) {
                 predata["barcode_id"] = 0
+            } else {
+                predata["barcode_id"] = databarcode_id.toInt()
             }
+
             if (dataserving_size.isEmpty()) {
                 predata["serving_size"] = 0
                 Toast.makeText(this, "กรุณาใส่ serving size", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
+            } else {
+                predata["serving_size"] = dataserving_size.toInt()
             }
+
             if (dataenergy.isEmpty()) {
                 predata["energy"] = 0
                 Toast.makeText(this, "กรุณาใส่ Energy", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
+            } else {
+                predata["energy"] = dataenergy.toInt()
             }
+
             if (datafoodth.isEmpty()) {
                 Toast.makeText(this, "กรุณาใส่ Food name", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
-            }
-            if (datafooden.isEmpty()) {
-                predata["food_nameen"] = "null"
             } else {
-                predata["barcode_id"] = databarcode_id.toInt()
-                predata["serving_size"] = dataserving_size.toInt()
-                predata["energy"] = dataenergy.toInt()
                 predata["food_nameth"] = datafoodth
+            }
+
+            if (datafooden.isEmpty()) {
+                predata["food_nameen"] = ""
+            } else {
                 predata["food_nameen"] = datafooden
             }
+
             predata["unit_id"] = type
             predata["food_update"] = FieldValue.serverTimestamp()
             predata["updateby"] = "James"
-            println(TAG+" aaaaa "+predata)
 
 
-            val db = FirebaseFirestore.getInstance()
-            val addDataFood = db.collection("FOOD_TABLE").document()
-
-
-            predata["food_id"] = addDataFood.id
-
-            addDataFood.set(predata).addOnSuccessListener {
-                Toast.makeText(this, "บันทึกข้อมูลสำเร็จ", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, AddfoodActivity::class.java))
-            }.addOnFailureListener {
-                Toast.makeText(this, "บันทึกข้อมูลไม่สำเร็จ", Toast.LENGTH_SHORT).show()
-            }
-
-
+            validateData(predata)
             /*db.collection("FOOD_TABLE").add(predata).addOnSuccessListener {
                 db.collection("FOOD_TABLE").document(it.id).set(predata)
            }*/
-
-
 
 
         }
@@ -129,6 +119,39 @@ class AddfoodActivity : AppCompatActivity() {
 
 
 
+
+    }
+
+    private fun validateData(predata: HashMap<String, Any>) {
+
+        val namefood = food_nameth.text.toString()
+        val foodGetValidate = db.collection("FOOD_TABLE").whereEqualTo("food_nameth", namefood)
+
+        foodGetValidate.get().addOnSuccessListener { doc ->
+            if (doc.size() == 0) {
+                saveDataFoodtoFB(predata)
+            } else {
+                Toast.makeText(this, "มี " + namefood + " อยู่ในฐานข้อมูลอยู่แล้ว", Toast.LENGTH_SHORT).show()
+                return@addOnSuccessListener
+            }
+
+        }.addOnFailureListener {
+            Log.d(TAG, "foodGetValidate Fail")
+        }
+    }
+
+    private fun saveDataFoodtoFB(predata: HashMap<String, Any>) {
+
+        val addDataFood = db.collection("FOOD_TABLE").document()
+
+        predata["food_id"] = addDataFood.id
+
+        addDataFood.set(predata).addOnSuccessListener {
+            Toast.makeText(this, "บันทึกข้อมูลสำเร็จ", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, AddfoodActivity::class.java))
+        }.addOnFailureListener {
+            Toast.makeText(this, "บันทึกข้อมูลไม่สำเร็จ", Toast.LENGTH_SHORT).show()
+        }
 
     }
 
