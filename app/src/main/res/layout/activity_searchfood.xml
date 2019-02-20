@@ -13,10 +13,10 @@
              app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toTopOf="@+id/listview_dynamic"
              app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
              app:layout_constraintHorizontal_bias="0.0" app:layout_constraintVertical_bias="0.0"/>
-    <com.mancj.materialsearchbar.MaterialSearchBar
-            app:mt_speechMode="true"
+    <android.support.v7.widget.SearchView
+            android:autofillHints="ค้นหา"
             android:layout_width="319dp"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="44dp"
             android:layout_marginTop="116dp"
