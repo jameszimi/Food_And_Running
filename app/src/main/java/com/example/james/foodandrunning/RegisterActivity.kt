@@ -29,9 +29,6 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var mRoutine : Spinner
     lateinit var mSex : Spinner
     lateinit var mtexterror : TextView
-    lateinit var textErrorPass : TextView
-    lateinit var textErrorData : TextView
-    val TAG = "RegisterActivity"
     //lateinit var mAuth: FirebaseAuthException
 
 
@@ -159,6 +156,7 @@ class RegisterActivity : AppCompatActivity() {
             name = mName.text.toString()
             height = mHeight.text.toString()
             weight = mWeight.text.toString()
+
             try {
                 //check username
                 if (userName.isEmpty()){

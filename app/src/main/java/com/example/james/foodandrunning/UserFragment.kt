@@ -48,8 +48,8 @@ class UserFragment : Fragment() {
         //get weight
         val db = FirebaseFirestore.getInstance()
 
-        val weightdata = db.collection("WEIGHT_TABLE").whereEqualTo("member_uid",dummyuid).get().addOnSuccessListener { doc ->
-
+        val weightdata = db.collection("WEIGHT_TABLE").whereEqualTo("member_uid",dummyuid)
+            weightdata.get().addOnSuccessListener { doc ->
             for (document in doc) {
                 val datahash = document.data
                 user_weight.text = (datahash["weight_value"].toString()+" kg")

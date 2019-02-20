@@ -28,17 +28,6 @@ class MainActivity : AppCompatActivity() {
 
         //pre data
         //val testdatahash =
-        //predata()
-
-        val result = Klaxon()
-            .parse<Person>("""
-    {
-      "name": "John Smith",
-    }
-    """)
-
-        println(TAG+result)
-
 
         mMainFrame = findViewById(R.id.main_frame)
 
@@ -84,15 +73,6 @@ class MainActivity : AppCompatActivity() {
         transaction.replace(R.id.main_frame, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
-    }
-
-    private fun predata() {
-
-        val db = FirebaseFirestore.getInstance()
-
-
-
-
     }
 
 }

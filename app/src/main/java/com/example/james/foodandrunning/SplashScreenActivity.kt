@@ -28,7 +28,8 @@ class SplashScreenActivity : AppCompatActivity() {
             //Start Login
             startActivity(Intent(this@SplashScreenActivity, LoginActivity::class.java))
             finish()
-        }, 3000)
+        }, 50)
+        //3000 is defuait
 
     }
     fun dayfun(): ArrayList<Int> {
