@@ -27,9 +27,9 @@ allprojects {
     repositories {
         google()
         jcenter()
-        //8-2-2562
+        //11-2-2562
         maven {
-            url "https://maven.google.com" // Google's Maven repository
+            url "https://jitpack.io" // Search bar libary
         }
     }
 }
