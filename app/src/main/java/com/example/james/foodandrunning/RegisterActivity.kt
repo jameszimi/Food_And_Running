@@ -31,6 +31,7 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var mtexterror : TextView
     lateinit var textErrorPass : TextView
     lateinit var textErrorData : TextView
+    val TAG = "RegisterActivity"
     //lateinit var mAuth: FirebaseAuthException
 
 
@@ -210,7 +211,10 @@ class RegisterActivity : AppCompatActivity() {
                 preuser["member_sex"] = sex
                 preuser["member_diaryroutine"] = routine
                 preuser["member_status"] = 1
-                registerFuction(email,password, preuser, weight)
+
+                println(TAG+preuser)
+
+                //registerFuction(email,password, preuser, weight)
 
             } catch(e:Exception) {
                 Log.d("RegisterActivity", "mRegisterBtn.setOnClickListener")

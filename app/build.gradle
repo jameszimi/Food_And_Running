@@ -48,7 +48,7 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-auth:4.1.0'
     implementation 'com.google.android.gms:play-services-maps:16.0.0'
     //json
-    //implementation 'com.beust:klaxon:5.0.1'
+    implementation 'com.beust:klaxon:5.0.1'
     implementation 'com.google.code.gson:gson:2.8.5'
     //implementation files('libs/gson-2.8.5.jar')
 }

@@ -9,6 +9,7 @@ import android.support.v4.app.Person
 import android.support.v7.app.ActionBar
 import android.util.Log
 import android.widget.FrameLayout
+import com.beust.klaxon.Klaxon
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -27,7 +28,17 @@ class MainActivity : AppCompatActivity() {
 
         //pre data
         //val testdatahash =
-        predata()
+        //predata()
+
+        val result = Klaxon()
+            .parse<Person>("""
+    {
+      "name": "John Smith",
+    }
+    """)
+
+        println(TAG+result)
+
 
         mMainFrame = findViewById(R.id.main_frame)
 
@@ -78,29 +89,8 @@ class MainActivity : AppCompatActivity() {
     private fun predata() {
 
         val db = FirebaseFirestore.getInstance()
-        val json = """{
-    "name": "Kolineer",
-    "age": 26,
-    "messages": [
-      "Master Kotlin",
-      "At JavaSampleApproach"
-    ]
-  },
-  {
-    "name": "Kolineer Master",
-    "age": 30,
-    "messages": [
-      "I am Kotlin Master",
-      "still learning Kotlin at JavaSampleAproach"
-    ]
-  }"""
-        println(TAG+json)
 
-        val gson = Gson()
-        //val person = gson.fromJson(json,Person::class.java)
 
-        val person1 = gson.fromJson(json, Person::class.java)
-        Log.d(TAG,person1.toString())
 
 
     }
