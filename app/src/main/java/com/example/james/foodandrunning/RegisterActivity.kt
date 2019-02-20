@@ -29,6 +29,7 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var mRoutine : Spinner
     lateinit var mSex : Spinner
     lateinit var mtexterror : TextView
+    val TAG = "RegisterActivity"
     //lateinit var mAuth: FirebaseAuthException
 
 
