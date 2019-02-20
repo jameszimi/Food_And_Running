@@ -7,12 +7,16 @@
         android:layout_height="match_parent"
         tools:context=".SearchFood">
 
-    <include android:layout_width="match_parent"
+    <include android:layout_width="0dp"
              android:layout_height="wrap_content"
-             layout="@layout/main_toolbar"/>
-    <SearchView
-            android:layout_width="275dp"
-            android:layout_height="40dp"
+             layout="@layout/main_toolbar" android:id="@+id/include2" android:layout_marginBottom="100dp"
+             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toTopOf="@+id/listview_dynamic"
+             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintHorizontal_bias="0.0" app:layout_constraintVertical_bias="0.0"/>
+    <com.mancj.materialsearchbar.MaterialSearchBar
+            app:mt_speechMode="true"
+            android:layout_width="319dp"
+            android:layout_height="60dp"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="44dp"
             android:layout_marginTop="116dp"
@@ -29,6 +33,14 @@
             android:layout_width="40dp"
             android:layout_height="40dp" app:srcCompat="@drawable/img_518926"
             android:id="@+id/imageView3"
-            app:layout_constraintTop_toTopOf="@+id/searchView" app:layout_constraintStart_toEndOf="@+id/searchView"
-            android:layout_marginStart="8dp"/>
+            app:layout_constraintStart_toEndOf="@+id/textView12"
+            android:layout_marginTop="12dp" app:layout_constraintTop_toBottomOf="@+id/include2"
+            android:layout_marginStart="160dp"/>
+    <ListView
+            android:layout_width="315dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="40dp"
+            android:id="@+id/listview_dynamic" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/searchView"
+            app:layout_constraintVertical_bias="1.0"/>
 </android.support.constraint.ConstraintLayout>
