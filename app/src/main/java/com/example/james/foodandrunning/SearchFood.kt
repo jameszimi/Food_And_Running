@@ -1,16 +1,18 @@
 package com.example.james.foodandrunning
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.ActionBar
 import android.support.v7.widget.SearchView
 import android.widget.*
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.activity_searchfood.*
 
 
 class SearchFood : AppCompatActivity() {
 
-    lateinit var mtoolbar: ActionBar
+    lateinit var toolbar: ActionBar
     val TAG = "SearchFood "
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,17 +20,10 @@ class SearchFood : AppCompatActivity() {
         setContentView(R.layout.activity_searchfood)
 
         setSupportActionBar(findViewById(R.id.mtoolbar))
-        //mtoolbar.setDisplayHomeAsUpEnabled(true)
-       // mtoolbar = supportActionBar!!
-       // mtoolbar.title = "ค้นหารายการอาหาร"
+        toolbar = supportActionBar!!
+        toolbar.title = "ค้นหารายการอาหาร"
+        toolbar.setDisplayHomeAsUpEnabled(true)
 
-
-        var nameoffood= ""
-        //datadummy
-        val dataArray = arrayOf("ข้าวขาว", "ข้าวสวย", "มะนาว", "โซดา", "ละมุด", "ลำใย", "แตงโม", "ส้มโอ", "aaaa", "231")
-
-        val meal = intent.getStringExtra("meals").toInt()
-        val listView = findViewById<ListView>(R.id.listview_dynamic)
         val searchBar = findViewById<SearchView>(R.id.searchView)
 
         //database
@@ -37,10 +32,8 @@ class SearchFood : AppCompatActivity() {
 
 
         //set Adapter
-        var adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,dataArray)
-        listView.adapter = adapter
 
-        var arrayofData: Set<String>
+        val arrayofData = mutableSetOf<String>()
         //search action
         searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -54,16 +47,16 @@ class SearchFood : AppCompatActivity() {
             }
 
             fun callData(query: String) {
-                foodGetData.whereGreaterThan("food_nameth",query).get().addOnSuccessListener { doc ->
-                    var dataHash  = emptyMap<String,Any>()
+                arrayofData.clear()
+                foodGetData.whereGreaterThanOrEqualTo("food_nameth",query).get().addOnSuccessListener { doc ->
                     for (document in doc) {
-                         dataHash = document.data
-                        arrayofData(dataHash["food_nameth"].toString())
+                        val dataHash = document.data
+                        arrayofData.add(dataHash["food_nameth"].toString())
                         println("aaaaaa"+dataHash)
                     }
 
                     println("aaaaaaaaaa "+ arrayofData)
-
+                    adapterSetView(arrayofData)
                 }
             }
 
@@ -74,9 +67,31 @@ class SearchFood : AppCompatActivity() {
 
 
 
+
+
         //set on click
-        listView.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, i, l ->
-            Toast.makeText(this@SearchFood, dataArray[i], Toast.LENGTH_SHORT).show() }
+
 
     }
+
+    private fun adapterSetView(arrayofData: MutableSet<String>) {
+
+        //val listView = findViewById<ListView>(R.id.listview_dynamic)
+
+        val dataArray = arrayofData.toTypedArray()
+        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,dataArray)
+        listview_dynamic.adapter = adapter
+
+        listview_dynamic.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, i, l ->
+
+            val meal = intent.getStringExtra("meals").toInt()
+            val clickIntent = Intent(this,AddCalorieActivity::class.java)
+            clickIntent.putExtra("meals",meal)
+            clickIntent.putExtra("food_nameth",dataArray[i])
+            startActivity(clickIntent)
+
+            Toast.makeText(this@SearchFood, dataArray[i], Toast.LENGTH_SHORT).show() }
+    }
+
+
 }
