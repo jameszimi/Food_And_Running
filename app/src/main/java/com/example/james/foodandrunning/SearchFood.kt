@@ -24,7 +24,9 @@ class SearchFood : AppCompatActivity() {
         toolbar.title = "ค้นหารายการอาหาร"
         toolbar.setDisplayHomeAsUpEnabled(true)
 
+        val meal = intent.getStringExtra("meals")
         val searchBar = findViewById<SearchView>(R.id.searchView)
+
 
         //database
         val db = FirebaseFirestore.getInstance()
@@ -37,12 +39,18 @@ class SearchFood : AppCompatActivity() {
         //search action
         searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                callData(query)
+                if (query.isNotEmpty()) {
+                    callData(query)
+                }
                 return false
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                callData(newText)
+                if (newText.isEmpty()) {
+                    listview_dynamic.adapter = null
+                } else {
+                    callData(newText)
+                }
                 return true
             }
 
@@ -56,41 +64,35 @@ class SearchFood : AppCompatActivity() {
                     }
 
                     println("aaaaaaaaaa "+ arrayofData)
-                    adapterSetView(arrayofData)
+                    adapterSetView(arrayofData,meal)
                 }
             }
 
         })
 
-
-
-
-
-
-
-
-        //set on click
-
-
     }
 
-    private fun adapterSetView(arrayofData: MutableSet<String>) {
+    private fun adapterSetView(arrayofData: MutableSet<String>, meal: String) {
 
         //val listView = findViewById<ListView>(R.id.listview_dynamic)
-
         val dataArray = arrayofData.toTypedArray()
         val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,dataArray)
         listview_dynamic.adapter = adapter
 
+        //set on click
         listview_dynamic.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, i, l ->
 
-            val meal = intent.getStringExtra("meals").toInt()
+            println("aaaaaaaaaa meal "+meal)
             val clickIntent = Intent(this,AddCalorieActivity::class.java)
+            println(TAG+" meals "+meal)
             clickIntent.putExtra("meals",meal)
             clickIntent.putExtra("food_nameth",dataArray[i])
             startActivity(clickIntent)
+            finish()
 
             Toast.makeText(this@SearchFood, dataArray[i], Toast.LENGTH_SHORT).show() }
+        println("aAAAAAAAAA todo")
+
     }
 
 
