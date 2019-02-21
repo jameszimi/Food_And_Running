@@ -11,12 +11,14 @@ import android.view.View
 import android.widget.Toast
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.view.*
 import kotlinx.android.synthetic.main.main_toolbar.*
 
 class LoginActivity : AppCompatActivity() {
 
+    val TAG = "LoginActivity App "
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -41,8 +43,8 @@ class LoginActivity : AppCompatActivity() {
         //Intent to Login to MainActivity Activity
         LoginButton.setOnClickListener {
 
-            //loginPerform()
-            startActivity(Intent(this, MainActivity::class.java)) //for test not login
+            loginPerform()
+            //startActivity(Intent(this, MainActivity::class.java)) //for test not login
 
         }
 
@@ -72,7 +74,8 @@ class LoginActivity : AppCompatActivity() {
             if (!it.isSuccessful){
                 return@addOnCompleteListener
             }
-
+            println(TAG+it.result!!.user.uid)
+            AppPreferences(this).setPreferenceUID(it.result!!.user.uid)
             Log.d("LoginActivity", "Login Success")
             startActivity(Intent(this, MainActivity::class.java))
 

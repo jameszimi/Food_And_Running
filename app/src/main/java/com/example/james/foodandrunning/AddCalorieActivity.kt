@@ -4,6 +4,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.ActionBar
+import kotlinx.android.synthetic.main.activity_add_calorie.*
 
 class AddCalorieActivity : AppCompatActivity() {
 
@@ -24,6 +25,7 @@ class AddCalorieActivity : AppCompatActivity() {
         toolbar.title = "บันทึกแคลลอรี่"
         toolbar.setDisplayHomeAsUpEnabled(true)
 
+        food_namethText.text = food_nameth
 
     }
 }
