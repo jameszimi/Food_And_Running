@@ -29,11 +29,6 @@ class AddfoodActivity : AppCompatActivity() {
 
         val listOfType = arrayOf("กรัม", "มิลลิลิตร", "ซอง", "อัน", "ชิ้น")
         var type = 0
-        var tserving_size = 0
-        var tenergy = 0
-        var tunit = 0
-
-        var barcode = null
 
         unittype = findViewById(R.id.unittype_id)
         unittype.adapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item,listOfType)
