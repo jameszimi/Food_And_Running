@@ -10,7 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class SplashScreenActivity : AppCompatActivity() {
 
-    val TAG = "SplashScreenActivity "
+    private val TAG = "SplashScreenActivity "
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -31,6 +31,7 @@ class SplashScreenActivity : AppCompatActivity() {
                 println(TAG+"data"+it.data)
                 if (it.data != null) {
                     startActivity(Intent(this, MainActivity::class.java))
+                    finish()
                 } else {
                     //โชว์ 3 วิ
                     Handler().postDelayed({

@@ -6,7 +6,6 @@ class AppPreferences(context : Context) {
 
     val PREFERENCE_NAME = "FoodandRunning"
     val PREFERENCE_UID = "PreferenceUID"
-    val PREFERENCE_COUNT = "LoginCount"
 
     val preferences = context.getSharedPreferences(PREFERENCE_NAME,Context.MODE_PRIVATE)
 
@@ -20,13 +19,4 @@ class AppPreferences(context : Context) {
         editor.apply()
     }
 
-    fun getLoginCount() : Int {
-        return preferences.getInt(PREFERENCE_COUNT,0)
-    }
-
-    fun setLoginCount(count:Int) {
-        val  editor = preferences.edit()
-        editor.putInt(PREFERENCE_COUNT,count)
-        editor.apply()
-    }
 }

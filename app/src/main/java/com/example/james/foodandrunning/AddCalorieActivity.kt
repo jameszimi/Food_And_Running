@@ -6,12 +6,18 @@ import android.os.Bundle
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AlertDialog
 import android.util.Log
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_add_calorie.*
 import kotlinx.android.synthetic.main.dialog_addcal.*
+import android.view.View
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
+
 
 class AddCalorieActivity : AppCompatActivity() {
 
@@ -97,6 +103,10 @@ class AddCalorieActivity : AppCompatActivity() {
             }
             builder.setPositiveButton("บันทึก"){dialog, which ->
                 addFoodconsume(meal,caltotal,food_id)
+
+                Toast.makeText(this,"กำลังบันทึกข้อมูล",Toast.LENGTH_SHORT).show()
+                //ถ้า cash เอาออกแล้วใส่ Toast แทน
+
             }
             val dialog : AlertDialog = builder.create()
             dialog.show()
@@ -109,7 +119,6 @@ class AddCalorieActivity : AppCompatActivity() {
             dialog_servingsize!!.text = serving_SizeED.toString()
             dialog_typeunit!!.text = unit_type.text.toString()
             dialog_totalcal!!.text = caltotal.toString()
-
         }
 
 
@@ -121,24 +130,38 @@ class AddCalorieActivity : AppCompatActivity() {
         food_id: String
     ) {
 
+        val progessbar = findViewById<ProgressBar>(R.id.progessBar_addcal)
+        if (progessbar != null) {
+            val visibility = if (progessbar.visibility == View.GONE) {
+                View.VISIBLE
+            } else View.GONE
+            progessbar.visibility = visibility
+        }
+
 
         val foodcondata = HashMap<String, Any>()
         val appPreferences = AppPreferences(this)
         val uid = appPreferences.getPreferenceUID()
         val db = FirebaseFirestore.getInstance()
         val addFoodConsumeToDb = db.collection("FOODCONSUME_TABLE").document()
+        val formatter: DateFormat = SimpleDateFormat("dd/MM/yyyy")
+        val today = Date()
+        val todayWithZeroTime = formatter.parse(formatter.format(today))
+
+        println(TAG + " todayWithZeroTime "+todayWithZeroTime)
 
         foodcondata["food_id"] = food_id
         foodcondata["member_id"] = uid
         foodcondata["repast_id"] = meal
         foodcondata["calorie_total"] = caltotal
-        foodcondata["foodconsume_date"] = FieldValue.serverTimestamp()
+        foodcondata["foodconsume_date"] = todayWithZeroTime
 
         println(TAG+" foodcondata "+foodcondata)
 
         addFoodConsumeToDb.set(foodcondata).addOnSuccessListener {
             Toast.makeText(this,"บันทึกข้อมูลสำเร็จ",Toast.LENGTH_SHORT).show()
             startActivity(Intent(this,MainActivity::class.java))
+            this.finish()
         }.addOnFailureListener {
             Toast.makeText(this,"ล้มเหลว",Toast.LENGTH_SHORT).show()
         }

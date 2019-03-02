@@ -53,6 +53,7 @@ dependencies {
     //json
     //implementation 'com.beust:klaxon:5.0.1'
     implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
     //implementation files('libs/gson-2.8.5.jar')
 }
 //Google Firebase
