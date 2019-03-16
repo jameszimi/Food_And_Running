@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <View
+            android:id="@+id/view7"
+            android:layout_width="411dp"
+            android:layout_height="2dp"
+            android:background="#1D969595"
+            android:layout_weight="1"
+            app:layout_constraintTop_toBottomOf="@+id/setfoodlist_edit"
+            app:layout_constraintStart_toStartOf="parent"/>
+    <TextView
+            android:text="แก้ไขรายการอาหาร"
+            android:textSize="18sp"
+            android:layout_width="411dp"
+            android:layout_height="45dp"
+            android:id="@+id/setfoodlist_edit"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent"/>
+    <TextView
+            android:text="ลบรายการอาหาร"
+            android:textSize="18sp"
+            android:layout_width="411dp"
+            android:layout_height="44dp"
+            android:id="@+id/setfoodlist_del"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/view7" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"/>
+    <View
+            android:id="@+id/view8"
+            android:layout_width="411dp"
+            android:layout_height="2dp"
+            android:background="#1D969595"
+            android:layout_weight="1"
+            app:layout_constraintTop_toBottomOf="@+id/setfoodlist_del"
+            app:layout_constraintStart_toStartOf="parent"/>
+</android.support.constraint.ConstraintLayout>

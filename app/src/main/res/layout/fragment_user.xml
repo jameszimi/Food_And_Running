@@ -73,7 +73,7 @@
                 android:src="@drawable/weigth_pic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/imageView2" android:layout_marginTop="48dp"
+                android:id="@+id/usUpdateWeight" android:layout_marginTop="48dp"
                 app:layout_constraintTop_toBottomOf="@+id/textView20" app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="120dp"/>
         <Button
@@ -83,7 +83,7 @@
                 android:layout_width="148dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/button" android:layout_marginTop="36dp"
-                app:layout_constraintTop_toBottomOf="@+id/imageView2" app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/usUpdateWeight" app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginStart="108dp"/>
         <TextView
                 android:layout_width="wrap_content"

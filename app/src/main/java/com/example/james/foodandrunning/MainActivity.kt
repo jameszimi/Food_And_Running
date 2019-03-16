@@ -5,18 +5,9 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
-import android.support.v4.app.Person
 import android.support.v7.app.ActionBar
-import android.util.Log
 import android.widget.FrameLayout
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
+
 
 
 class MainActivity : AppCompatActivity() {

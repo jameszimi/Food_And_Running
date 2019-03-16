@@ -9,7 +9,6 @@ import android.util.Log
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_add_calorie.*
 import kotlinx.android.synthetic.main.dialog_addcal.*
@@ -80,16 +79,16 @@ class AddCalorieActivity : AppCompatActivity() {
         toolbar = supportActionBar!!
         toolbar.title = "บันทึกแคลลอรี่"
         toolbar.setDisplayHomeAsUpEnabled(true)
-        food_namethText.text = food_nameth
+        eDCFood_namethText.text = food_nameth
 
         println(TAG+"aaaaaaaaaaaaaaaa"+dialog_foodname)
 
 
 
 
-        saveCalorie.setOnClickListener {
+        eDCSaveCalorie.setOnClickListener {
 
-            val serving_SizeED = servingSize.text.toString().toInt()
+            val serving_SizeED = eDCservingSize.text.toString().toInt()
             val caltotal = serving_SizeED * energy/serving_size
 
 
@@ -102,7 +101,7 @@ class AddCalorieActivity : AppCompatActivity() {
                 Toast.makeText(this,"No",Toast.LENGTH_SHORT).show()
             }
             builder.setPositiveButton("บันทึก"){dialog, which ->
-                addFoodconsume(meal,caltotal,food_id)
+                addFoodconsume(meal,caltotal,food_id,serving_size)
 
                 Toast.makeText(this,"กำลังบันทึกข้อมูล",Toast.LENGTH_SHORT).show()
                 //ถ้า cash เอาออกแล้วใส่ Toast แทน
@@ -127,7 +126,8 @@ class AddCalorieActivity : AppCompatActivity() {
     private fun addFoodconsume(
         meal: Int,
         caltotal: Int,
-        food_id: String
+        food_id: String,
+        serving_size: Int
     ) {
 
         val progessbar = findViewById<ProgressBar>(R.id.progessBar_addcal)
@@ -155,6 +155,7 @@ class AddCalorieActivity : AppCompatActivity() {
         foodcondata["repast_id"] = meal
         foodcondata["calorie_total"] = caltotal
         foodcondata["foodconsume_date"] = todayWithZeroTime
+        foodcondata["serving_size"] = serving_size
 
         println(TAG+" foodcondata "+foodcondata)
 

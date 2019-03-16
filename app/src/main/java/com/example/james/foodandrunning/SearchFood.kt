@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.widget.*
+import com.example.james.foodandrunning.adapter.SearchFoodAdapter
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_searchfood.*
 
@@ -51,7 +52,8 @@ class SearchFood : AppCompatActivity() {
                     callData(query)
                 } else {
                     arrayofData.clear()
-                    recyclerView_searchfood.adapter = SearchFoodAdapter(arrayofData, meal)
+                    recyclerView_searchfood.adapter =
+                            SearchFoodAdapter(arrayofData, meal)
                 }
                 return false
             }
@@ -59,7 +61,8 @@ class SearchFood : AppCompatActivity() {
             override fun onQueryTextChange(newText: String): Boolean {
                 if (newText.isEmpty()) {
                     arrayofData.clear()
-                    recyclerView_searchfood.adapter = SearchFoodAdapter(arrayofData, meal)
+                    recyclerView_searchfood.adapter =
+                            SearchFoodAdapter(arrayofData, meal)
                 } else {
                     callData(newText)
                 }
@@ -76,7 +79,7 @@ class SearchFood : AppCompatActivity() {
                     }
 
                     println("aaaaaaaaaa "+ arrayofData)
-                    recyclerView_searchfood.adapter = SearchFoodAdapter(arrayofData,meal)
+                    recyclerView_searchfood.adapter = SearchFoodAdapter(arrayofData, meal)
                     //adapterSetView(arrayofData,meal)
                 }
             }
@@ -84,29 +87,5 @@ class SearchFood : AppCompatActivity() {
         })
 
     }
-
-    private fun adapterSetView(arrayofData: MutableSet<String>, meal: String) {
-
-        //val listView = findViewById<ListView>(R.id.listview_dynamic)
-        val dataArray = arrayofData.toTypedArray()
-        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,dataArray)
-        //listview_dynamic.adapter = adapter
-
-        //set on click
-        //listview_dynamic.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, i, l ->
-
-            println("aaaaaaaaaa meal "+meal)
-            val clickIntent = Intent(this,AddCalorieActivity::class.java)
-            println(TAG+" meals "+meal)
-            clickIntent.putExtra("meals",meal)
-            //clickIntent.putExtra("food_nameth",dataArray[i])
-            startActivity(clickIntent)
-            finish()
-
-            //Toast.makeText(this@SearchFood, dataArray[i], Toast.LENGTH_SHORT).show() }
-        //println("aAAAAAAAAA todo")
-
-    }
-
 
 }

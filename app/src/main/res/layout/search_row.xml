@@ -14,7 +14,7 @@
                 android:id="@+id/view"
                 android:layout_width="fill_parent"
                 android:layout_height="2dp"
-                android:layout_below="@+id/textView15"
+                android:layout_below="@+id/calAllTotal"
                 android:background="#1D969595"
                 app:layout_constraintTop_toBottomOf="@+id/foodname_text"
                 app:layout_constraintStart_toStartOf="parent"

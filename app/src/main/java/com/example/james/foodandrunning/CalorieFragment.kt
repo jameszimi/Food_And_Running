@@ -4,20 +4,20 @@ package com.example.james.foodandrunning
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import com.example.james.foodandrunning.adapter.BreakfastList
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.*
 import kotlinx.android.synthetic.main.fragment_calorie.*
-import kotlinx.android.synthetic.main.main_toolbar.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -43,7 +43,7 @@ class CalorieFragment : Fragment() {
         val addLunch = v.findViewById<ImageView>(R.id.addLunch)
         val addDinner = v.findViewById<ImageView>(R.id.addDinner)
         val addSnack = v.findViewById<ImageView>(R.id.addSnack)
-        val calculateCalories = v.findViewById<Button>(R.id.calculateCal)
+        //val calculateCalories = v.findViewById<Button>(R.id.calculateCal)
 
         //date
         val formatter: DateFormat = SimpleDateFormat("dd/MM/yyyy")
@@ -56,20 +56,203 @@ class CalorieFragment : Fragment() {
         val getmeatpath = db.collection("FOODCONSUME_TABLE").whereEqualTo("foodconsume_date",todayWithZeroTime).whereEqualTo("member_id",uid)
         val getfoodname = db.collection("FOOD_TABLE")
 
-        val arrayBFdata = mutableListOf<String>()
+        //adapter
+        val listbreakfast = v.findViewById(R.id.listbreakfast) as RecyclerView
+        val listLunch = v.findViewById(R.id.listoflunch) as RecyclerView
+        val listDin = v.findViewById(R.id.listofDinner) as RecyclerView
+        val listSn = v.findViewById(R.id.listofSnack) as RecyclerView
+        listbreakfast.layoutManager = LinearLayoutManager(activity)
+        listLunch.layoutManager = LinearLayoutManager(activity)
+        listDin.layoutManager = LinearLayoutManager(activity)
+        listSn.layoutManager = LinearLayoutManager(activity)
+
+        var calAllTotal = 0
+        val calAllTotalText = v.findViewById<TextView>(R.id.calAllTotal)
+
+
+        //Get morning List
+        val arrayBFName = mutableListOf<String>()
+        val arrayBFCal = mutableListOf<Int>()
+        val bfList = ArrayList<FoodNCal>()
+        var bfTotal = 0
+        val totalBF = v.findViewById<TextView>(R.id.totalBF)
+
         getmeatpath.whereEqualTo("repast_id",1).get().addOnSuccessListener {bf ->
             //arrayBFdata.clear()
-            var count = 0
+
             for (dbf in bf) {
                 val dataHash = dbf.data
-                println(TAG+"dataHash "+dataHash)
+
+                //put cal
+                arrayBFCal.add(dataHash["calorie_total"].toString().toInt())
+                bfTotal += dataHash["calorie_total"].toString().toInt()
+                println(TAG+"dataHash:"+dataHash)
+
+                //getName by FoodID
                 getfoodname.document(dataHash["food_id"].toString()).get().addOnSuccessListener {
-                    println(TAG+"getfoodneme "+it.data)
+                    if (it != null) {
+                        val foodName = it.data
+
+                        bfList.add(FoodNCal(foodName!!["food_nameth"].toString(),dataHash["calorie_total"].toString().toInt(),dbf.id))
+
+                        println(TAG+"foodName:"+foodName)
+                        arrayBFName.add(foodName["food_nameth"].toString())
+
+                        println(TAG+"foodname:" + foodName["food_nameth"])
+
+                        println(TAG+"arrayBFName: "+arrayBFName+" arrayBFCal "+arrayBFCal)
+                        listbreakfast.adapter = BreakfastList(bfList)
+
+                    }
                 }.addOnFailureListener {
                     Log.d(TAG,"getfoodnamedata Fail")
                 }
+
+                totalBF.text = bfTotal.toString()
+
             }
+        }.addOnFailureListener {
+            Log.d(TAG,"List Food Name get Fail")
         }
+
+        //Get Lunch List
+        val arrayLuName = mutableListOf<String>()
+        val arrayLuCal = mutableListOf<Int>()
+        val luList = ArrayList<FoodNCal>()
+        var luTotal = 0
+        val totalLu = v.findViewById<TextView>(R.id.totalLunch)
+
+        getmeatpath.whereEqualTo("repast_id",2).get().addOnSuccessListener {lu ->
+            //arrayLudata.clear()
+
+            for (dlu in lu) {
+                val dataHash = dlu.data
+
+                //put cal
+                arrayLuCal.add(dataHash["calorie_total"].toString().toInt())
+                luTotal += dataHash["calorie_total"].toString().toInt()
+                println(TAG+"dataHash:"+dataHash)
+
+                //getName by FoodID
+                getfoodname.document(dataHash["food_id"].toString()).get().addOnSuccessListener {
+                    if (it != null) {
+                        val foodName = it.data
+
+                        luList.add(FoodNCal(foodName!!["food_nameth"].toString(),dataHash["calorie_total"].toString().toInt(),dlu.id))
+
+                        println(TAG+"foodName:"+foodName)
+                        arrayLuName.add(foodName["food_nameth"].toString())
+
+                        println(TAG+"foodname:" + foodName["food_nameth"])
+
+                        println(TAG+"arrayBFName: "+arrayLuName+" arrayBFCal "+arrayLuName)
+                        listLunch.adapter = BreakfastList(luList)
+
+                    }
+                }.addOnFailureListener {
+                    Log.d(TAG,"getfoodnamedata Fail")
+                }
+
+                totalLu.text = luTotal.toString()
+
+            }
+        }.addOnFailureListener {
+            Log.d(TAG,"List Food Name get Fail")
+        }
+
+        //Get Dinner List
+        val arrayDinName = mutableListOf<String>()
+        val arrayDinCal = mutableListOf<Int>()
+        val dinList = ArrayList<FoodNCal>()
+        var dinTotal = 0
+        val totalDin = v.findViewById<TextView>(R.id.totalDinner)
+
+        getmeatpath.whereEqualTo("repast_id",3).get().addOnSuccessListener {lu ->
+            //arrayLudata.clear()
+
+            for (dlu in lu) {
+                val dataHash = dlu.data
+
+                //put cal
+                arrayDinCal.add(dataHash["calorie_total"].toString().toInt())
+                dinTotal += dataHash["calorie_total"].toString().toInt()
+                println(TAG+"dataHash:"+dataHash)
+
+                //getName by FoodID
+                getfoodname.document(dataHash["food_id"].toString()).get().addOnSuccessListener {
+                    if (it != null) {
+                        val foodName = it.data
+
+                        dinList.add(FoodNCal(foodName!!["food_nameth"].toString(),dataHash["calorie_total"].toString().toInt(),dlu.id))
+
+                        println(TAG+"foodName:"+foodName)
+                        arrayDinName.add(foodName["food_nameth"].toString())
+
+                        println(TAG+"foodname:" + foodName["food_nameth"])
+
+                        println(TAG+"arrayBFName: "+arrayDinName+" arrayBFCal "+arrayDinName)
+                        listDin.adapter = BreakfastList(dinList)
+
+                    }
+                }.addOnFailureListener {
+                    Log.d(TAG,"getfoodnamedata Fail")
+                }
+
+                totalDin.text = dinTotal.toString()
+
+            }
+        }.addOnFailureListener {
+            Log.d(TAG,"List Food Name get Fail")
+        }
+
+
+        //Get Snack List
+        val arraySNName = mutableListOf<String>()
+        val arraySNCal = mutableListOf<Int>()
+        val sNList = ArrayList<FoodNCal>()
+        var sNTotal = 0
+        val totalSN = v.findViewById<TextView>(R.id.totalSnack)
+
+        getmeatpath.whereEqualTo("repast_id",4).get().addOnSuccessListener {lu ->
+            //arrayLudata.clear()
+
+            for (dlu in lu) {
+                val dataHash = dlu.data
+
+                //put cal
+                arraySNCal.add(dataHash["calorie_total"].toString().toInt())
+                sNTotal += dataHash["calorie_total"].toString().toInt()
+                println(TAG+"dataHash:"+dataHash)
+
+                //getName by FoodID
+                getfoodname.document(dataHash["food_id"].toString()).get().addOnSuccessListener {
+                    if (it != null) {
+                        val foodName = it.data
+
+                        sNList.add(FoodNCal(foodName!!["food_nameth"].toString(),dataHash["calorie_total"].toString().toInt(),dlu.id))
+
+                        println(TAG+"foodName:"+foodName)
+                        arraySNName.add(foodName["food_nameth"].toString())
+
+                        println(TAG+"foodname:" + foodName["food_nameth"])
+
+                        println(TAG+"arrayBFName: "+arraySNName+" arrayBFCal "+arraySNName)
+                        listSn.adapter = BreakfastList(sNList)
+
+                    }
+                }.addOnFailureListener {
+                    Log.d(TAG,"getfoodnamedata Fail")
+                }
+
+                totalSN.text = sNTotal.toString()
+                calAllTotal = bfTotal+luTotal+dinTotal+sNTotal
+                calAllTotalText.text = calAllTotal.toString()+" Cal"
+
+            }
+        }.addOnFailureListener {
+            Log.d(TAG,"List Food Name get Fail")
+        }
+
 
 
 
@@ -107,5 +290,19 @@ class CalorieFragment : Fragment() {
         fun newInstance(): CalorieFragment = CalorieFragment()
     }
 
+
+    /*override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
+        super.onCreateContextMenu(menu, v, menuInfo)
+
+        menu!!.setHeaderTitle("เลือกรายการ")
+        activity!!.menuInflater.inflate(R.menu.fooddetail_menu,menu)
+    }
+
+    override fun onContextItemSelected(item: MenuItem?): Boolean {
+        return super.onContextItemSelected(item)
+    }*/
+}
+
+class FoodNCal(val foodName : String, val totalCal : Int, val foodConsume : String) {
 
 }
