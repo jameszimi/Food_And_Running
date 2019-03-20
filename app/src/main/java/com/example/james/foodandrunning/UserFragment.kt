@@ -78,6 +78,7 @@ class UserFragment : Fragment() {
 
         //update weight
         v.usUpdateWeight.setOnClickListener {
+
             Toast.makeText(v.context,"UpDate",Toast.LENGTH_SHORT).show()
 
             val builder = AlertDialog.Builder(v.context)
@@ -106,6 +107,8 @@ class UserFragment : Fragment() {
             }
 
         }
+
+
 
 
 

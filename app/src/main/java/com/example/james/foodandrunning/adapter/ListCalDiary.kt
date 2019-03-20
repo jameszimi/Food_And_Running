@@ -7,9 +7,9 @@ import android.view.*
 import android.widget.TextView
 import android.widget.Toast
 import com.example.james.foodandrunning.EditDetailFoodCon
-import com.example.james.foodandrunning.FoodNCal
 import com.example.james.foodandrunning.MainActivity
 import com.example.james.foodandrunning.R
+import com.example.james.foodandrunning.setupdata.FoodNCal
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.listfood_cal.view.*
 

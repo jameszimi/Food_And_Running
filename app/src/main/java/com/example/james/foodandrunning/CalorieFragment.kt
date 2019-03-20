@@ -12,6 +12,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.james.foodandrunning.adapter.BreakfastList
+import com.example.james.foodandrunning.setupdata.FoodNCal
+import com.example.james.foodandrunning.setupdata.FoodTotalCal
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_calorie.*
 import java.text.DateFormat
@@ -43,6 +45,7 @@ class CalorieFragment : Fragment() {
         val addLunch = v.findViewById<ImageView>(R.id.addLunch)
         val addDinner = v.findViewById<ImageView>(R.id.addDinner)
         val addSnack = v.findViewById<ImageView>(R.id.addSnack)
+        val reportCal = v.findViewById<Button>(R.id.calculateCal)
         //val calculateCalories = v.findViewById<Button>(R.id.calculateCal)
 
         //date
@@ -237,6 +240,7 @@ class CalorieFragment : Fragment() {
                         println(TAG+"foodname:" + foodName["food_nameth"])
 
                         println(TAG+"arrayBFName: "+arraySNName+" arrayBFCal "+arraySNName)
+                        println(TAG+"fffffffff"+sNList)
                         listSn.adapter = BreakfastList(sNList)
 
                     }
@@ -281,6 +285,17 @@ class CalorieFragment : Fragment() {
             startActivity(clickIntent)
         }
 
+        reportCal.setOnClickListener {
+            val clickIntent = Intent(activity,CaloriesReport::class.java)
+            println(TAG +"pppppp "+ bfTotal.toString() + luTotal.toString() + dinTotal.toString() + sNTotal.toString())
+            clickIntent.putExtra("bf",bfTotal.toString())
+            clickIntent.putExtra("lu",luTotal.toString())
+            clickIntent.putExtra("din",dinTotal.toString())
+            clickIntent.putExtra("sn",sNTotal.toString())
+            clickIntent.putExtra("totalCal",calAllTotal.toString())
+            startActivity(clickIntent)
+        }
+
         return v
     }
 
@@ -303,6 +318,4 @@ class CalorieFragment : Fragment() {
     }*/
 }
 
-class FoodNCal(val foodName : String, val totalCal : Int, val foodConsume : String) {
 
-}

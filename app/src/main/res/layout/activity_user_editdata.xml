@@ -77,7 +77,7 @@
                 android:text="เปลี่ยน"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView32"
+                android:id="@+id/editpass_text"
                 app:layout_constraintTop_toTopOf="@+id/member_password" app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="16dp"/>
         <TextView
@@ -98,7 +98,8 @@
                 android:text="เปลี่ยน"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView35" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
+                android:id="@+id/editeHeight_text" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="16dp"
                 app:layout_constraintTop_toTopOf="@+id/member_height"/>
         <TextView
                 android:text="กิจวัตรประจำวัน:"
@@ -118,7 +119,7 @@
                 android:text="เปลี่ยน"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView38"
+                android:id="@+id/editeRole_text"
                 app:layout_constraintTop_toTopOf="@+id/member_diaryroutine" app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="16dp"/>
         <TextView
@@ -136,12 +137,6 @@
                 app:layout_constraintTop_toTopOf="@+id/textView39" app:layout_constraintStart_toEndOf="@+id/textView39"
                 android:layout_marginStart="56dp"/>
         <TextView
-                android:text="เปลี่ยน"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView41" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
-                app:layout_constraintTop_toTopOf="@+id/member_email"/>
-        <TextView
                 android:text="วัน/เดือน/ปี:"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -155,23 +150,17 @@
                 android:id="@+id/member_birthday"
                 app:layout_constraintTop_toTopOf="@+id/textView42" app:layout_constraintStart_toEndOf="@+id/textView42"
                 android:layout_marginStart="28dp"/>
-        <TextView
-                android:text="เปลี่ยน"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/textView44" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
-                app:layout_constraintTop_toTopOf="@+id/member_birthday"/>
         <Button
                 android:text="บันทึก"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/button2" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
-                android:layout_marginTop="28dp" app:layout_constraintTop_toBottomOf="@+id/textView44"/>
+                android:layout_marginTop="24dp" app:layout_constraintTop_toBottomOf="@+id/member_birthday"/>
         <ImageButton
                 android:layout_width="49dp"
                 android:layout_height="41dp" app:srcCompat="@drawable/logout"
                 android:id="@+id/logoutBtn"
-                app:layout_constraintTop_toTopOf="@+id/textView24" app:layout_constraintEnd_toEndOf="@+id/textView32"
+                app:layout_constraintTop_toTopOf="@+id/textView24" app:layout_constraintEnd_toEndOf="@+id/editpass_text"
         />
     </android.support.constraint.ConstraintLayout>
 
