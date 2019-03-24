@@ -18,7 +18,6 @@ import kotlinx.android.synthetic.main.dialog_editheight.*
 class UserEditdataActivity : AppCompatActivity() {
 
     lateinit var toolbar : ActionBar
-    val dummyuid = "4JXuStGGvTfxbJe3anMC2glJNEZ2"
     val TAG = "UserEdirdataActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,9 +32,9 @@ class UserEditdataActivity : AppCompatActivity() {
 
         val uid = AppPreferences(this).getPreferenceUID()
 
-
         val db = FirebaseFirestore.getInstance()
         var oldPassDB = ""
+        var dateuserdata = ""
 
         //Create a reference to get document in collection
         val usererf = db.collection("MEMBER_TABLE").document(uid)
@@ -50,8 +49,8 @@ class UserEditdataActivity : AppCompatActivity() {
                 member_height.text = (dataHash["member_height"].toString())
                 member_diaryroutine.text = (dataHash["member_diaryroutine"].toString())
                 member_email.text = (dataHash["member_email"].toString())
-                member_birthday.text = (dataHash["member_birthday"].toString())
-
+                dateuserdata = (dataHash["member_birthday"].toString())
+                validateDate(dateuserdata)
                 Log.d(TAG, it.data.toString())
             } else {
                 Log.d(TAG,"ไม่มีข้อมูล")
@@ -190,6 +189,63 @@ class UserEditdataActivity : AppCompatActivity() {
             signOut()
         }
 
+    }
+
+    private fun validateDate(datein: String) {
+
+        val datecount = datein.length
+        var dd : String
+        var mm : String
+        var yyyy : String
+
+
+        if (datecount == 6){
+            dd = datein.substring(0,1)
+            mm = datein.substring(1,2)
+            yyyy = datein.substring(2)
+            showbirthday(dd,mm,yyyy)
+
+        }
+        if (datecount == 7) {
+            if ((datein.substring(0,2).toInt() > 12) && (datein.substring(0,2).toInt() < 32)) {
+                dd = datein.substring(0,2)
+                mm = datein.substring(2,3)
+                yyyy = datein.substring(3)
+                showbirthday(dd,mm,yyyy)
+            } else {
+                dd = datein.substring(0,2)
+                mm = datein.substring(2,3)
+                yyyy = datein.substring(3)
+                showbirthday(dd,mm,yyyy)
+            }
+
+        } else {
+            dd = datein.substring(0,2)
+            mm = datein.substring(2,4)
+            yyyy = datein.substring(4)
+            showbirthday(dd,mm,yyyy)
+        }
+
+    }
+
+    private fun showbirthday(day: String, mounth: String, year: String) {
+        val textShow = findViewById<TextView>(R.id.member_birthday)
+        val textbirthday:String = when (mounth.toInt()) {
+            1 -> "ม.ค."
+            2 -> "ก.พ."
+            3 -> "มี.ค."
+            4 -> "เม.ย."
+            5 -> "พ.ค."
+            6 -> "มิ.ย."
+            7 -> "ก.ค."
+            8 -> "ส.ค."
+            9 -> "ก.ย."
+            10 -> "ต.ค."
+            11 -> "พ.ย."
+            else -> "ธ.ค."
+        }
+        textShow.text = "$day $textbirthday $year"
+        println(TAG+"dddddddddd"+"$day $textbirthday $year")
     }
 
     private fun upDateRoutine(routine: Int, uid: String) {
