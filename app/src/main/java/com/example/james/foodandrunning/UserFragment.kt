@@ -12,7 +12,11 @@ import android.view.ViewGroup
 import android.widget.*
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.fragment_user.*
 import kotlinx.android.synthetic.main.fragment_user.view.*
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -47,34 +51,10 @@ class UserFragment : Fragment() {
         }
 
         //set FirebaseFirestore
-        val db = FirebaseFirestore.getInstance()
 
         val user_weight = v.findViewById<TextView>(R.id.user_weight)
-        var member_weight : String
 
         //get weight
-        val weightdata = db.collection("MEMBER_TABLE").document(uid)
-        val callWeightData = db.collection("WEIGHT_TABLE")
-            weightdata.get().addOnSuccessListener { doc ->
-            if (doc != null) {
-                val dataMember = doc.data as HashMap<String,Any>
-                //user_weight.text = (dataMember["weight_value"].toString() + "Kg")
-                member_weight = dataMember["member_weight"].toString()
-                Toast.makeText(v.context,member_weight,Toast.LENGTH_SHORT).show()
-                callWeightData.document(member_weight).get().addOnSuccessListener {
-                    if (it != null) {
-                        val dataWeight = it.data as HashMap<String,Any>
-                        user_weight.text = (dataWeight["weight_value"].toString()+" Kg")
-                    }
-                }.addOnFailureListener {
-                    Log.d(TAG,"Get Weight Error")
-                }
-
-            }
-        }
-            .addOnFailureListener {
-                Log.d(TAG,"Query Fail")
-            }
 
         //update weight
         v.usUpdateWeight.setOnClickListener {
@@ -108,10 +88,70 @@ class UserFragment : Fragment() {
 
         }
 
+        //set goal
+        v.setgoal.setOnClickListener {
+            val builder =AlertDialog.Builder(v.context)
+            val linearLayout = layoutInflater.inflate(R.layout.dialog_setgoal,null)
+            builder.setView(linearLayout)
+            builder.setTitle("ตั้งเป้าหมาย")
 
+            val canclegoal = linearLayout.findViewById<Button>(R.id.setgoal_cancle)
+            val summitgoal = linearLayout.findViewById<Button>(R.id.setgoal_summit)
+            val dialog = builder.create()
+            dialog.show()
 
+            canclegoal!!.setOnClickListener {
+                dialog.dismiss()
+            }
 
+            summitgoal!!.setOnClickListener {
+                val goal = linearLayout.findViewById<EditText>(R.id.goal_text).text.toString().toInt()
+                val base = AppPreferences(this.context!!).getPreferenceWeight()
+                var day = ((base-goal)/0.907)*7
 
+                if (day.toInt()<day) day += 1
+
+                AppPreferences(this.context!!).setPreferenceDay(day.toInt())
+                AppPreferences(this.context!!).setPreferenceGoal(goal)
+                AppPreferences(this.context!!).setPreferenceBase(base)
+                //refresh
+                val ft = fragmentManager!!.beginTransaction()
+                ft.detach(this).attach(this).commit()
+                println(TAG+" goal:$goal")
+                dialog.dismiss()
+            }
+        }
+
+        val appPreferences = AppPreferences(this.context!!)
+        val weightBase = appPreferences.getPreferenceBase()
+        val weightGoal = appPreferences.getPreferenceGoal()
+        val progressBar = v.findViewById<ProgressBar>(R.id.progressBarToGoal)
+        val weightBase_text = v.findViewById<TextView>(R.id.weight_base)
+        val weightGoal_text = v.findViewById<TextView>(R.id.weight_goalText)
+        val predictionDay = v.findViewById<TextView>(R.id.prediction_text)
+        weightBase_text.text = weightBase.toString()
+        weightGoal_text.text = weightGoal.toString()
+
+        val userWeight = appPreferences.getPreferenceWeight()
+        user_weight.text = userWeight.toString()
+
+        var progress : Double = 100/(userWeight-weightGoal).toDouble()
+        println(TAG + "progress:$progress")
+
+        if (progress < 100) {
+            progressBar.progress = progress.toInt()
+        } else {
+            progress = 100.toDouble()
+            progressBar.progress = progress.toInt()
+        }
+
+        val preday = appPreferences.getPreferenceDay()
+        predictionDay.text = preday.toString() + " วัน"
+
+        v.weightchartBtn.setOnClickListener {
+            val clickIntent = Intent(activity,WeightchartActivity::class.java)
+            startActivity(clickIntent)
+        }
 
 
 
@@ -132,6 +172,7 @@ class UserFragment : Fragment() {
         updateWeightCL.set(dataHash).addOnSuccessListener {
             updateTOUID.update("member_weight",updateWeightCL.id).addOnSuccessListener {
                 val ft = fragmentManager!!.beginTransaction()
+                AppPreferences(context!!).setPreferenceWeight(weightInCome.toInt())
                 ft.detach(this).attach(this).commit()
                 Toast.makeText(context,updateWeightCL.id,Toast.LENGTH_SHORT).show()
             }.addOnFailureListener {

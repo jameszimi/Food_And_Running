@@ -434,13 +434,16 @@ class CalorieFragment : Fragment() {
         db.collection("MEMBER_TABLE").document(uid).get().addOnSuccessListener {
             if (it != null) {
                 val dataHash = it.data as HashMap<String, Any>
+                val name = dataHash["member_name"].toString()
+                val password = dataHash["member_password"].toString()
+                val email = dataHash["member_email"].toString()
                 val age = dataHash["member_birthday"].toString()
                 val sex = dataHash["member_sex"].toString().toInt()
                 val weight = dataHash["member_weight"].toString()
                 val height = dataHash["member_height"].toString().toInt()
                 val status = dataHash["member_status"].toString().toInt()
                 val routine = dataHash["member_diaryroutine"].toString().toInt()
-                validate(age, sex, height, status, routine)
+                validate(age, sex, height, status, routine, name, password, email)
                 getWeight(weight)
             }
 
@@ -469,7 +472,10 @@ class CalorieFragment : Fragment() {
         sex: Int,
         height: Int,
         status: Int,
-        routine: Int
+        routine: Int,
+        name: String,
+        password: String,
+        email: String
     ) {
         val datecount = age.length
         var yyyy = 0
@@ -484,6 +490,10 @@ class CalorieFragment : Fragment() {
         appPreferences.setPreferenceHeight(height)
         appPreferences.setPreferenceStatus(status)
         appPreferences.setPreferenceRoutine(routine)
+        appPreferences.setPreferenceUsername(name)
+        appPreferences.setPreferencePassword(password)
+        appPreferences.setPreferenceEmail(email)
+        appPreferences.setPreferenceBirthday(age.toInt())
         println(TAG+"yyyy"+(yearnow-yyyy)+" sex $sex height $height status $status routine $routine")
     }
 
@@ -493,17 +503,6 @@ class CalorieFragment : Fragment() {
         fun newInstance(): CalorieFragment = CalorieFragment()
     }
 
-
-    /*override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
-        super.onCreateContextMenu(menu, v, menuInfo)
-
-        menu!!.setHeaderTitle("เลือกรายการ")
-        activity!!.menuInflater.inflate(R.menu.fooddetail_menu,menu)
-    }
-
-    override fun onContextItemSelected(item: MenuItem?): Boolean {
-        return super.onContextItemSelected(item)
-    }*/
 }
 
 

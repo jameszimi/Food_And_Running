@@ -19,6 +19,14 @@ class AppPreferences(context : Context) {
     val PREFERENCE_DNCAL = "PreferenceDNCal"
     val PREFERENCE_SNCAL = "PreferenceSNCal"
     val PREFERENCE_TOTALEAT = "PreferenceTotalEat"
+    val PREFERENCE_BASE = "PreferenceBase"
+    val PREFERENCE_GOAL = "PreferenceGoal"
+    val PREFERENCE_DAY = "PreferenceDay"
+    val PREFERENCE_DAYVALID = "PreferenceDayvalid"
+    val PREFERENCE_USERNAME = "PreferenceUsername"
+    val PREFERENCE_EMAIL = "PreferenceEmail"
+    val PREFERENCE_PASSWORD = "PreferencePassword"
+    val PREFERENCE_BIRTHDAY = "PreferenceBirthday"
 
     val preferences = context.getSharedPreferences(PREFERENCE_NAME,Context.MODE_PRIVATE)
 
@@ -159,6 +167,76 @@ class AppPreferences(context : Context) {
     fun setPreferenceTotalEat(cal : Int) {
         val editor = preferences.edit()
         editor.putInt(PREFERENCE_TOTALEAT,cal)
+        editor.apply()
+    }
+
+    fun getPreferenceGoal() : Int {
+        return preferences.getInt(PREFERENCE_GOAL,0)
+    }
+
+    fun setPreferenceGoal(goal : Int) {
+        val editor = preferences.edit()
+        editor.putInt(PREFERENCE_GOAL,goal)
+        editor.apply()
+    }
+
+    fun getPreferenceBase() : Int {
+        return preferences.getInt(PREFERENCE_BASE,0)
+    }
+
+    fun setPreferenceBase(base : Int) {
+        val editor = preferences.edit()
+        editor.putInt(PREFERENCE_BASE,base)
+        editor.apply()
+    }
+
+    fun getPreferenceDay() : Int {
+        return preferences.getInt(PREFERENCE_DAY,0)
+    }
+
+    fun setPreferenceDay(day : Int) {
+        val editor = preferences.edit()
+        editor.putInt(PREFERENCE_DAY,day)
+        editor.apply()
+    }
+
+    fun getPreferenceUsername() : String {
+        return preferences.getString(PREFERENCE_USERNAME,"")
+    }
+
+    fun setPreferenceUsername(username : String) {
+        val editor = preferences.edit()
+        editor.putString(PREFERENCE_USERNAME,username)
+        editor.apply()
+    }
+
+    fun getPreferenceEmail() : String {
+        return preferences.getString(PREFERENCE_EMAIL,"")
+    }
+
+    fun setPreferenceEmail(email : String) {
+        val editor = preferences.edit()
+        editor.putString(PREFERENCE_EMAIL,email)
+        editor.apply()
+    }
+
+    fun getPreferencePassword() : String {
+        return preferences.getString(PREFERENCE_PASSWORD,"")
+    }
+
+    fun setPreferencePassword(password : String) {
+        val editor = preferences.edit()
+        editor.putString(PREFERENCE_PASSWORD,password)
+        editor.apply()
+    }
+
+    fun getPreferenceBirthday() : Int {
+        return preferences.getInt(PREFERENCE_BIRTHDAY,0)
+    }
+
+    fun setPreferenceBirthday(birthday : Int) {
+        val editor = preferences.edit()
+        editor.putInt(PREFERENCE_BIRTHDAY, birthday)
         editor.apply()
     }
 

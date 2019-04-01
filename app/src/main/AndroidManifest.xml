@@ -9,8 +9,12 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".CaloriesReport"
+        <activity android:name=".WeightchartActivity"
                   android:parentActivityName=".MainActivity">
+        </activity>
+        <activity
+                android:name=".CaloriesReport"
+                android:parentActivityName=".MainActivity">
         </activity>
         <activity
                 android:name=".EditDetailFoodCon"
@@ -18,7 +22,7 @@
         </activity>
         <activity
                 android:name=".AddCalorieActivity"
-                android:parentActivityName=".SearchFood">
+                android:parentActivityName=".MainActivity">
         </activity>
         <activity android:name=".AddfoodActivity">
         </activity>

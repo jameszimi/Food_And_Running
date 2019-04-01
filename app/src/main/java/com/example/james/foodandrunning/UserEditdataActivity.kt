@@ -33,32 +33,31 @@ class UserEditdataActivity : AppCompatActivity() {
         val uid = AppPreferences(this).getPreferenceUID()
 
         val db = FirebaseFirestore.getInstance()
-        var oldPassDB = ""
         var dateuserdata = ""
-
-        //Create a reference to get document in collection
-        val usererf = db.collection("MEMBER_TABLE").document(uid)
-
-        //Create a query against the collection
-        usererf.get().addOnSuccessListener {
-            if (it != null) {
-                val dataHash = it.data as HashMap<String, Any>
-                member_name.text = (dataHash["member_name"].toString())
-                member_username.text = (dataHash["member_username"].toString())
-                oldPassDB = (dataHash["member_password"].toString())
-                member_height.text = (dataHash["member_height"].toString())
-                member_diaryroutine.text = (dataHash["member_diaryroutine"].toString())
-                member_email.text = (dataHash["member_email"].toString())
-                dateuserdata = (dataHash["member_birthday"].toString())
-                validateDate(dateuserdata)
-                Log.d(TAG, it.data.toString())
-            } else {
-                Log.d(TAG,"ไม่มีข้อมูล")
+        val diary_routine = AppPreferences(this).getPreferenceRoutine()
+        if (diary_routine != 0) {
+            val nameofroutine = when (diary_routine) {
+                1 -> "นั่งหรือนนอนตลอด"
+                2 -> "นั่งโต๊ะทำงานตลอด เคลื่อนไหวเล็กน้อย"
+                3 -> "นั่งโต๊ะทำงานตลอด เคลื่อนไหวพอสมควร"
+                4 -> "ยืนทำงานตลอด"
+                else -> "การทำงานที่มีการเคลื่อนไหวมาก"
             }
+            member_diaryroutine.text = nameofroutine
         }
-            .addOnFailureListener {
-                Log.d(TAG,"Fail")
-            }
+
+
+        val appPreferences = AppPreferences(this)
+        val username = appPreferences.getPreferenceUsername()
+        val height = appPreferences.getPreferenceHeight()
+        val email = appPreferences.getPreferenceEmail()
+        val birthday = appPreferences.getPreferenceBirthday().toString()
+
+        member_name.text = username
+        member_height.text = height.toString()
+        member_email.text = email
+        validateDate(birthday)
+
 
         //set callText
         val editPassText = findViewById<TextView>(R.id.editpass_text)
@@ -90,10 +89,10 @@ class UserEditdataActivity : AppCompatActivity() {
                 dialogTxtErPasUp.text = ""
                 val newPassText = newPassword.text.toString()
                 val conPassText = confNewPass.text.toString()
-                val oldPassText = oldPassword.text.toString()
+                val oldPassText = appPreferences.getPreferencePassword()
                 if (newPassText.isNotEmpty() && conPassText.isNotEmpty()) {
                     Toast.makeText(this, "If 1 $newPassText $conPassText $oldPassText",Toast.LENGTH_SHORT).show()
-                    if ((newPassText == conPassText) && (oldPassText == oldPassDB)) {
+                    if ((newPassText == conPassText) && (oldPassText == oldPassword.text.toString())) {
                         val user = FirebaseAuth.getInstance().currentUser
                         Log.d(TAG,user.toString())
                         user?.updatePassword(newPassText)?.addOnCompleteListener {
@@ -131,9 +130,9 @@ class UserEditdataActivity : AppCompatActivity() {
             }
 
             summitBtn.setOnClickListener {
-                val height = heightInCome.text.toString().toInt()
+                val heighteditT = heightInCome.text.toString().toInt()
                 if (heightInCome.text.isNotEmpty()) {
-                    upDateHeight(height, uid)
+                    upDateHeight(heighteditT, uid)
                 } else {
                     upheight.text = "กรุณาระบุส่วนสูง"
                 }
@@ -193,6 +192,7 @@ class UserEditdataActivity : AppCompatActivity() {
 
     private fun validateDate(datein: String) {
 
+        println(TAG+" datein:$datein")
         val datecount = datein.length
         var dd : String
         var mm : String
@@ -253,6 +253,7 @@ class UserEditdataActivity : AppCompatActivity() {
         val db = FirebaseFirestore.getInstance()
         val updateTable = db.collection("MEMBER_TABLE").document(uid)
         updateTable.update("member_diaryroutine", routine).addOnSuccessListener {
+            AppPreferences(this).setPreferenceRoutine(routine)
             finish()
             startActivity(intent)
         }.addOnFailureListener {
@@ -265,6 +266,7 @@ class UserEditdataActivity : AppCompatActivity() {
         val db = FirebaseFirestore.getInstance()
         val updatTable = db.collection("MEMBER_TABLE").document(uid)
         updatTable.update("member_height",height).addOnSuccessListener {
+            AppPreferences(this).setPreferenceHeight(height)
             finish()
             startActivity(intent)
         }.addOnFailureListener {
@@ -288,6 +290,7 @@ class UserEditdataActivity : AppCompatActivity() {
 
         FirebaseFirestore.getInstance().collection("MEMBER_TABLE").document(uid).update("member_password",newPassText).addOnSuccessListener {
             signOut()
+            AppPreferences(this).setPreferencePassword(newPassText)
         }.addOnFailureListener {
             Toast.makeText(this,"อัพเดทรหัสผ่านไม่ำเร็จ", Toast.LENGTH_SHORT).show()
         }
