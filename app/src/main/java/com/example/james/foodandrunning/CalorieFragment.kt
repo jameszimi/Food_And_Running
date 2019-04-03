@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.james.foodandrunning.adapter.BreakfastList
+import com.example.james.foodandrunning.setupdata.AppPreferences
 import com.example.james.foodandrunning.setupdata.FoodNCal
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore

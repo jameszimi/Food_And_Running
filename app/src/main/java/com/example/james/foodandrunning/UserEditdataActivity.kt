@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar
 import android.util.Log
 import android.view.View
 import android.widget.*
+import com.example.james.foodandrunning.setupdata.AppPreferences
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore

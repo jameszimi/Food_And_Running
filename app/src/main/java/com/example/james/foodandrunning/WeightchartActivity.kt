@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.ActionBar
+import com.example.james.foodandrunning.setupdata.AppPreferences
 import com.example.james.foodandrunning.setupdata.WeightId
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.Legend
@@ -15,13 +16,8 @@ import com.github.mikephil.charting.data.LineData
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.jjoe64.graphview.GraphView
-import com.jjoe64.graphview.helper.DateAsXAxisLabelFormatter
-import com.jjoe64.graphview.series.DataPoint
-import com.jjoe64.graphview.series.LineGraphSeries
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.text.Typography.times
 
 lateinit var toolbar : ActionBar
 

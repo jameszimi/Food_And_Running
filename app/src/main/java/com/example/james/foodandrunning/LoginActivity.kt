@@ -1,19 +1,13 @@
 package com.example.james.foodandrunning
 
 import android.content.Intent
-import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v4.content.ContextCompat.startActivity
-import android.support.v7.app.ActionBar
 import android.util.Log
-import android.view.View
 import android.widget.Toast
-import com.firebase.ui.auth.AuthUI
+import com.example.james.foodandrunning.setupdata.AppPreferences
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_login.view.*
 import kotlinx.android.synthetic.main.main_toolbar.*
 
 class LoginActivity : AppCompatActivity() {

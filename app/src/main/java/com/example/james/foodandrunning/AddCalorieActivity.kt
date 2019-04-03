@@ -13,6 +13,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_add_calorie.*
 import kotlinx.android.synthetic.main.dialog_addcal.*
 import android.view.View
+import com.example.james.foodandrunning.setupdata.AppPreferences
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -161,7 +162,7 @@ class AddCalorieActivity : AppCompatActivity() {
 
         addFoodConsumeToDb.set(foodcondata).addOnSuccessListener {
             Toast.makeText(this,"บันทึกข้อมูลสำเร็จ",Toast.LENGTH_SHORT).show()
-            startActivity(Intent(this,MainActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
             this.finish()
         }.addOnFailureListener {
             Toast.makeText(this,"ล้มเหลว",Toast.LENGTH_SHORT).show()

@@ -9,8 +9,12 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".WeightchartActivity"
+        <activity android:name=".UserfoodcreatActivity"
                   android:parentActivityName=".MainActivity">
+        </activity>
+        <activity
+                android:name=".WeightchartActivity"
+                android:parentActivityName=".MainActivity">
         </activity>
         <activity
                 android:name=".CaloriesReport"

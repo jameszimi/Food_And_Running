@@ -86,6 +86,12 @@ class SearchFood : AppCompatActivity() {
 
         })
 
+        addusrfood_btnimg.setOnClickListener {
+            val intent =Intent(this,UserfoodcreatActivity::class.java)
+            intent.putExtra("meal",meal)
+            startActivity(intent)
+        }
+
     }
 
 }

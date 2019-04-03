@@ -1,4 +1,4 @@
-package com.example.james.foodandrunning
+package com.example.james.foodandrunning.setupdata
 
 import android.content.Context
 
@@ -239,5 +239,8 @@ class AppPreferences(context : Context) {
         editor.putInt(PREFERENCE_BIRTHDAY, birthday)
         editor.apply()
     }
+
+
+
 
 }
