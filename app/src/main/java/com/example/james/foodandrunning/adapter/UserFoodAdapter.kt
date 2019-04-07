@@ -1,6 +1,5 @@
 package com.example.james.foodandrunning.adapter
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AlertDialog
@@ -34,7 +33,7 @@ class UserFoodAdapterList(val mExampleList: ArrayList<Userfood>) : RecyclerView.
         p0.view.userCalText.text = userFoodCal.toString()
 
         p0.view.setOnClickListener {
-            FirestoreFoodConsumeAuth(p0.view.context).UserCreateFood(userFoodName,userFoodCal)
+            FirestoreFoodConsumeAuth(p0.view.context).userCreateFood(userFoodName,userFoodCal)
         }
 
         p0.itemView.setOnLongClickListener {
@@ -48,7 +47,6 @@ class UserFoodAdapterList(val mExampleList: ArrayList<Userfood>) : RecyclerView.
                 val editor = sharedPreferences.edit()
                 val gson = Gson()
                 mExampleList.removeAt(p1)
-                println("FFFFFFFFFFF:"+mExampleList)
                 val json = gson.toJson(mExampleList)
                 editor.putString("userfoodcreate", json)
                 editor.apply()

@@ -52,8 +52,7 @@ class SearchFood : AppCompatActivity() {
                     callData(query)
                 } else {
                     arrayofData.clear()
-                    recyclerView_searchfood.adapter =
-                            SearchFoodAdapter(arrayofData, meal)
+                    recyclerView_searchfood.adapter = SearchFoodAdapter(arrayofData, meal)
                 }
                 return false
             }
@@ -61,8 +60,7 @@ class SearchFood : AppCompatActivity() {
             override fun onQueryTextChange(newText: String): Boolean {
                 if (newText.isEmpty()) {
                     arrayofData.clear()
-                    recyclerView_searchfood.adapter =
-                            SearchFoodAdapter(arrayofData, meal)
+                    recyclerView_searchfood.adapter = SearchFoodAdapter(arrayofData, meal)
                 } else {
                     callData(newText)
                 }
