@@ -1,15 +1,19 @@
 package com.example.james.foodandrunning
 
+import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.ActionBar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
-import android.widget.*
 import com.example.james.foodandrunning.adapter.SearchFoodAdapter
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.android.synthetic.main.activity_searchfood.*
+import android.widget.Toast
+import com.example.james.foodandrunning.firebase.auth.FirestoreFoodAuth
+import kotlinx.android.synthetic.main.activity_addfood.*
 
 
 class SearchFood : AppCompatActivity() {
@@ -90,6 +94,33 @@ class SearchFood : AppCompatActivity() {
             startActivity(intent)
         }
 
+        scanImgView.setOnClickListener {
+            val scanner = IntentIntegrator(this)
+            scanner.setOrientationLocked(false)
+            scanner.setBeepEnabled(true)
+            scanner.initiateScan()
+        }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        if (resultCode == Activity.RESULT_OK) {
+            val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+            if (result != null) {
+                if (result.contents == null) {
+                    Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show()
+                } else {
+
+                    FirestoreFoodAuth(this).searchFoodwithBarcode(result.contents)
+                    Toast.makeText(this, "Scanned: " + result.contents, Toast.LENGTH_LONG).show()
+                }
+            } else {
+                super.onActivityResult(requestCode, resultCode, data)
+            }
+
+            println("result : ${result.contents}")
+        }
     }
 
 }

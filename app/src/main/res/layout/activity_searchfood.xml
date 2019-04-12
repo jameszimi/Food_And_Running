@@ -32,7 +32,7 @@
     <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp" app:srcCompat="@drawable/img_518926"
-            android:id="@+id/imageView3"
+            android:id="@+id/scanImgView"
             app:layout_constraintStart_toEndOf="@+id/textView12"
             android:layout_marginStart="160dp" app:layout_constraintTop_toTopOf="@+id/textView12"
             app:layout_constraintBottom_toTopOf="@+id/searchView" app:layout_constraintVertical_bias="1.0"/>
@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" app:srcCompat="@drawable/baseline_add_black_24dp"
             android:id="@+id/addusrfood_btnimg"
-            app:layout_constraintEnd_toStartOf="@+id/imageView3"
+            app:layout_constraintEnd_toStartOf="@+id/scanImgView"
             android:layout_marginBottom="12dp"
             app:layout_constraintBottom_toTopOf="@+id/searchView"
             android:layout_marginEnd="24dp"/>

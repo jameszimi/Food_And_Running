@@ -150,6 +150,11 @@ class UserFragment : Fragment() {
             startActivity(clickIntent)
         }
 
+        v.addFoodBtn.setOnClickListener {
+            val intent = Intent(activity, AddfoodActivity::class.java)
+            startActivity(intent)
+        }
+
 
 
         return v

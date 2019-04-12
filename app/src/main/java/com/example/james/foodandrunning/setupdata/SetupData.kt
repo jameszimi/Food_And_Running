@@ -18,8 +18,11 @@ data class Userfood(val foodName: String, val totalCal: Int) {
 
 }
 
+data class Runningpath(val latitude:Long, val longitude:Long, val distance:Double){
+
+}
+
 class ExampleItem(line1:String, line2:String) {
     val mline1 = line1
     val mline2 = line2
 }
-

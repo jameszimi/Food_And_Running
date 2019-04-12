@@ -3,8 +3,8 @@ package com.example.james.foodandrunning.firebase.auth
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.support.v4.content.ContextCompat.startActivity
 import android.widget.Toast
+import com.example.james.foodandrunning.AddCalorieActivity
 import com.example.james.foodandrunning.MainActivity
 import com.example.james.foodandrunning.setupdata.AppPreferences
 import com.google.firebase.firestore.FieldValue
@@ -12,6 +12,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class FirestoreFoodConsumeAuth(contextin: Context) {
@@ -127,4 +128,40 @@ class FirestoreRunnigAuth(contextin: Context) {
 
     }
 
+}
+
+class FirestoreFoodAuth(contextin: Context) {
+
+    private val uid = AppPreferences(contextin).getPreferenceUID()
+    private var queryAuth = FirebaseFirestore.getInstance().collection("FOOD_TABLE")
+    private val context = contextin
+    private val meal = (contextin as Activity).intent.getStringExtra("meals")
+
+    fun searchFoodwithBarcode(contents: String) {
+
+        println("contents : $contents")
+
+        println("barcodeeee : $contents")
+
+        var foodnameth : String = ""
+        queryAuth.whereEqualTo("barcode_id",contents).get().addOnSuccessListener {
+
+            if (it.isEmpty) Toast.makeText(context,"ไม่พบรายการที่ค้นหา", Toast.LENGTH_SHORT).show()
+            for (doc in it) {
+                val dataHash = doc.data
+                foodnameth = dataHash["food_nameth"].toString()
+            }
+            println("arrayofData : $foodnameth")
+
+            val intent = Intent(context, AddCalorieActivity::class.java)
+            intent.putExtra("food_nameth",foodnameth)
+            intent.putExtra("meal", meal)
+            println("searchFoodwithBarcode = food_nameth:$foodnameth, meal:$meal")
+            context.startActivity(intent)
+
+        }.addOnFailureListener {
+            Toast.makeText(context, "Fail", Toast.LENGTH_SHORT).show()
+        }
+
+    }
 }

@@ -1,16 +1,15 @@
 package com.example.james.foodandrunning
 
+import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.android.synthetic.main.activity_addfood.*
 
 
@@ -66,7 +65,7 @@ class AddfoodActivity : AppCompatActivity() {
             if (databarcode_id.isEmpty()) {
                 predata["barcode_id"] = 0
             } else {
-                predata["barcode_id"] = databarcode_id.toInt()
+                predata["barcode_id"] = databarcode_id
             }
 
             if (dataserving_size.isEmpty()) {
@@ -111,6 +110,12 @@ class AddfoodActivity : AppCompatActivity() {
 
         }
 
+        addFoodScan.setOnClickListener {
+            val scanner = IntentIntegrator(this)
+            scanner.setOrientationLocked(false)
+            scanner.setBeepEnabled(true)
+            scanner.initiateScan()
+        }
 
 
 
@@ -148,6 +153,26 @@ class AddfoodActivity : AppCompatActivity() {
             Toast.makeText(this, "บันทึกข้อมูลไม่สำเร็จ", Toast.LENGTH_SHORT).show()
         }
 
+    }
+
+    override  fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        if (resultCode == Activity.RESULT_OK) {
+            val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+            if (result != null) {
+                if (result.contents == null) {
+                    Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show()
+                } else {
+
+                    barcode_id.setText(result.contents)
+                    Toast.makeText(this, "Scanned: " + result.contents, Toast.LENGTH_LONG).show()
+                }
+            } else {
+                super.onActivityResult(requestCode, resultCode, data)
+            }
+
+            println("result : ${result.contents}")
+        }
     }
 
 

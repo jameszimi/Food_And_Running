@@ -28,12 +28,16 @@ class AddCalorieActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_calorie)
 
-        val meal = intent.getStringExtra("meals").toInt()
+        val meal = intent.getStringExtra("meal").toString().toInt()
+        println("AddCalorieActivity : meal:$meal")
         val food_nameth = intent.getStringExtra("food_nameth").toString()
+        println("AddCalorieActivity : String:$food_nameth")
         var energy : Int = 1
         var serving_size = 1
         var unit_id = 1
         var food_id = ""
+
+        println("meal : $meal, food_nameth : $food_nameth")
 
         val db = FirebaseFirestore.getInstance()
         val getcalorie = db.collection("FOOD_TABLE").whereEqualTo("food_nameth",food_nameth)
@@ -45,20 +49,10 @@ class AddCalorieActivity : AppCompatActivity() {
                 unit_id = datahash["unit_id"].toString().toInt()
             }
             println(TAG+" energy "+energy+" serving_size "+serving_size+" unit_id "+unit_id)
+            getUnitName(unit_id)
         }
             .addOnFailureListener {
                 Log.d(TAG,"Get Value Fail")
-            }
-
-        val getUnittype = db.collection("UNIT_TABLE").whereEqualTo("unit_id", unit_id)
-        getUnittype.get().addOnSuccessListener {doc ->
-            for (document in doc) {
-                val datahash = document.data
-                unit_type.text = datahash["unit_name"].toString()
-            }
-        }
-            .addOnFailureListener {
-                Log.d(TAG,"Get data type Fail")
             }
 
         val getfoodid = db.collection("FOOD_TABLE").whereEqualTo("food_nameth",food_nameth)
@@ -89,8 +83,8 @@ class AddCalorieActivity : AppCompatActivity() {
 
         eDCSaveCalorie.setOnClickListener {
 
-            val serving_SizeED = eDCservingSize.text.toString().toInt()
-            val caltotal = serving_SizeED * energy/serving_size
+            val serving_SizeED = eDCservingSize.text.toString().toInt().toDouble()
+            val caltotal= serving_SizeED * (energy/serving_size)
 
 
 
@@ -102,7 +96,7 @@ class AddCalorieActivity : AppCompatActivity() {
                 Toast.makeText(this,"No",Toast.LENGTH_SHORT).show()
             }
             builder.setPositiveButton("บันทึก"){dialog, which ->
-                addFoodconsume(meal,caltotal,food_id,serving_size)
+                addFoodconsume(meal,caltotal.toInt(),food_id,serving_size)
 
                 Toast.makeText(this,"กำลังบันทึกข้อมูล",Toast.LENGTH_SHORT).show()
                 //ถ้า cash เอาออกแล้วใส่ Toast แทน
@@ -121,6 +115,23 @@ class AddCalorieActivity : AppCompatActivity() {
             dialog_totalcal!!.text = caltotal.toString()
         }
 
+
+    }
+
+    private fun getUnitName(unit_id: Int) {
+
+        val db = FirebaseFirestore.getInstance()
+        val getUnittype = db.collection("UNIT_TABLE").whereEqualTo("unit_id", unit_id)
+        getUnittype.get().addOnSuccessListener {doc ->
+            for (document in doc) {
+                val datahash = document.data
+                unit_type.text = datahash["unit_name"].toString()
+                println("unit_type="+datahash["unit_name"].toString())
+            }
+        }
+            .addOnFailureListener {
+                Log.d(TAG,"Get data type Fail")
+            }
 
     }
 

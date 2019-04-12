@@ -35,7 +35,7 @@ class SearchFoodAdapter(arrayofData: MutableSet<String>, meal: String) :Recycler
             Toast.makeText(p0.view.context,foodName,Toast.LENGTH_SHORT).show()
             val clickIntent = Intent(p0.view.context, AddCalorieActivity::class.java)
             clickIntent.putExtra("food_nameth",foodName)
-            clickIntent.putExtra("meals",meals)
+            clickIntent.putExtra("meal",meals)
             p0.view.context.startActivity(clickIntent)
         }
     }

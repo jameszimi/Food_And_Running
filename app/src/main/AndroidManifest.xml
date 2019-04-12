@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="com.example.james.foodandrunning">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -15,6 +16,10 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".ResultsRunningActivity">
+        </activity>
+        <activity android:name=".RunningActivity">
+        </activity>
         <activity android:name=".AddRunningActivity">
         </activity>
         <!--
@@ -61,7 +66,9 @@
         </activity>
         <activity
                 android:name=".SearchFood"
-                android:parentActivityName=".MainActivity">
+                android:parentActivityName=".MainActivity"
+                android:screenOrientation="portrait"
+                tools:replace="screenOrientation">
         </activity>
         <activity
                 android:name=".SplashScreenActivity"
@@ -78,6 +85,10 @@
         </activity>
         <activity android:name=".MainActivity">
         </activity>
+        <activity
+                android:name="com.journeyapps.barcodescanner.CaptureActivity"
+                android:screenOrientation="fullSensor"
+                tools:replace="screenOrientation"/>
     </application>
 
 </manifest>
