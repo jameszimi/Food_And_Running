@@ -6,7 +6,9 @@ import android.content.Intent
 import android.widget.Toast
 import com.example.james.foodandrunning.AddCalorieActivity
 import com.example.james.foodandrunning.MainActivity
+import com.example.james.foodandrunning.ResultsRunningActivity
 import com.example.james.foodandrunning.setupdata.AppPreferences
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import java.text.DateFormat
@@ -102,13 +104,12 @@ class FirestoreRunnigAuth(contextin: Context) {
         }
 
         if (calories.toInt() != 0) {
-            hashDataRunning["running_distance"] = calories
+            hashDataRunning["running_calorie"] = calories
         } else {
 
-            hashDataRunning["running_distance"] = totalCalories
             hashDataRunning["member_id"] = uid
             if (distance.toInt() != 0) hashDataRunning["running_distance"] = distance
-            hashDataRunning["running_speed"] = ((distance/1000)*60)*0.016667
+            hashDataRunning["running_calorie"] = totalCalories
             hashDataRunning["running_time"] = min
             hashDataRunning["running_date"] = FieldValue.serverTimestamp()
         }
@@ -126,6 +127,38 @@ class FirestoreRunnigAuth(contextin: Context) {
             }
 
 
+    }
+
+    fun runningPathtoFirestore(
+        distancePath: ArrayList<LatLng>,
+        showtime: String,
+        calories: Double,
+        sumdistance: Double
+    ) {
+
+        println("runningPathtoFirestore = showtime:$showtime")
+
+        val distance = String.format("%.2f",sumdistance).toFloat()
+        val hashDataRunning = HashMap<String,Any>()
+        hashDataRunning["member_id"] = uid
+        hashDataRunning["running_distance"] = distance
+        hashDataRunning["running_calorie"] = String.format("%.2f",calories).toFloat()
+        hashDataRunning["running_time"] = showtime
+        hashDataRunning["running_route"] = distancePath
+        hashDataRunning["running_date"] = FieldValue.serverTimestamp()
+
+        queryAuth.set(hashDataRunning).addOnSuccessListener {
+            val intent = Intent(context, ResultsRunningActivity::class.java)
+            intent.putExtra("listmap",distancePath)
+            intent.putExtra("stoptime",showtime)
+            intent.putExtra("calories",calories.toString())
+            intent.putExtra("distance",sumdistance.toString())
+            context.startActivity(intent)
+            (context as Activity).finish()
+        }
+            .addOnFailureListener {
+                Toast.makeText(context, "กรุณาลแงใหม่อีกครั้ง", Toast.LENGTH_SHORT).show()
+            }
     }
 
 }
