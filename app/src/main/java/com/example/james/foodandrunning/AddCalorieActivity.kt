@@ -30,51 +30,42 @@ class AddCalorieActivity : AppCompatActivity() {
 
         val meal = intent.getStringExtra("meal").toString().toInt()
         println("AddCalorieActivity : meal:$meal")
-        val food_nameth = intent.getStringExtra("food_nameth").toString()
-        println("AddCalorieActivity : String:$food_nameth")
-        var energy : Int = 1
-        var serving_size = 1
+        val food_id = intent.getStringExtra("food_id").toString()
+        println("AddCalorieActivity : String:$food_id")
+        var energy  = 1.0
+        var serving_size = 1.0
         var unit_id = 1
-        var food_id = ""
+        var food_nameth = ""
 
-        println("meal : $meal, food_nameth : $food_nameth")
+        println("meal : $meal, food_id : $food_nameth")
 
         val db = FirebaseFirestore.getInstance()
-        val getcalorie = db.collection("FOOD_TABLE").whereEqualTo("food_nameth",food_nameth)
-        getcalorie.get().addOnSuccessListener {doc ->
-            for (document in doc) {
-                val datahash = document.data
-                energy = datahash["energy"].toString().toInt()
-                serving_size = datahash["serving_size"].toString().toInt()
-                unit_id = datahash["unit_id"].toString().toInt()
-            }
-            println(TAG+" energy "+energy+" serving_size "+serving_size+" unit_id "+unit_id)
-            getUnitName(unit_id)
+        val getdata = db.collection("FOOD_TABLE").document(food_id)
+            getdata.get().addOnSuccessListener {doc ->
+                if (doc != null){
+                    val datahash = doc.data
+                    energy = datahash!!["energy"].toString().toDouble()
+                    serving_size = datahash!!["serving_size"].toString().toDouble()
+                    unit_id = datahash!!["unit_id"].toString().toInt()
+                    food_nameth = datahash!!["food_nameth"].toString()
+                }
+
+                eDCFood_namethText.text = food_nameth
+                getUnitName(unit_id)
         }
             .addOnFailureListener {
                 Log.d(TAG,"Get Value Fail")
             }
 
-        val getfoodid = db.collection("FOOD_TABLE").whereEqualTo("food_nameth",food_nameth)
-
-        getfoodid.get().addOnSuccessListener {
-            println(TAG + " it "+it)
-            for (doc in it) {
-                food_id = doc.id
-            }
-        }
-            .addOnFailureListener {
-                Log.d(TAG," getfoodid Fail")
-            }
 
 
-        println(TAG+"bbbbbbbbbb"+meal+food_nameth)
+        println(TAG+"bbbbbbbbbb"+meal+food_id)
 
         setSupportActionBar(findViewById(R.id.mtoolbar))
         toolbar = supportActionBar!!
         toolbar.title = "บันทึกแคลลอรี่"
         toolbar.setDisplayHomeAsUpEnabled(true)
-        eDCFood_namethText.text = food_nameth
+
 
         println(TAG+"aaaaaaaaaaaaaaaa"+dialog_foodname)
 
@@ -83,8 +74,10 @@ class AddCalorieActivity : AppCompatActivity() {
 
         eDCSaveCalorie.setOnClickListener {
 
+
             val serving_SizeED = eDCservingSize.text.toString().toInt().toDouble()
-            val caltotal= serving_SizeED * (energy/serving_size)
+            val caltotal= serving_SizeED * energy/serving_size
+            println("eDCSaveCalorie serving_sizeed:$serving_SizeED, energy:$energy, serving_size:$serving_size, Caltotal:$caltotal" )
 
 
 
@@ -96,7 +89,7 @@ class AddCalorieActivity : AppCompatActivity() {
                 Toast.makeText(this,"No",Toast.LENGTH_SHORT).show()
             }
             builder.setPositiveButton("บันทึก"){dialog, which ->
-                addFoodconsume(meal,caltotal.toInt(),food_id,serving_size)
+                addFoodconsume(meal,caltotal.toInt(),food_id,serving_size.toInt())
 
                 Toast.makeText(this,"กำลังบันทึกข้อมูล",Toast.LENGTH_SHORT).show()
                 //ถ้า cash เอาออกแล้วใส่ Toast แทน
@@ -112,7 +105,7 @@ class AddCalorieActivity : AppCompatActivity() {
             dialog_foodname!!.text = food_nameth
             dialog_servingsize!!.text = serving_SizeED.toString()
             dialog_typeunit!!.text = unit_type.text.toString()
-            dialog_totalcal!!.text = caltotal.toString()
+            dialog_totalcal!!.text = String.format("%.2f",caltotal)
         }
 
 

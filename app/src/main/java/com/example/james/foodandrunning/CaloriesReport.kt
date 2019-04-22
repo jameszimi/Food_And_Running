@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBar
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieEntry
 import android.widget.TextView
+import com.example.james.foodandrunning.setupdata.AppPreferences
 import com.example.james.foodandrunning.setupdata.FoodTotalCal
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -43,7 +44,7 @@ class CaloriesReport : AppCompatActivity() {
 
         val entries = ArrayList<PieEntry>()
         val caltotaltext = findViewById<TextView>(R.id.calcharttotal)
-        caltotaltext.text = intent.getStringExtra("totalCal")
+        caltotaltext.text = AppPreferences(this).getPreferenceTotalEat().toString()
 
         if (bf > 0)CalFoodArrayList.add(FoodTotalCal("มื้อเช้า",bf))
         if (lu > 0)CalFoodArrayList.add(FoodTotalCal("มื้อเที่ยง",lu))

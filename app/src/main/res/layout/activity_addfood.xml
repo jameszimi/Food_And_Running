@@ -15,8 +15,9 @@
             app:layout_constraintStart_toStartOf="@+id/barcode_id" android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toTopOf="@+id/barcode_id"/>
     <EditText
+            android:background="@drawable/rounded_edittext"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:ems="10"
             android:id="@+id/barcode_id"
             android:hint="barcode_id"
@@ -34,7 +35,8 @@
             app:layout_constraintTop_toBottomOf="@+id/barcode_id"/>
     <EditText
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_edittext"
             android:inputType="text"
             android:ems="10"
             android:id="@+id/food_nameth"
@@ -52,7 +54,8 @@
             app:layout_constraintTop_toBottomOf="@+id/unittype_id"/>
     <EditText
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_edittext"
             android:inputType="text"
             android:ems="10"
             android:id="@+id/food_nameen"
@@ -70,7 +73,8 @@
             app:layout_constraintTop_toBottomOf="@+id/food_nameth"/>
     <EditText
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_edittext"
             android:ems="10"
             android:id="@+id/serving_size"
             android:hint="serving_size"
@@ -88,7 +92,8 @@
             app:layout_constraintTop_toBottomOf="@+id/serving_size"/>
     <EditText
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_edittext"
             android:ems="10"
             android:id="@+id/energy"
             android:hint="energy"
@@ -106,7 +111,8 @@
             app:layout_constraintTop_toBottomOf="@+id/energy"/>
     <EditText
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_edittext"
             android:inputType="numberDecimal"
             android:ems="10"
             android:id="@+id/unit"
@@ -124,13 +130,15 @@
             app:layout_constraintTop_toBottomOf="@+id/unit"/>
     <Spinner
             android:layout_width="100dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/rounded_edittext"
             android:id="@+id/unittype_id"
             app:layout_constraintStart_toStartOf="@+id/textView27" android:layout_marginTop="8dp"
-            android:layout_marginStart="10dp"
             app:layout_constraintTop_toBottomOf="@+id/textView27"/>
     <Button
             android:text="@string/fui_button_text_save"
+            android:background="@drawable/rounded_buttonadd"
+            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/add_food"
@@ -138,6 +146,8 @@
             android:layout_marginTop="39dp" android:layout_marginStart="110dp"/>
     <Button
             android:text="Scan"
+            android:background="@drawable/rounded_only"
+            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/addFoodScan"

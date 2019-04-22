@@ -152,12 +152,16 @@
                 android:layout_marginStart="28dp"/>
         <Button
                 android:text="บันทึก"
+                android:background="@drawable/rounded_buttonadd"
+                android:textColor="@color/white"
+                android:textSize="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/button2" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="16dp"
                 android:layout_marginTop="24dp" app:layout_constraintTop_toBottomOf="@+id/member_birthday"/>
         <ImageButton
                 android:layout_width="49dp"
+                android:background="@drawable/rounded_only"
                 android:layout_height="41dp" app:srcCompat="@drawable/logout"
                 android:id="@+id/logoutBtn"
                 app:layout_constraintTop_toTopOf="@+id/textView24" app:layout_constraintEnd_toEndOf="@+id/editpass_text"

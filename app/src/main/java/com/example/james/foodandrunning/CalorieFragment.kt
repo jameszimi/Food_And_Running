@@ -71,7 +71,7 @@ class CalorieFragment : Fragment() {
         val routine = appPreferences.getPreferenceRoutine()
         val calories = appPreferences.getPreferenceCal()
         appPreferences.setPreferenceCount(count+1)
-        if (count > 5) {
+        if (count > 2) {
             appPreferences.setPreferenceCount(0)
             getuserData(uid)
         }
@@ -262,6 +262,7 @@ class CalorieFragment : Fragment() {
 
             AppPreferences(this.context!!).setPreferenceLUCal(luTotal)
             val foodtotal = bfTotal+luTotal
+            AppPreferences(this.context!!).setPreferenceTotalEat(foodtotal)
             getDN(v,getmeatpath,getfoodname,foodtotal)
 
 
@@ -319,6 +320,7 @@ class CalorieFragment : Fragment() {
 
             AppPreferences(this.context!!).setPreferenceDNCal(dinTotal)
             val foodtotal = foodtotalin+dinTotal
+            AppPreferences(this.context!!).setPreferenceTotalEat(foodtotal)
             getSN(v,getfoodname,getmeatpath,foodtotal)
 
         }.addOnFailureListener {
@@ -376,6 +378,7 @@ class CalorieFragment : Fragment() {
 
             AppPreferences(this.context!!).setPreferenceSNCal(sNTotal)
             val foodtotal = foodtotalin+sNTotal
+            AppPreferences(this.context!!).setPreferenceTotalEat(foodtotal)
             setTotalCal(foodtotal,v)
 
         }.addOnFailureListener {

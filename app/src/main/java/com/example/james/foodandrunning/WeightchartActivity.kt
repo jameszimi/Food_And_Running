@@ -88,12 +88,6 @@ class WeightchartActivity : AppCompatActivity() {
         xAxis.setDrawGridLines(false)
         xAxis.isGranularityEnabled = false
 
-        /*val leftAxis = chart.axisLeft
-        leftAxis.textColor = ColorTemplate.getHoloBlue()
-        leftAxis.axisMaximum = 150f
-        leftAxis.axisMinimum = 0f
-        leftAxis.setDrawGridLines(false)
-        leftAxis.isGranularityEnabled = true*/
 
 
         val calendar = Calendar.getInstance()
@@ -137,10 +131,6 @@ class WeightchartActivity : AppCompatActivity() {
             set1.fillColor = ColorTemplate.getHoloBlue()
             set1.highLightColor = Color.rgb(244, 117, 117)
             set1.setDrawCircleHole(false)
-            //set1.setFillFormatter(new MyFillFormatter(0f));
-            //set1.setDrawHorizontalHighlightIndicator(false);
-            //set1.setVisible(false);
-            //set1.setCircleHoleColor(Color.WHITE);
 
             val data = LineData(set1)
             data.setValueTextColor(Color.RED)

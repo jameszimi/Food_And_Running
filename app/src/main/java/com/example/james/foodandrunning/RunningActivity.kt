@@ -87,7 +87,7 @@ class RunningActivity : AppCompatActivity(), OnMapReadyCallback {
             FirestoreRunnigAuth(this).runningPathtoFirestore(distancePath,showtime.toString(),calories,sumdistance)
 
         }
-        
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

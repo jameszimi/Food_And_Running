@@ -60,6 +60,7 @@ class AddfoodActivity : AppCompatActivity() {
             val dataenergy = energy.text.toString()
             val datafoodth = food_nameth.text.toString()
             val datafooden = food_nameen.text.toString()
+            val unit = unit.text.toString()
 
 
             if (databarcode_id.isEmpty()) {
@@ -96,6 +97,7 @@ class AddfoodActivity : AppCompatActivity() {
             } else {
                 predata["food_nameen"] = datafooden
             }
+
 
             predata["unit_id"] = type
             predata["food_update"] = FieldValue.serverTimestamp()

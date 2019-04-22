@@ -13,21 +13,21 @@ import com.example.james.foodandrunning.setupdata.FoodNCal
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.listfood_cal.view.*
 
-class BreakfastList(val bfList: ArrayList<FoodNCal>) :RecyclerView.Adapter<CustomViewHolderList>(){
+class BreakfastList(val bfList: ArrayList<FoodNCal>) :RecyclerView.Adapter<CustomViewHolderFoodList>(){
 
     override fun getItemCount(): Int {
         return bfList.size
     }
 
-    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): CustomViewHolderList {
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): CustomViewHolderFoodList {
 
         val layoutInflater = LayoutInflater.from(p0.context)
         val cellForRow = layoutInflater.inflate(R.layout.listfood_cal,p0,false)
-        return CustomViewHolderList(cellForRow)
+        return CustomViewHolderFoodList(cellForRow)
 
     }
 
-    override fun onBindViewHolder(p0: CustomViewHolderList, p1: Int) {
+    override fun onBindViewHolder(p0: CustomViewHolderFoodList, p1: Int) {
 
         val foodName = bfList[p1].foodName //before NameList.get[p1]
         val foodcal = bfList[p1].totalCal
@@ -86,9 +86,6 @@ class BreakfastList(val bfList: ArrayList<FoodNCal>) :RecyclerView.Adapter<Custo
         //p0.itemView.setOnLongClickListener() {
         //}
     }
-
-
-
 
 }
 

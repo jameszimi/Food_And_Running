@@ -45,6 +45,7 @@ class UserFragment : Fragment() {
         usersettingbt.setOnClickListener {
             val clickIntent = Intent(activity,UserEditdataActivity::class.java)
             startActivity(clickIntent)
+            activity!!.finish()
         }
 
         //set FirebaseFirestore
@@ -122,6 +123,7 @@ class UserFragment : Fragment() {
         val appPreferences = AppPreferences(this.context!!)
         val weightBase = appPreferences.getPreferenceBase()
         val weightGoal = appPreferences.getPreferenceGoal()
+        val status = appPreferences.getPreferenceStatus()
         val progressBar = v.findViewById<ProgressBar>(R.id.progressBarToGoal)
         val weightBase_text = v.findViewById<TextView>(R.id.weight_base)
         val weightGoal_text = v.findViewById<TextView>(R.id.weight_goalText)
@@ -150,8 +152,18 @@ class UserFragment : Fragment() {
             startActivity(clickIntent)
         }
 
+        if (status == 2) {
+            v.addFoodBtn.visibility = View.VISIBLE
+            v.editFoodBtn.visibility = View.VISIBLE
+        }
+
         v.addFoodBtn.setOnClickListener {
             val intent = Intent(activity, AddfoodActivity::class.java)
+            startActivity(intent)
+        }
+
+        v.editFoodBtn.setOnClickListener {
+            val intent = Intent(activity, FoodEditDetailActivity::class.java)
             startActivity(intent)
         }
 

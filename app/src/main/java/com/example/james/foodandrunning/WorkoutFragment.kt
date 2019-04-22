@@ -23,6 +23,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.android.synthetic.main.fragment_workout.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -74,6 +75,11 @@ class WorkoutFragment : Fragment(), OnMapReadyCallback {
         addcalimg.setOnClickListener {
             val intent = Intent(activity, AddRunningActivity::class.java)
             startActivity(intent)
+        }
+
+        val listrunbtn = v.findViewById<ImageView>(R.id.listrunBtn)
+        listrunbtn.setOnClickListener {
+            startActivity(Intent(activity,RunningListActivity::class.java))
         }
 
         // Inflate the layout for this fragment
@@ -140,10 +146,12 @@ class WorkoutFragment : Fragment(), OnMapReadyCallback {
         } else {
             locationManager!!.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,2f,locationListener)
             val lastLocation = locationManager!!.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-            var userLastLocation = LatLng(lastLocation.latitude,lastLocation.longitude)
-            mMap.addMarker(MarkerOptions().position(userLastLocation).title("james location"))
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLastLocation,18.8f))
-            println("count=$count")
+            if (lastLocation != null){
+                var userLastLocation = LatLng(lastLocation.latitude,lastLocation.longitude)
+                mMap.addMarker(MarkerOptions().position(userLastLocation).title("james location"))
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLastLocation,18.8f))
+                println("count=$count")
+            }
 
         }
 
@@ -154,7 +162,7 @@ class WorkoutFragment : Fragment(), OnMapReadyCallback {
 
         if (requestCode == 1) {
 
-            if (grantResults.size > 0) {
+            if (grantResults.isNotEmpty()) {
                 if (ContextCompat.checkSelfPermission(context!!,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     locationManager!!.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,2f,locationListener)
                 }

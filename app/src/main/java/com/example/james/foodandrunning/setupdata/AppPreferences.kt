@@ -22,7 +22,6 @@ class AppPreferences(context : Context) {
     val PREFERENCE_BASE = "PreferenceBase"
     val PREFERENCE_GOAL = "PreferenceGoal"
     val PREFERENCE_DAY = "PreferenceDay"
-    val PREFERENCE_DAYVALID = "PreferenceDayvalid"
     val PREFERENCE_USERNAME = "PreferenceUsername"
     val PREFERENCE_EMAIL = "PreferenceEmail"
     val PREFERENCE_PASSWORD = "PreferencePassword"

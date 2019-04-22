@@ -3,6 +3,7 @@ package com.example.james.foodandrunning
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.ActionBar
 import android.util.Log
 import android.widget.Toast
 import com.example.james.foodandrunning.setupdata.AppPreferences
@@ -12,6 +13,7 @@ import kotlinx.android.synthetic.main.main_toolbar.*
 
 class LoginActivity : AppCompatActivity() {
 
+    lateinit var toolbar: ActionBar
     val TAG = "LoginActivity App "
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +22,9 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         //set Title bar
-        setSupportActionBar(mtoolbar)
+        setSupportActionBar(findViewById(R.id.mtoolbar))
+        toolbar = supportActionBar!!
+        toolbar.title = "Login"
 
         //val actionBar = supportActionBar
 
@@ -42,9 +46,6 @@ class LoginActivity : AppCompatActivity() {
 
         }
 
-        addfood.setOnClickListener {
-            startActivity(Intent(this, AddfoodActivity::class.java))
-        }
 
     }
 

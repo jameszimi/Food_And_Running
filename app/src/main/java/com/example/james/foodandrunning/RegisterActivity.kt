@@ -3,9 +3,11 @@ package com.example.james.foodandrunning
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.ActionBar
 import android.util.Log
 import android.view.View
 import android.widget.*
+import com.example.james.foodandrunning.setupdata.AppPreferences
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import java.lang.Exception
@@ -29,12 +31,18 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var mRoutine : Spinner
     lateinit var mSex : Spinner
     lateinit var mtexterror : TextView
+    lateinit var toolbar : ActionBar
     //lateinit var mAuth: FirebaseAuthException
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+
+        setSupportActionBar(findViewById(R.id.mtoolbar))
+        toolbar = supportActionBar!!
+        toolbar.title = "สมัครสมาชิก"
+        toolbar.setDisplayHomeAsUpEnabled(true)
 
 
         //mDatabase = FirebaseDatabase.getInstance().getReference("MEMBER_TABLE")
@@ -224,6 +232,7 @@ class RegisterActivity : AppCompatActivity() {
             if (it.isSuccessful){
                 println("print is success uid:${it.result!!.user.uid}")
                 saveWeight(preuser, weight)
+                AppPreferences(this).setPreferenceUID(it.result!!.user.uid)
             } else{
                 Toast.makeText(this,"สมัครสมาชิกไม่สำเร็จ หรือเป็นสมาชิกอยู่แล้ว", Toast.LENGTH_SHORT).show()
                 println("println not success:")

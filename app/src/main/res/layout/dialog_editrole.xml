@@ -14,21 +14,27 @@
     <Spinner
             android:layout_width="300dp"
             android:layout_height="40dp"
+            android:background="@drawable/rounded_edittext"
             android:id="@+id/spinner_role" app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@+id/textView35"/>
     <Button
             android:text="ยกเลิก"
+            android:background="@drawable/rounded_close"
+            android:textColor="@color/white"
+            android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_canclerole" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="32dp"
+            android:id="@+id/btn_canclerole" app:layout_constraintStart_toStartOf="@+id/spinner_role"
             android:layout_marginTop="32dp" app:layout_constraintTop_toBottomOf="@+id/spinner_role"/>
     <Button
             android:text="บันทึก"
+            android:background="@drawable/rounded_buttonadd"
+            android:textColor="@color/white"
+            android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_summitrole" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="32dp"
+            android:id="@+id/btn_summitrole" app:layout_constraintEnd_toEndOf="@+id/spinner_role"
             app:layout_constraintTop_toTopOf="@+id/btn_canclerole"/>
     <TextView
             android:layout_width="wrap_content"

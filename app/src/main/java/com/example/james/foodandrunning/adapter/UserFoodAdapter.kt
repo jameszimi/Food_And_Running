@@ -13,19 +13,19 @@ import com.example.james.foodandrunning.setupdata.Userfood
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.userfood_row.view.*
 
-class UserFoodAdapterList(val mExampleList: ArrayList<Userfood>) : RecyclerView.Adapter<CustomViewHolderList> (){
+class UserFoodAdapterList(val mExampleList: ArrayList<Userfood>) : RecyclerView.Adapter<CustomViewHolderFoodList> (){
 
     override fun getItemCount(): Int {
         return mExampleList.size
     }
 
-    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): CustomViewHolderList {
+    override fun onCreateViewHolder(p0: ViewGroup, p1: Int): CustomViewHolderFoodList {
         val layoutInflater = LayoutInflater.from(p0.context)
         val cellForRow = layoutInflater.inflate(R.layout.userfood_row, p0, false)
-        return CustomViewHolderList(cellForRow)
+        return CustomViewHolderFoodList(cellForRow)
     }
 
-    override fun onBindViewHolder(p0: CustomViewHolderList, p1: Int) {
+    override fun onBindViewHolder(p0: CustomViewHolderFoodList, p1: Int) {
         val userFoodName = mExampleList[p1].foodName
         val userFoodCal = mExampleList[p1].totalCal
         println("DDDDDDDDDDDDDDDDDD:"+mExampleList[p1])

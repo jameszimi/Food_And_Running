@@ -11,29 +11,35 @@
             android:textSize="20sp"
             android:id="@+id/textView15" android:layout_marginTop="72dp"
             app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="80dp"/>
+            android:layout_marginStart="45dp"/>
     <EditText
             android:layout_width="122dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_edittext"
             android:inputType="numberDecimal"
             android:ems="10"
             android:id="@+id/dialog_weight_text"
             app:layout_constraintBottom_toBottomOf="@+id/textView15" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="80dp"/>
+            android:layout_marginEnd="45dp"/>
     <Button
             android:text="ยกเลิก"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_close"
+            android:textColor="@color/white"
+            android:textSize="15sp"
             android:id="@+id/upWeightCancle"
             android:layout_marginTop="44dp"
             app:layout_constraintTop_toBottomOf="@+id/textView15"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="90dp"/>
+            app:layout_constraintStart_toStartOf="@+id/textView15"/>
     <Button
             android:text="ยืนยัน"
+            android:background="@drawable/rounded_buttonadd"
+            android:textColor="@color/white"
+            android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/upWeightSumit"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="90dp"
+            app:layout_constraintEnd_toEndOf="@+id/dialog_weight_text"
             app:layout_constraintTop_toTopOf="@+id/upWeightCancle"/>
 </android.support.constraint.ConstraintLayout>

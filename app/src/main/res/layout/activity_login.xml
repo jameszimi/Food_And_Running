@@ -7,17 +7,9 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".LoginActivity">
-    <include layout="@layout/main_toolbar"></include>
+    <include layout="@layout/main_toolbar" android:id="@+id/mtoolbar"></include>
     <TextView
-            android:text="@string/login"
-            android:textSize="30sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="76dp"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="44dp" android:id="@+id/loginText"/>
-    <TextView
-            android:text="@string/username"
+            android:text="@string/e_mailEN"
             android:layout_width="325dp"
             android:layout_height="28dp" android:id="@+id/usernameText"
             android:layout_marginStart="52dp"
@@ -33,7 +25,8 @@
             app:layout_constraintTop_toBottomOf="@+id/userNameInput"/>
     <EditText
             android:layout_width="313dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_edittext"
             android:inputType="textPersonName|textPassword"
             android:hint="@string/password"
             android:ems="10"
@@ -42,8 +35,11 @@
             android:layout_marginStart="52dp" app:layout_constraintStart_toStartOf="parent"/>
     <Button
             android:text="@string/loginTH"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_buttonadd"
+            android:textSize="15sp"
+            android:textColor="@color/white"
             android:id="@+id/LoginButton" android:layout_marginTop="32dp"
             app:layout_constraintTop_toBottomOf="@+id/passwordInput" app:layout_constraintEnd_toEndOf="@+id/passwordInput"
     />
@@ -57,19 +53,20 @@
     />
     <EditText
             android:layout_width="313dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_edittext"
             android:inputType="textPersonName"
-            android:hint="@string/username"
+            android:hint="@string/e_mailEN"
             android:ems="10"
             android:id="@+id/userNameInput" android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/usernameText" android:layout_marginStart="52dp"
             app:layout_constraintStart_toStartOf="parent"/>
-    <Button
-            android:text="เพิ่มรายการอาหาร"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/addfood" android:layout_marginTop="12dp"
-            app:layout_constraintTop_toBottomOf="@+id/LoginButton"
-            app:layout_constraintStart_toEndOf="@+id/textlinktoregister" android:layout_marginStart="32dp"/>
+    <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp" app:srcCompat="@drawable/iconlogin"
+            android:id="@+id/imageView2" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/include" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/usernameText" app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
 
 </android.support.constraint.ConstraintLayout>

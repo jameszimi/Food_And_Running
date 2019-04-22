@@ -283,6 +283,7 @@ class UserEditdataActivity : AppCompatActivity() {
             .addOnCompleteListener {
                 AppPreferences(this).setPreferenceUID("")
                 startActivity(Intent(this, LoginActivity::class.java))
+                finish()
             }
 
     }

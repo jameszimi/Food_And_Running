@@ -17,19 +17,19 @@
 
 
     <ImageView
-                android:src="@drawable/baseline_directions_run_black_24dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/addimg"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="36dp"
-                android:layout_marginBottom="90dp"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+            android:src="@drawable/baseline_directions_run_black_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addimg"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="90dp"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toEndOf="@+id/btn_startrunning"
+    />
     <Button
             android:text="Start Running"
             android:layout_width="140dp"
             android:layout_height="60dp"
-            android:background="@drawable/rounded_button"
+            android:background="@drawable/rounded_startrun"
             android:textColor="@color/white"
             android:id="@+id/btn_startrunning"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,7 +37,15 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/addimg"
-            android:visibility="gone"/>
+            android:visibility="gone" app:layout_constraintHorizontal_bias="0.498"/>
+    <ImageView
+            android:src="@drawable/baseline_list_alt_black_48"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listrunBtn"
+            app:layout_constraintBottom_toBottomOf="@+id/maprunning" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_startrunning"
+            android:layout_marginBottom="84dp"/>
 
 
     <!-- TODO: Update blank fragment layout -->

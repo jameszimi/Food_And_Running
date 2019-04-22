@@ -20,7 +20,8 @@
             android:layout_marginTop="32dp"/>
     <EditText
             android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_edittext"
             android:inputType="numberSigned"
             android:ems="10"
             android:id="@+id/distanceEDText"
@@ -41,7 +42,8 @@
             android:layout_marginTop="32dp" app:layout_constraintTop_toBottomOf="@+id/textView49" android:textSize="16sp"/>
     <EditText
             android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/rounded_edittext"
             android:inputType="numberDecimal"
             android:ems="10"
             android:id="@+id/calEDText"
@@ -49,19 +51,23 @@
             app:layout_constraintStart_toStartOf="@+id/spinnerHr"/>
     <Button
             android:text="บันทึก"
+            android:background="@drawable/rounded_buttonadd"
+            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/addrunningBtn" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="32dp"
             android:layout_marginTop="24dp" app:layout_constraintTop_toBottomOf="@+id/calEDText"/>
     <Spinner
             android:layout_width="70dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/rounded_edittext"
             android:id="@+id/spinnerHr"
             app:layout_constraintBottom_toBottomOf="@+id/textView49"
             app:layout_constraintStart_toStartOf="@+id/distanceEDText"/>
     <Spinner
             android:layout_width="70dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/rounded_edittext"
             android:id="@+id/spinnerMin"
             app:layout_constraintBottom_toBottomOf="@+id/spinnerHr"
             app:layout_constraintStart_toEndOf="@+id/textView51" android:layout_marginStart="8dp"/>

@@ -13,8 +13,11 @@
              android:id="@+id/mtoolbar"/>
     <Button
             android:text="เพิ่มเมนูอาหาร"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:background="@drawable/rounded_button"
+            android:layout_width="120dp"
+            android:layout_height="50dp"
             android:id="@+id/userfoodAddBtn"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/mtoolbar"

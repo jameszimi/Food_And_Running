@@ -13,7 +13,7 @@ import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.android.synthetic.main.activity_searchfood.*
 import android.widget.Toast
 import com.example.james.foodandrunning.firebase.auth.FirestoreFoodAuth
-import kotlinx.android.synthetic.main.activity_addfood.*
+import com.example.james.foodandrunning.setupdata.FoodDetial
 
 
 class SearchFood : AppCompatActivity() {
@@ -48,7 +48,7 @@ class SearchFood : AppCompatActivity() {
 
         //set Adapter
 
-        val arrayofData = mutableSetOf<String>()
+        val arrayofData = ArrayList<FoodDetial>()
         //search action
         searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
@@ -76,7 +76,7 @@ class SearchFood : AppCompatActivity() {
                 foodGetData.whereGreaterThanOrEqualTo("food_nameth",query).get().addOnSuccessListener { doc ->
                     for (document in doc) {
                         val dataHash = document.data
-                        arrayofData.add(dataHash["food_nameth"].toString())
+                        arrayofData.add(FoodDetial(document.id,dataHash["food_nameth"].toString()))
                         println(TAG + "aaaaaa data callData "+dataHash)
                     }
 
@@ -92,6 +92,7 @@ class SearchFood : AppCompatActivity() {
             val intent =Intent(this,UserfoodcreatActivity::class.java)
             intent.putExtra("meal",meal)
             startActivity(intent)
+            this.finish()
         }
 
         scanImgView.setOnClickListener {

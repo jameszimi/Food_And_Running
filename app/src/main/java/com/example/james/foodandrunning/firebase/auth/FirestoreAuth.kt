@@ -7,6 +7,7 @@ import android.widget.Toast
 import com.example.james.foodandrunning.AddCalorieActivity
 import com.example.james.foodandrunning.MainActivity
 import com.example.james.foodandrunning.ResultsRunningActivity
+import com.example.james.foodandrunning.RunningListActivity
 import com.example.james.foodandrunning.setupdata.AppPreferences
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.FieldValue
@@ -57,7 +58,8 @@ class FirestoreRunnigAuth(contextin: Context) {
 
     private val uid = AppPreferences(contextin).getPreferenceUID()
     private val weight = AppPreferences(contextin).getPreferenceWeight()
-    private var queryAuth = FirebaseFirestore.getInstance().collection("EXERCISE_TABLE").document()
+    private val db = FirebaseFirestore.getInstance().collection("EXERCISE_TABLE")
+    private var queryAuth = db.document()
     private val context = contextin
 
     fun addRunningManual(distance: Double, min: Double, calories: Double) {
@@ -161,6 +163,19 @@ class FirestoreRunnigAuth(contextin: Context) {
             }
     }
 
+    fun deleateRunningPath(runningId: String) {
+        db.document(runningId).delete().addOnSuccessListener {
+            Toast.makeText(context,"ลบสำเร็จ",Toast.LENGTH_SHORT).show()
+            val intent = Intent(context,RunningListActivity::class.java)
+            context.startActivity(intent)
+            (context as Activity).finish()
+        }
+            .addOnFailureListener {
+                Toast.makeText(context,"ผิดพลาด ลบไม่สำเร็จ",Toast.LENGTH_SHORT).show()
+            }
+    }
+
+
 }
 
 class FirestoreFoodAuth(contextin: Context) {
@@ -176,21 +191,25 @@ class FirestoreFoodAuth(contextin: Context) {
 
         println("barcodeeee : $contents")
 
-        var foodnameth : String = ""
+        var foodId : String = ""
         queryAuth.whereEqualTo("barcode_id",contents).get().addOnSuccessListener {
 
             if (it.isEmpty) Toast.makeText(context,"ไม่พบรายการที่ค้นหา", Toast.LENGTH_SHORT).show()
-            for (doc in it) {
-                val dataHash = doc.data
-                foodnameth = dataHash["food_nameth"].toString()
-            }
-            println("arrayofData : $foodnameth")
+            if (it != null){
+                for (doc in it) {
+                    val dataHash = doc.data
+                    foodId = dataHash["food_id"].toString()
+                }
+                println("arrayofData : $foodId")
 
-            val intent = Intent(context, AddCalorieActivity::class.java)
-            intent.putExtra("food_nameth",foodnameth)
-            intent.putExtra("meal", meal)
-            println("searchFoodwithBarcode = food_nameth:$foodnameth, meal:$meal")
-            context.startActivity(intent)
+                val intent = Intent(context, AddCalorieActivity::class.java)
+                intent.putExtra("food_id",foodId)
+                intent.putExtra("meal", meal)
+                println("searchFoodwithBarcode = food_nameth:$foodId, meal:$meal")
+                context.startActivity(intent)
+                (context as Activity).finish()
+            }
+
 
         }.addOnFailureListener {
             Toast.makeText(context, "Fail", Toast.LENGTH_SHORT).show()

@@ -16,6 +16,17 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".AdmineditfoodActivity"
+                  android:parentActivityName=".FoodEditDetailActivity">
+        </activity>
+        <activity
+                android:name=".FoodEditDetailActivity"
+                android:parentActivityName=".MainActivity">
+        </activity>
+        <activity
+                android:name=".RunningListActivity"
+                android:parentActivityName=".MainActivity">
+        </activity>
         <activity android:name=".ResultsRunningActivity">
         </activity>
         <activity android:name=".RunningActivity">
@@ -81,7 +92,8 @@
         </activity>
         <activity android:name=".LoginActivity">
         </activity>
-        <activity android:name=".RegisterActivity">
+        <activity android:name=".RegisterActivity"
+                  android:parentActivityName=".LoginActivity">
         </activity>
         <activity android:name=".MainActivity">
         </activity>
