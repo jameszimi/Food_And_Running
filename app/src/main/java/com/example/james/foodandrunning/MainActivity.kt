@@ -1,13 +1,12 @@
 package com.example.james.foodandrunning
 
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.ActionBar
+import android.support.v7.app.AppCompatActivity
 import android.widget.FrameLayout
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -20,9 +19,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //pre data
-        //val testdatahash =
-
         mMainFrame = findViewById(R.id.main_frame)
 
         setSupportActionBar(findViewById(R.id.mtoolbar))
@@ -34,11 +30,6 @@ class MainActivity : AppCompatActivity() {
 
         val bottomNavigation: BottomNavigationView = findViewById(R.id.main_nav)
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-
-
-
-
-
 
     }
 

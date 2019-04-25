@@ -1,18 +1,15 @@
 package com.example.james.foodandrunning
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.ActionBar
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.*
 import com.example.james.foodandrunning.setupdata.AppPreferences
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import java.lang.Exception
-
-//import java.util.*
 
 
 class RegisterActivity : AppCompatActivity() {
@@ -32,7 +29,6 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var mSex : Spinner
     lateinit var mtexterror : TextView
     lateinit var toolbar : ActionBar
-    //lateinit var mAuth: FirebaseAuthException
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,9 +39,6 @@ class RegisterActivity : AppCompatActivity() {
         toolbar = supportActionBar!!
         toolbar.title = "สมัครสมาชิก"
         toolbar.setDisplayHomeAsUpEnabled(true)
-
-
-        //mDatabase = FirebaseDatabase.getInstance().getReference("MEMBER_TABLE")
 
         val listOfDay = ArrayList<Int>(dayList())
         val listOfMonth = ArrayList<Int>(monthList())
@@ -66,7 +59,6 @@ class RegisterActivity : AppCompatActivity() {
         var sex = 0
 
         mRegisterBtn=findViewById(R.id.regisButton)
-        mUsername=findViewById(R.id.regisUsername)
         mPassword=findViewById(R.id.regisPassword)
         mConfPass=findViewById(R.id.regisConfPass)
         mEmail=findViewById(R.id.regisEmail)
@@ -88,12 +80,10 @@ class RegisterActivity : AppCompatActivity() {
 
         mDay.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                //Toast.makeText(this@RegisterActivity,"เลือกวันเกิด",Toast.LENGTH_LONG).show()
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 day = listOfDay[position]
-                // like listOfDay.get(position)
             }
         }
 
@@ -119,7 +109,6 @@ class RegisterActivity : AppCompatActivity() {
 
         mRoutine.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -137,7 +126,6 @@ class RegisterActivity : AppCompatActivity() {
 
         mSex.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

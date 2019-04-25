@@ -2,22 +2,22 @@ package com.example.james.foodandrunning
 
 import android.Manifest
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
 import com.example.james.foodandrunning.firebase.auth.FirestoreRunnigAuth
 import com.example.james.foodandrunning.setupdata.AppPreferences
 import com.example.james.foodandrunning.setupdata.Runningpath
+import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -31,6 +31,7 @@ import kotlin.math.absoluteValue
 class RunningActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
+    var locationRequest: LocationRequest? = null
     var locationManager : LocationManager? =null
     var locationListener : LocationListener? =null
     var oldLocation = Location(LocationManager.GPS_PROVIDER)
@@ -47,6 +48,7 @@ class RunningActivity : AppCompatActivity(), OnMapReadyCallback {
     var status = false
     var indexinmap = 0
     var listtoupdate = ArrayList<Runningpath>()
+    var timesec = 0.0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,6 +90,12 @@ class RunningActivity : AppCompatActivity(), OnMapReadyCallback {
 
         }
 
+        locationRequest = LocationRequest.create()
+            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+            .setInterval(3000)
+            .setFastestInterval(1000)
+
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -101,20 +109,33 @@ class RunningActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 if (location != null) {
 
-                    if (status){
+                    val onlocationOldTime = locationNewTime
+                    val onlocationNewTime = (SystemClock.elapsedRealtime() - cockshow.base) - onlocationOldTime
+
+                    val onsectimeperdistance = (onlocationNewTime - onlocationOldTime).absoluteValue
+                    val sec = onsectimeperdistance / 1000
+                    timesec += sec
+
+
+                    if (status && timesec > 3) {
+                        timesec = 0.0
+                        println("QWERTYUI:$timesec, $onsectimeperdistance" + (timesec > 5))
                         println("status TRUE")
                         println("map = latitude:${location.latitude} longitude:${location.longitude}")
                         //mMap.clear()
                         oldLocation.set(newLocation)
                         newLocation.set(location)
                         if (newLocation.distanceTo(oldLocation) < 10000) distance = newLocation.distanceTo(oldLocation)
-
+                        //กำหนด
                         sumdistance += distance
+
+                        val dumy = location.speed / 1000 / 1.609344 * 60 * 60
+                        println("Speed:" + location.speed + " mate:" + distance + ", time:" + location.time + ", mph:$dumy")
+
 
 
 
                         calculateCalfun(distance)
-
 
 
                         val userLocation = LatLng(location.latitude,location.longitude)
@@ -131,6 +152,7 @@ class RunningActivity : AppCompatActivity(), OnMapReadyCallback {
                                 .width(7f)
                                 .color(Color.RED)
                         )
+
                     } else {
                         println("status FALSE")
                     }

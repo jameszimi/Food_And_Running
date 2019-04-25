@@ -1,6 +1,7 @@
 package com.example.james.foodandrunning
 
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -15,6 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_user_editdata.*
 import kotlinx.android.synthetic.main.dialog_editheight.*
+import org.w3c.dom.Text
 
 class UserEditdataActivity : AppCompatActivity() {
 
@@ -33,8 +35,6 @@ class UserEditdataActivity : AppCompatActivity() {
 
         val uid = AppPreferences(this).getPreferenceUID()
 
-        val db = FirebaseFirestore.getInstance()
-        var dateuserdata = ""
         val diary_routine = AppPreferences(this).getPreferenceRoutine()
         if (diary_routine != 0) {
             val nameofroutine = when (diary_routine) {
@@ -125,6 +125,8 @@ class UserEditdataActivity : AppCompatActivity() {
             val cancBtn = dialog.findViewById<Button>(R.id.btn_heightcancle)
             val summitBtn = dialog.findViewById<Button>(R.id.btn_heightsummit)
             val heightInCome = dialog.findViewById<EditText>(R.id.height_text)
+            val text = dialog.findViewById<TextView>(R.id.textView32)
+            text.text = "ส่วนสูง"
 
             cancBtn.setOnClickListener {
                 dialog.dismiss()
@@ -283,7 +285,7 @@ class UserEditdataActivity : AppCompatActivity() {
             .addOnCompleteListener {
                 AppPreferences(this).setPreferenceUID("")
                 startActivity(Intent(this, LoginActivity::class.java))
-                finish()
+                this.finish()
             }
 
     }

@@ -15,8 +15,7 @@ buildscript {
         // in the individual module build.gradle files
         // Google Firebase
         classpath 'com.google.gms:google-services:4.2.0'
-
-        //8-2-2562
+        //graph
         classpath 'gradle.plugin.com.onesignal:onesignal-gradle-plugin:0.10.1'
     }
 

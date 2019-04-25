@@ -1,17 +1,22 @@
 package com.example.james.foodandrunning
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.ActionBar
-import com.github.mikephil.charting.charts.PieChart
-import com.github.mikephil.charting.data.PieEntry
+import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.widget.TextView
 import com.example.james.foodandrunning.setupdata.AppPreferences
 import com.example.james.foodandrunning.setupdata.FoodTotalCal
+import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
-import java. util. ArrayList
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.activity_caloriesreport.*
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 private val TAG = "CaloriesReport "
@@ -19,21 +24,44 @@ private val TAG = "CaloriesReport "
 class CaloriesReport : AppCompatActivity() {
 
     lateinit var toolbar : ActionBar
+    var runningcal = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_caloriesreport)
 
+        getRuningCalories()
+
+    }
+
+    private fun getRuningCalories() {
+
+        val formatter: DateFormat = SimpleDateFormat("dd/MM/yyyy")
+        val today = Date()
+        val todayWithZeroTime = formatter.parse(formatter.format(today))
+        FirebaseFirestore.getInstance().collection("EXERCISE_TABLE")
+            .whereGreaterThan("running_date", todayWithZeroTime).get().addOnSuccessListener {
+                for (data in it) {
+                    val datahash = data.data
+                    runningcal += datahash["running_calorie"].toString().toDouble()
+                }
+                getChart()
+            }
+            .addOnFailureListener {
+                getChart()
+                Log.d(TAG , "getRunning fail")
+            }
+    }
+
+    private fun getChart() {
         val pieChart = findViewById<PieChart>(R.id.calchart)
         val CalFoodArrayList = ArrayList<FoodTotalCal>()
 
-        //val student : ArrayList<String>
         val bf = intent.getStringExtra("bf").toString().toFloat()
         val lu = intent.getStringExtra("lu").toString().toFloat()
         val dn = intent.getStringExtra("din").toString().toFloat()
         val sn = intent.getStringExtra("sn").toString().toFloat()
 
-        println(TAG + "$bf $lu $dn $sn")
         //set titel
         setSupportActionBar(findViewById(R.id.mtoolbar))
         toolbar = supportActionBar!!
@@ -41,18 +69,26 @@ class CaloriesReport : AppCompatActivity() {
         toolbar.setDisplayHomeAsUpEnabled(true)
 
 
-
         val entries = ArrayList<PieEntry>()
         val caltotaltext = findViewById<TextView>(R.id.calcharttotal)
-        caltotaltext.text = AppPreferences(this).getPreferenceTotalEat().toString()
+        val totaleat = AppPreferences(this).getPreferenceTotalEat()
+        val fullcalories = AppPreferences(this).getPreferenceCal()
+        caltotaltext.text = totaleat.toString()
 
         if (bf > 0)CalFoodArrayList.add(FoodTotalCal("มื้อเช้า",bf))
         if (lu > 0)CalFoodArrayList.add(FoodTotalCal("มื้อเที่ยง",lu))
         if (dn > 0)CalFoodArrayList.add(FoodTotalCal("มื้อเย็น",dn))
         if (sn > 0)CalFoodArrayList.add(FoodTotalCal("ขนมขบเคี้ยว",sn))
+        if (runningcal > 0) {
+            CalFoodArrayList.add(FoodTotalCal("แคลลอรี่ที่วิ่ง", runningcal.toFloat()))
+            runningText.text = String.format("%.2f", runningcal)
+        }
+        if (fullcalories - (runningcal + totaleat) > 0) {
+            val eatsub = fullcalories - runningcal - totaleat
+            eatsubcal.text = String.format("%.2f", eatsub)
+        }
 
 
-        println(TAG+CalFoodArrayList)
         for (i in CalFoodArrayList) {
             entries.add(PieEntry(i.value,i.name))
         }
@@ -68,15 +104,6 @@ class CaloriesReport : AppCompatActivity() {
         pieChart.holeRadius = 30.toFloat()
         pieChart.transparentCircleRadius = 40.toFloat()
         pieChart.animateY(2000)
-
-
-
-
-
-        //dataset.color = ColorTemplate.MATERIAL_COLORS
-
-
-
     }
 }
 

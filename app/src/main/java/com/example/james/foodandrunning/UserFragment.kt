@@ -45,7 +45,6 @@ class UserFragment : Fragment() {
         usersettingbt.setOnClickListener {
             val clickIntent = Intent(activity,UserEditdataActivity::class.java)
             startActivity(clickIntent)
-            activity!!.finish()
         }
 
         //set FirebaseFirestore

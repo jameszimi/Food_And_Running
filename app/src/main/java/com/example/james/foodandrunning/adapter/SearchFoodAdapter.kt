@@ -11,7 +11,8 @@ import com.example.james.foodandrunning.R
 import com.example.james.foodandrunning.setupdata.FoodDetial
 import kotlinx.android.synthetic.main.search_row.view.*
 
-class SearchFoodAdapter(val arrayofData: ArrayList<FoodDetial>, meal: String) :RecyclerView.Adapter<CustomViewHolder>() {
+class SearchFoodAdapter(val arrayofData: ArrayList<FoodDetial>, meal: String) :
+    RecyclerView.Adapter<CustomViewHolder>() {
 
     val meals = meal
 
@@ -32,16 +33,15 @@ class SearchFoodAdapter(val arrayofData: ArrayList<FoodDetial>, meal: String) :R
         val foodId = arrayofData[p1].food_id
         p0.view.foodname_text.text = foodName
         p0.itemView.setOnClickListener {
-            println("bbbbbbbbbbbbbbbbbbb "+foodName)
-            Toast.makeText(p0.view.context,foodName,Toast.LENGTH_SHORT).show()
+            Toast.makeText(p0.view.context, foodName, Toast.LENGTH_SHORT).show()
             val clickIntent = Intent(p0.view.context, AddCalorieActivity::class.java)
-            clickIntent.putExtra("food_id",foodId)
-            clickIntent.putExtra("meal",meals)
+            clickIntent.putExtra("food_id", foodId)
+            clickIntent.putExtra("meal", meals)
             p0.view.context.startActivity(clickIntent)
         }
     }
 }
 
-class CustomViewHolder(val view:View):RecyclerView.ViewHolder(view) {
+class CustomViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
 }

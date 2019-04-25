@@ -1,19 +1,18 @@
 package com.example.james.foodandrunning
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AlertDialog
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import com.example.james.foodandrunning.setupdata.AppPreferences
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_add_calorie.*
-import kotlinx.android.synthetic.main.dialog_addcal.*
-import android.view.View
-import com.example.james.foodandrunning.setupdata.AppPreferences
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -29,15 +28,12 @@ class AddCalorieActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_calorie)
 
         val meal = intent.getStringExtra("meal").toString().toInt()
-        println("AddCalorieActivity : meal:$meal")
         val food_id = intent.getStringExtra("food_id").toString()
-        println("AddCalorieActivity : String:$food_id")
         var energy  = 1.0
         var serving_size = 1.0
         var unit_id = 1
         var food_nameth = ""
 
-        println("meal : $meal, food_id : $food_nameth")
 
         val db = FirebaseFirestore.getInstance()
         val getdata = db.collection("FOOD_TABLE").document(food_id)
@@ -57,27 +53,16 @@ class AddCalorieActivity : AppCompatActivity() {
                 Log.d(TAG,"Get Value Fail")
             }
 
-
-
-        println(TAG+"bbbbbbbbbb"+meal+food_id)
-
         setSupportActionBar(findViewById(R.id.mtoolbar))
         toolbar = supportActionBar!!
         toolbar.title = "บันทึกแคลลอรี่"
         toolbar.setDisplayHomeAsUpEnabled(true)
-
-
-        println(TAG+"aaaaaaaaaaaaaaaa"+dialog_foodname)
-
-
-
 
         eDCSaveCalorie.setOnClickListener {
 
 
             val serving_SizeED = eDCservingSize.text.toString().toInt().toDouble()
             val caltotal= serving_SizeED * energy/serving_size
-            println("eDCSaveCalorie serving_sizeed:$serving_SizeED, energy:$energy, serving_size:$serving_size, Caltotal:$caltotal" )
 
 
 
@@ -119,7 +104,6 @@ class AddCalorieActivity : AppCompatActivity() {
             for (document in doc) {
                 val datahash = document.data
                 unit_type.text = datahash["unit_name"].toString()
-                println("unit_type="+datahash["unit_name"].toString())
             }
         }
             .addOnFailureListener {
@@ -153,16 +137,12 @@ class AddCalorieActivity : AppCompatActivity() {
         val today = Date()
         val todayWithZeroTime = formatter.parse(formatter.format(today))
 
-        println(TAG + " todayWithZeroTime "+todayWithZeroTime)
-
         foodcondata["food_id"] = food_id
         foodcondata["member_id"] = uid
         foodcondata["repast_id"] = meal
         foodcondata["calorie_total"] = caltotal
         foodcondata["foodconsume_date"] = todayWithZeroTime
         foodcondata["serving_size"] = serving_size
-
-        println(TAG+" foodcondata "+foodcondata)
 
         addFoodConsumeToDb.set(foodcondata).addOnSuccessListener {
             Toast.makeText(this,"บันทึกข้อมูลสำเร็จ",Toast.LENGTH_SHORT).show()

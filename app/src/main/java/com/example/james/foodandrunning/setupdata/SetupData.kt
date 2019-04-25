@@ -1,7 +1,5 @@
 package com.example.james.foodandrunning.setupdata
 
-import com.google.firebase.Timestamp
-
 data class FoodTotalCal(val name : String, val value: Float){
 
 }

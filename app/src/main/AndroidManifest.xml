@@ -31,7 +31,8 @@
         </activity>
         <activity android:name=".RunningActivity">
         </activity>
-        <activity android:name=".AddRunningActivity">
+        <activity android:name=".AddRunningActivity"
+                  android:parentActivityName=".MainActivity">
         </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

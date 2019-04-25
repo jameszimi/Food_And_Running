@@ -7,22 +7,23 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.example.james.foodandrunning.adapter.BreakfastList
 import com.example.james.foodandrunning.setupdata.AppPreferences
 import com.example.james.foodandrunning.setupdata.FoodNCal
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import java.lang.ArithmeticException
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -55,7 +56,6 @@ class CalorieFragment : Fragment() {
         val formatter: DateFormat = SimpleDateFormat("dd/MM/yyyy")
         val today = Date()
         val todayWithZeroTime = formatter.parse(formatter.format(today))
-        println(TAG+"date "+todayWithZeroTime.toString())
 
         val appPreferences = AppPreferences(v.context)
         val uid = appPreferences.getPreferenceUID()
@@ -74,16 +74,16 @@ class CalorieFragment : Fragment() {
         if (count > 2) {
             appPreferences.setPreferenceCount(0)
             getuserData(uid)
+            sumCalCalories(sex, weight, routine, age)
         }
 
         if (calories == 0 && sex != 0 && weight != 0 && routine != 0 && age != 0) {
            sumCalCalories(sex, weight, routine, age)
         }
-        println(TAG+"age:$age sex:$sex weight:$weight height:$height status:$status routine:$routine")
 
         //show call
         val calperday = v.findViewById<TextView>(R.id.calperday)
-        calperday.text = calories.toString() + " Cal"
+        calperday.text = calories.toInt().toString() + " Cal"
 
 
         //adapter
@@ -158,21 +158,20 @@ class CalorieFragment : Fragment() {
         val arrayBFName = mutableListOf<String>()
         val arrayBFCal = mutableListOf<Int>()
         val bfList = ArrayList<FoodNCal>()
-        var bfTotal : Int
+        var bfTotal: Float
         val totalBF = v.findViewById<TextView>(R.id.totalBF)
         val listbreakfast = v.findViewById(R.id.listbreakfast) as RecyclerView
         listbreakfast.layoutManager = LinearLayoutManager(activity)
 
         getmeatpath.whereEqualTo("repast_id",1).get().addOnSuccessListener {bf ->
             //arrayBFdata.clear()
-            bfTotal = 0
+            bfTotal = 0f
             for (dbf in bf) {
                 val dataHash = dbf.data
 
                 //put cal
                 arrayBFCal.add(dataHash["calorie_total"].toString().toInt())
-                bfTotal += dataHash["calorie_total"].toString().toInt()
-                println(TAG+"dataHash:"+dataHash)
+                bfTotal += dataHash["calorie_total"].toString().toFloat()
 
                 //getName by FoodID
                 getfoodname.document(dataHash["food_id"].toString()).get().addOnSuccessListener {
@@ -181,12 +180,9 @@ class CalorieFragment : Fragment() {
 
                         bfList.add(FoodNCal(foodName!!["food_nameth"].toString(),dataHash["calorie_total"].toString().toInt(),dbf.id))
 
-                        println(TAG+"foodName:"+foodName)
                         arrayBFName.add(foodName["food_nameth"].toString())
 
-                        println(TAG+"foodname:" + foodName["food_nameth"])
 
-                        println(TAG+"arrayBFName: "+arrayBFName+" arrayBFCal "+arrayBFCal)
                         listbreakfast.adapter = BreakfastList(bfList)
 
 
@@ -213,28 +209,27 @@ class CalorieFragment : Fragment() {
         v: View,
         getmeatpath: Query,
         getfoodname: CollectionReference,
-        bfTotal: Int
+        bfTotal: Float
     ) {
 
         //Get Lunch List
         val arrayLuName = mutableListOf<String>()
         val arrayLuCal = mutableListOf<Int>()
         val luList = ArrayList<FoodNCal>()
-        var luTotal : Int
+        var luTotal: Float
         val totalLu = v.findViewById<TextView>(R.id.totalLunch)
         val listLunch = v.findViewById(R.id.listoflunch) as RecyclerView
         listLunch.layoutManager = LinearLayoutManager(activity)
 
         getmeatpath.whereEqualTo("repast_id",2).get().addOnSuccessListener {lu ->
             //arrayLudata.clear()
-            luTotal = 0
+            luTotal = 0f
             for (dlu in lu) {
                 val dataHash = dlu.data
 
                 //put cal
                 arrayLuCal.add(dataHash["calorie_total"].toString().toInt())
-                luTotal += dataHash["calorie_total"].toString().toInt()
-                println(TAG+"dataHash:"+dataHash)
+                luTotal += dataHash["calorie_total"].toString().toFloat()
 
                 //getName by FoodID
                 getfoodname.document(dataHash["food_id"].toString()).get().addOnSuccessListener {
@@ -243,12 +238,9 @@ class CalorieFragment : Fragment() {
 
                         luList.add(FoodNCal(foodName!!["food_nameth"].toString(),dataHash["calorie_total"].toString().toInt(),dlu.id))
 
-                        println(TAG+"foodName:"+foodName)
                         arrayLuName.add(foodName["food_nameth"].toString())
 
-                        println(TAG+"foodname:" + foodName["food_nameth"])
 
-                        println(TAG+"arrayBFName: "+arrayLuName+" arrayBFCal "+arrayLuName)
                         listLunch.adapter = BreakfastList(luList)
 
                     }
@@ -272,27 +264,26 @@ class CalorieFragment : Fragment() {
 
     }
 
-    private fun getDN(v: View, getmeatpath: Query, getfoodname: CollectionReference, foodtotalin: Int) {
+    private fun getDN(v: View, getmeatpath: Query, getfoodname: CollectionReference, foodtotalin: Float) {
 
         //Get Dinner List
         val arrayDinName = mutableListOf<String>()
         val arrayDinCal = mutableListOf<Int>()
         val dinList = ArrayList<FoodNCal>()
-        var dinTotal : Int
+        var dinTotal: Float
         val totalDin = v.findViewById<TextView>(R.id.totalDinner)
         val listDin = v.findViewById(R.id.listofDinner) as RecyclerView
         listDin.layoutManager = LinearLayoutManager(activity)
 
         getmeatpath.whereEqualTo("repast_id",3).get().addOnSuccessListener {lu ->
             //arrayLudata.clear()
-            dinTotal = 0
+            dinTotal = 0f
             for (dlu in lu) {
                 val dataHash = dlu.data
 
                 //put cal
                 arrayDinCal.add(dataHash["calorie_total"].toString().toInt())
-                dinTotal += dataHash["calorie_total"].toString().toInt()
-                println(TAG+"dataHash:"+dataHash)
+                dinTotal += dataHash["calorie_total"].toString().toFloat()
 
                 //getName by FoodID
                 getfoodname.document(dataHash["food_id"].toString()).get().addOnSuccessListener {
@@ -301,12 +292,8 @@ class CalorieFragment : Fragment() {
 
                         dinList.add(FoodNCal(foodName!!["food_nameth"].toString(),dataHash["calorie_total"].toString().toInt(),dlu.id))
 
-                        println(TAG+"foodName:"+foodName)
                         arrayDinName.add(foodName["food_nameth"].toString())
 
-                        println(TAG+"foodname:" + foodName["food_nameth"])
-
-                        println(TAG+"arrayBFName: "+arrayDinName+" arrayBFCal "+arrayDinName)
                         listDin.adapter = BreakfastList(dinList)
 
                     }
@@ -330,27 +317,26 @@ class CalorieFragment : Fragment() {
 
     }
 
-    private fun getSN(v: View, getfoodname: CollectionReference, getmeatpath: Query, foodtotalin : Int) {
+    private fun getSN(v: View, getfoodname: CollectionReference, getmeatpath: Query, foodtotalin: Float) {
 
         //Get Snack List
         val arraySNName = mutableListOf<String>()
         val arraySNCal = mutableListOf<Int>()
         val sNList = ArrayList<FoodNCal>()
-        var sNTotal : Int
+        var sNTotal: Float
         val totalSN = v.findViewById<TextView>(R.id.totalSnack)
         val listSn = v.findViewById(R.id.listofSnack) as RecyclerView
         listSn.layoutManager = LinearLayoutManager(activity)
 
         getmeatpath.whereEqualTo("repast_id",4).get().addOnSuccessListener {lu ->
             //arrayLudata.clear()
-            sNTotal = 0
+            sNTotal = 0f
             for (dlu in lu) {
                 val dataHash = dlu.data
 
                 //put cal
                 arraySNCal.add(dataHash["calorie_total"].toString().toInt())
-                sNTotal += dataHash["calorie_total"].toString().toInt()
-                println(TAG+"dataHash:"+dataHash)
+                sNTotal += dataHash["calorie_total"].toString().toFloat()
 
                 //getName by FoodID
                 getfoodname.document(dataHash["food_id"].toString()).get().addOnSuccessListener {
@@ -359,13 +345,8 @@ class CalorieFragment : Fragment() {
 
                         sNList.add(FoodNCal(foodName!!["food_nameth"].toString(),dataHash["calorie_total"].toString().toInt(),dlu.id))
 
-                        println(TAG+"foodName:"+foodName)
                         arraySNName.add(foodName["food_nameth"].toString())
 
-                        println(TAG+"foodname:" + foodName["food_nameth"])
-
-                        println(TAG+"arrayBFName: "+arraySNName+" arraySnCal "+arraySNName)
-                        println(TAG+"fffffffff"+sNList)
                         listSn.adapter = BreakfastList(sNList)
 
                     }
@@ -387,9 +368,13 @@ class CalorieFragment : Fragment() {
 
     }
 
-    private fun setTotalCal(calAllTotal: Int, v: View) {
+    private fun setTotalCal(calAllTotal: Float, v: View) {
         val calAllTotalText = v.findViewById<TextView>(R.id.calAllTotal)
-        calAllTotalText.text = calAllTotal.toString()+" Cal"
+        val fullcal = AppPreferences(v.context).getPreferenceCal()
+        calAllTotalText.text = String.format("%.2f", calAllTotal)
+        if ((fullcal - calAllTotal) < 0) {
+            calAllTotalText.setTextColor(this.resources.getColor(R.color.red));
+        }
     }
 
     private fun sumCalCalories(
@@ -416,8 +401,7 @@ class CalorieFragment : Fragment() {
             if (age <= 60) calories = ((11.2*weight)+879)*routine
             else calories = ((13.5*weight)+987)*routine
 
-            println(TAG+" calories:$calories")
-            AppPreferences(this.context!!).setPreferenceCal(calories.toInt())
+            AppPreferences(this.context!!).setPreferenceCal((calories - 900).toInt())
 
         } else {
             var calories:Double = 0.00
@@ -428,8 +412,7 @@ class CalorieFragment : Fragment() {
             if (age <= 60) calories = ((8.7*weight)+829)*routine
             else calories = ((10.5*weight)+596)*routine
 
-            println(TAG+" calories:$calories")
-            AppPreferences(this.context!!).setPreferenceCal(calories.toInt())
+            AppPreferences(this.context!!).setPreferenceCal((calories - 900).toInt())
         }
     }
 
@@ -465,9 +448,11 @@ class CalorieFragment : Fragment() {
                 val dataHash = it.data as HashMap<String, Any>
                 val weight = dataHash["weight_value"].toString().toInt()
                 AppPreferences(this.context!!).setPreferenceWeight(weight)
-                println(TAG+" weight_value $weight")
             }
         }
+            .addOnFailureListener {
+                Toast.makeText(context, "ไม่สามารถเรียกข้อมูลน้ำหนักได้", Toast.LENGTH_SHORT).show()
+            }
 
     }
 
@@ -498,7 +483,6 @@ class CalorieFragment : Fragment() {
         appPreferences.setPreferencePassword(password)
         appPreferences.setPreferenceEmail(email)
         appPreferences.setPreferenceBirthday(age.toInt())
-        println(TAG+"yyyy"+(yearnow-yyyy)+" sex $sex height $height status $status routine $routine")
     }
 
     //

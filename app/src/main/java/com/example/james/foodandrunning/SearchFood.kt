@@ -2,18 +2,18 @@ package com.example.james.foodandrunning
 
 import android.app.Activity
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.ActionBar
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
+import android.widget.Toast
 import com.example.james.foodandrunning.adapter.SearchFoodAdapter
+import com.example.james.foodandrunning.firebase.auth.FirestoreFoodAuth
+import com.example.james.foodandrunning.setupdata.FoodDetial
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.zxing.integration.android.IntentIntegrator
 import kotlinx.android.synthetic.main.activity_searchfood.*
-import android.widget.Toast
-import com.example.james.foodandrunning.firebase.auth.FirestoreFoodAuth
-import com.example.james.foodandrunning.setupdata.FoodDetial
 
 
 class SearchFood : AppCompatActivity() {

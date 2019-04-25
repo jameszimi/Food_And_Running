@@ -119,53 +119,53 @@ class AppPreferences(context : Context) {
         editor.apply()
     }
 
-    fun getPreferenceBFCal() : Int {
-        return preferences.getInt(PREFERENCE_BFCAL,0)
+    fun getPreferenceBFCal(): Float {
+        return preferences.getFloat(PREFERENCE_BFCAL, 0f)
     }
 
-    fun setPreferenceBFCal(cal : Int) {
+    fun setPreferenceBFCal(cal: Float) {
         val editor = preferences.edit()
-        editor.putInt(PREFERENCE_BFCAL,cal)
+        editor.putFloat(PREFERENCE_BFCAL, cal)
         editor.apply()
     }
 
-    fun getPreferenceLUCal() : Int {
-        return preferences.getInt(PREFERENCE_LUCAL,0)
+    fun getPreferenceLUCal(): Float {
+        return preferences.getFloat(PREFERENCE_LUCAL, 0f)
     }
 
-    fun setPreferenceLUCal(cal : Int) {
+    fun setPreferenceLUCal(cal: Float) {
         val editor = preferences.edit()
-        editor.putInt(PREFERENCE_LUCAL,cal)
+        editor.putFloat(PREFERENCE_LUCAL, cal)
         editor.apply()
     }
 
-    fun getPreferenceDNCal() : Int {
-        return preferences.getInt(PREFERENCE_DNCAL,0)
+    fun getPreferenceDNCal(): Float {
+        return preferences.getFloat(PREFERENCE_DNCAL, 0f)
     }
 
-    fun setPreferenceDNCal(cal : Int) {
+    fun setPreferenceDNCal(cal: Float) {
         val editor = preferences.edit()
-        editor.putInt(PREFERENCE_DNCAL,cal)
+        editor.putFloat(PREFERENCE_DNCAL, cal)
         editor.apply()
     }
 
-    fun getPreferenceSNCal() : Int {
-        return preferences.getInt(PREFERENCE_SNCAL,0)
+    fun getPreferenceSNCal(): Float {
+        return preferences.getFloat(PREFERENCE_SNCAL, 0f)
     }
 
-    fun setPreferenceSNCal(cal : Int) {
+    fun setPreferenceSNCal(cal: Float) {
         val editor = preferences.edit()
-        editor.putInt(PREFERENCE_SNCAL,cal)
+        editor.putFloat(PREFERENCE_SNCAL, cal)
         editor.apply()
     }
 
-    fun getPreferenceTotalEat() : Int {
-        return preferences.getInt(PREFERENCE_TOTALEAT,0)
+    fun getPreferenceTotalEat(): Float {
+        return preferences.getFloat(PREFERENCE_TOTALEAT, 0f)
     }
 
-    fun setPreferenceTotalEat(cal : Int) {
+    fun setPreferenceTotalEat(cal: Float) {
         val editor = preferences.edit()
-        editor.putInt(PREFERENCE_TOTALEAT,cal)
+        editor.putFloat(PREFERENCE_TOTALEAT, cal)
         editor.apply()
     }
 
@@ -238,8 +238,4 @@ class AppPreferences(context : Context) {
         editor.putInt(PREFERENCE_BIRTHDAY, birthday)
         editor.apply()
     }
-
-
-
-
 }

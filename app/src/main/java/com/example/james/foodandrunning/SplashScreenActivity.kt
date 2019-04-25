@@ -48,7 +48,7 @@ class SplashScreenActivity : AppCompatActivity() {
                 //Start Login
                 startActivity(Intent(this@SplashScreenActivity, LoginActivity::class.java))
                 finish()
-            }, 3000)
+            }, 3500)
         }
         println(TAG + loginUID)
 

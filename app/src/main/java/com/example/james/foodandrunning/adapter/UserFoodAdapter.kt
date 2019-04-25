@@ -58,52 +58,5 @@ class UserFoodAdapterList(val mExampleList: ArrayList<Userfood>) : RecyclerView.
             return@setOnLongClickListener true
         }
 
-
-        //ถ้าต้องการลบ
-        /*
-        p0.itemView.setOnLongClickListener {
-
-            val builder = AlertDialog.Builder(p0.view.context)
-            builder.setView(R.layout.dialog_setfoodlist)
-            builder.setTitle("เลือกทำรายการ")
-            val dialog : AlertDialog = builder.create()
-            dialog.show()
-
-            val dialogEditFood = dialog.findViewById<TextView>(R.id.setfoodlist_edit)
-            val dialogDelFood = dialog.findViewById<TextView>(R.id.setfoodlist_del)
-
-
-            dialogEditFood!!.setOnClickListener {
-
-                val clickIntent = Intent(p0.view.context, EditDetailFoodCon::class.java)
-                clickIntent.putExtra("foodConsumeId",foodConsumeId)
-                clickIntent.putExtra("food_name",foodName)
-                p0.view.context.startActivity(clickIntent)
-
-                Toast.makeText(p0.view.context,"แก้ไข",Toast.LENGTH_SHORT).show()
-            }
-
-            dialogDelFood!!.setOnClickListener {
-                dialog.dismiss()
-                builder.setView(null)
-                builder.setTitle("ยืนยันการลบ")
-                builder.setNegativeButton("ยกเลิก") { dialog, which ->
-                    Toast.makeText(p0.view.context,"ยกเลิกการลบ",Toast.LENGTH_SHORT).show()
-                }
-                builder.setPositiveButton("ยืนยัน") { dialog, which ->
-                    val db = FirebaseFirestore.getInstance()
-                    db.collection("FOODCONSUME_TABLE").document(foodConsumeId).delete().addOnSuccessListener {
-                        val clickIntent = Intent(p0.view.context, MainActivity::class.java)
-                        p0.view.context.startActivity(clickIntent)
-                        Toast.makeText(p0.view.context,"ลบสำเร็จ",Toast.LENGTH_SHORT).show()
-                    }.addOnFailureListener {
-                        Toast.makeText(p0.view.context,"ลบไม่สำเร็จ",Toast.LENGTH_SHORT).show()
-                    }
-
-                }
-                builder.show()
-                Toast.makeText(p0.view.context,"ลบ",Toast.LENGTH_SHORT).show()
-            }*/
-
     }
 }

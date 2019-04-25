@@ -15,7 +15,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class FirestoreFoodConsumeAuth(contextin: Context) {
@@ -34,7 +33,6 @@ class FirestoreFoodConsumeAuth(contextin: Context) {
         val todayWithZeroTime = formatter.parse(formatter.format(today))
         val hashMap = HashMap<String,Any>()
 
-        println("GGGGGGGGGGGGg : "+meal)
         hashMap["food_id"] = foodid
         hashMap["member_id"] = uid
         hashMap["repast_id"] = meal
@@ -69,15 +67,12 @@ class FirestoreRunnigAuth(contextin: Context) {
         val hashDataRunning = HashMap<String,Any>()
         var totalCalories = 0.00
 
-
-        println("addRunningManual : $distance, $min, $calories")
         var cheackcal = 0.00
 
         if (distance.toInt() != 0) distanceMiles = distance*0.000621371192 //metes to miles
 
         if (min.toInt() != 0 && distance.toInt() != 0 && calories.toInt() == 0){
             cheackcal = (distanceMiles/min) // mile per min
-            println("cheackcal : $cheackcal, distanceMiles : $distanceMiles")
             val calinsixteenmin = cheackcal*60 // mile per hr
 
             when {
@@ -102,7 +97,6 @@ class FirestoreRunnigAuth(contextin: Context) {
             //แคลลอรี (นาที) = (MET x น้ำหนัก (kg) x 3.5) / 200
 
             totalCalories = ((mets*weight*3.5)/200)*min
-            println("totalCalories : $totalCalories")
         }
 
         if (calories.toInt() != 0) {
@@ -115,8 +109,6 @@ class FirestoreRunnigAuth(contextin: Context) {
             hashDataRunning["running_time"] = min
             hashDataRunning["running_date"] = FieldValue.serverTimestamp()
         }
-
-        println("hashDataRunning : $hashDataRunning")
 
         queryAuth.set(hashDataRunning).addOnSuccessListener {
             Toast.makeText(context, "เพิ่มรายการวิ่งสำเร็จ", Toast.LENGTH_SHORT).show()
@@ -137,8 +129,6 @@ class FirestoreRunnigAuth(contextin: Context) {
         calories: Double,
         sumdistance: Double
     ) {
-
-        println("runningPathtoFirestore = showtime:$showtime")
 
         val distance = String.format("%.2f",sumdistance).toFloat()
         val hashDataRunning = HashMap<String,Any>()
@@ -187,10 +177,6 @@ class FirestoreFoodAuth(contextin: Context) {
 
     fun searchFoodwithBarcode(contents: String) {
 
-        println("contents : $contents")
-
-        println("barcodeeee : $contents")
-
         var foodId : String = ""
         queryAuth.whereEqualTo("barcode_id",contents).get().addOnSuccessListener {
 
@@ -200,16 +186,13 @@ class FirestoreFoodAuth(contextin: Context) {
                     val dataHash = doc.data
                     foodId = dataHash["food_id"].toString()
                 }
-                println("arrayofData : $foodId")
 
                 val intent = Intent(context, AddCalorieActivity::class.java)
                 intent.putExtra("food_id",foodId)
                 intent.putExtra("meal", meal)
-                println("searchFoodwithBarcode = food_nameth:$foodId, meal:$meal")
                 context.startActivity(intent)
                 (context as Activity).finish()
             }
-
 
         }.addOnFailureListener {
             Toast.makeText(context, "Fail", Toast.LENGTH_SHORT).show()
