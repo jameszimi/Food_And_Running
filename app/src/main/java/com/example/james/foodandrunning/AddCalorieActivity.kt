@@ -1,5 +1,6 @@
 package com.example.james.foodandrunning
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.ActionBar
@@ -133,8 +134,12 @@ class AddCalorieActivity : AppCompatActivity() {
         val uid = appPreferences.getPreferenceUID()
         val db = FirebaseFirestore.getInstance()
         val addFoodConsumeToDb = db.collection("FOODCONSUME_TABLE").document()
+
+        val countDay = this.getSharedPreferences("date", Context.MODE_PRIVATE).getInt("countDay",0)
         val formatter: DateFormat = SimpleDateFormat("dd/MM/yyyy")
-        val today = Date()
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DATE,countDay)
+        val today = calendar.time
         val todayWithZeroTime = formatter.parse(formatter.format(today))
 
         foodcondata["food_id"] = food_id

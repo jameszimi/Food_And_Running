@@ -119,7 +119,7 @@ class UserFragment : Fragment() {
 
                 AppPreferences(this.context!!).setPreferenceGoal(goal)
                 AppPreferences(this.context!!).setPreferenceBase(base)
-                //refresh
+                //refresh fragment
                 val ft = fragmentManager!!.beginTransaction()
                 ft.detach(this).attach(this).commit()
                 println(TAG+" goal:$goal")

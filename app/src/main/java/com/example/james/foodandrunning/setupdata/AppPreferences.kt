@@ -26,8 +26,19 @@ class AppPreferences(context : Context) {
     val PREFERENCE_EMAIL = "PreferenceEmail"
     val PREFERENCE_PASSWORD = "PreferencePassword"
     val PREFERENCE_BIRTHDAY = "PreferenceBirthday"
+    val PREFERENCE_DATE = "PreferenceDate"
 
     val preferences = context.getSharedPreferences(PREFERENCE_NAME,Context.MODE_PRIVATE)
+
+    fun getPreferenceDate() : String {
+        return preferences.getString(PREFERENCE_DATE,"")
+    }
+
+    fun setPreferenceDate(date : String) {
+        val editor = preferences.edit()
+        editor.putString(PREFERENCE_DATE,date)
+        editor.apply()
+    }
 
     fun getPreferenceUID() : String {
         return preferences.getString(PREFERENCE_UID,"")

@@ -12,8 +12,10 @@ import com.example.james.foodandrunning.adapter.RunningList
 import com.example.james.foodandrunning.firebase.auth.FirestoreRunnigAuth
 import com.example.james.foodandrunning.setupdata.AppPreferences
 import com.example.james.foodandrunning.setupdata.RunningDataList
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.model.value.TimestampValue
 import com.google.type.Date
 import java.text.SimpleDateFormat
 import java.util.*
@@ -44,10 +46,14 @@ class RunningListActivity : AppCompatActivity() {
                 println("getRunningData innnn")
                 for (data in it){
                     val dataHash = data.data
-                    runningDataList.add(RunningDataList(dataHash["running_date"],
+                    val date = dataHash["running_date"] as Timestamp
+                    runningDataList.add(RunningDataList(date.toDate(),
                         dataHash["running_distance"],dataHash["running_calorie"],
                         data.id))
-                    println("getRunningData datahash = $dataHash")
+
+
+                    println("getRunningData datahash = ${date.toDate()}")
+
                 }
                 val runningRecyclerView = findViewById<RecyclerView>(R.id.runningrecycler)
                 runningRecyclerView.layoutManager = LinearLayoutManager(this)

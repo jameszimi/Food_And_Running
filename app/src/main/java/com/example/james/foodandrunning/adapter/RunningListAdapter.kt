@@ -10,6 +10,8 @@ import com.example.james.foodandrunning.R
 import com.example.james.foodandrunning.firebase.auth.FirestoreRunnigAuth
 import com.example.james.foodandrunning.setupdata.RunningDataList
 import kotlinx.android.synthetic.main.dialog_runninglist.view.*
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 class RunningList(val rnList: ArrayList<RunningDataList>) : RecyclerView.Adapter<CustomViewHolderFoodList>(){
@@ -40,8 +42,10 @@ class RunningList(val rnList: ArrayList<RunningDataList>) : RecyclerView.Adapter
 
 
         //p0.view.runningday.text = daytime.toString()
-        p0.view.distancedialog.text = String.format("%.2f",distance) + " เมตร"
-        p0.view.caloriesdialog.text = String.format("%.2f",calories)+" แคลลอรี่"
+        val formatter: DateFormat = SimpleDateFormat("วันที่ dd/MM/yyyy เวลา HH:mm")
+        p0.view.runningday.text = formatter.format(day)
+        p0.view.distancedialog.text = String.format("ระยะทาง %.2f เมตร",distance)
+        p0.view.caloriesdialog.text = String.format("%.2f แคลลอรี่",calories)
 
         p0.itemView.setOnLongClickListener {
             val builder = AlertDialog.Builder(p0.view.context)

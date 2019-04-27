@@ -42,10 +42,9 @@ class WeightchartActivity : AppCompatActivity() {
                 println(TAG+"SUCCESS")
                 for (id in it) {
                     val dataHash = id.data
-                    val datatime = id.data as Map<String,Timestamp>
-                    weightIdList.add(WeightId(datatime["weight_update"]!!.seconds,dataHash["weight_value"].toString().toInt()))
-                    val nano = (datatime["weight_update"]!!.seconds)
-                            println(TAG+"ddddd:" + nano)
+                    val date = dataHash["weight_update"] as Timestamp
+                    weightIdList.add(WeightId(date.toDate(),dataHash["weight_value"].toString().toFloat()))
+
                     println(TAG+"weightIdList with dataHash:$weightIdList")
                 }
                 println(TAG+"weightIdList:$weightIdList")
@@ -93,12 +92,12 @@ class WeightchartActivity : AppCompatActivity() {
         val calendar = Calendar.getInstance()
 
         val daynow = calendar.timeInMillis.toFloat()
-        val lastmil : Float
+        //al lastmil : Float
 
         val count = weightIdList.size
-        val range = 50f
+        //val range = 50f
         val values1 = ArrayList<Entry>()
-        val floatArray = FloatArray(7)
+        //val floatArray = FloatArray(7)
 
 
         var i = 0
@@ -106,8 +105,8 @@ class WeightchartActivity : AppCompatActivity() {
         while (i < count)
         {
             //val val1 = (Math.random() * (range)) + 50
-            values1.add(Entry(i.toFloat(), weightIdList[countindex].weightValue.toFloat()))
-            println(TAG+"index:$i weightIdList[i]:"+weightIdList[i].weightValue.toFloat())
+            values1.add(Entry(i.toFloat(), weightIdList[countindex].weightValue))
+            println(TAG+"index:$i weightIdList[i]:"+weightIdList[i].weightValue)
             i += 1
             countindex -= 1
         }
@@ -141,80 +140,4 @@ class WeightchartActivity : AppCompatActivity() {
     }
 
 }
-
-    /*private fun setGraph(weightIdList: ArrayList<WeightId>) {
-
-        val calendar = Calendar.getInstance()
-        val b1 = calendar.time
-        val calendarmin = Calendar.getInstance()
-        calendarmin.add(Calendar.MONTH,-1)
-        val b2 = calendarmin.time
-
-        calendarmin.clear()
-        val count = weightIdList.size
-        calendarmin.add(Calendar.MILLISECOND,weightIdList[count-1].dateWeight.toInt())
-        val d7 = calendarmin.time
-        calendarmin.clear()
-        calendarmin.add(Calendar.MILLISECOND,weightIdList[count-2].dateWeight.toInt())
-        val d6 = calendarmin.time
-        calendarmin.clear()
-        calendarmin.add(Calendar.MILLISECOND,weightIdList[count-3].dateWeight.toInt())
-        val d5 = calendar.time
-
-
-
-
-        println(TAG+"d7:$d7 d6:$d6 d5:$d5")
-        println(TAG+"d1:$b1")
-        println(TAG+"d2:$b2")
-        //       val d3 = calendar.time
-        println(TAG+count)
-
-        val w1 = weightIdList[count-1].weightValue.toDouble()
-        val w2 = weightIdList[count-2].weightValue.toDouble()
-        val w3 = weightIdList[count-3].weightValue.toDouble()
-
-        val predata = arrayOf(
-            DataPoint(d7.time.toDouble(),w1),
-            DataPoint(d6.time.toDouble(),w2),
-            DataPoint(d5.time.toDouble(),w3)
-        )
-
-        val graphView = findViewById<GraphView>(R.id.graphView)
-
-        println(TAG+"weightIdList:$weightIdList")
-
-
-        //for (index in 1..weightIdList.size){
-          //  val v = DataPoint(timestamp)
-        //}
-        val series = LineGraphSeries<DataPoint>(predata)
-
-        println(TAG+"predata:$predata")
-        //arrayOf(
-        //                DataPoint(0.toDouble(), 1.toDouble()),
-        //                DataPoint(1.toDouble(), 5.toDouble()),
-        //                DataPoint(2.toDouble(), 1.toDouble()))
-
-        println(TAG+"series:$series")
-        graphView.addSeries(series)
-
-        // set date label formatter
-        graphView.gridLabelRenderer.labelFormatter = DateAsXAxisLabelFormatter(this)
-        graphView.gridLabelRenderer.numHorizontalLabels = 5
-
-        // set manual x bounds to have nice steps
-        graphView.viewport.setMinX(b2.time.toDouble())
-        graphView.viewport.setMaxX(b1.time.toDouble())
-        graphView.viewport.isXAxisBoundsManual = true
-
-        // as we use dates as labels, the human rounding to nice readable numbers
-        // is not necessary
-        graphView.gridLabelRenderer.setHumanRounding(false)
-    }
-
-    private fun DP(i: Int, i1: Int): DataPoint {
-        return DataPoint(i.toDouble(),i1.toDouble())
-
-    }*/
 }

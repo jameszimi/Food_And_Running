@@ -1,5 +1,6 @@
 package com.example.james.foodandrunning
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.ActionBar
 import android.support.v7.app.AppCompatActivity
@@ -37,10 +38,22 @@ class CaloriesReport : AppCompatActivity() {
     private fun getRuningCalories() {
 
         val formatter: DateFormat = SimpleDateFormat("dd/MM/yyyy")
-        val today = Date()
-        val todayWithZeroTime = formatter.parse(formatter.format(today))
+        val sharedPreferences = this.getSharedPreferences("date", Context.MODE_PRIVATE)
+        val countDay = sharedPreferences.getInt("countDay",0)
+        println("countDay:$countDay")
+        val calendar =  Calendar.getInstance()
+        calendar.add(Calendar.DATE,countDay)
+        val getDate = calendar.time
+
+        val calendarlimit = Calendar.getInstance()
+        calendarlimit.add(Calendar.DATE,countDay+1)
+        val getDatlimit = calendarlimit.time
+
+        val timeBase = formatter.parse(formatter.format(getDate))
+        val timeLimit = formatter.parse(formatter.format(getDatlimit))
         FirebaseFirestore.getInstance().collection("EXERCISE_TABLE")
-            .whereGreaterThan("running_date", todayWithZeroTime).get().addOnSuccessListener {
+            .whereGreaterThanOrEqualTo("running_date", timeBase)
+            .whereLessThanOrEqualTo("running_date",timeLimit).get().addOnSuccessListener {
                 for (data in it) {
                     val datahash = data.data
                     runningcal += datahash["running_calorie"].toString().toDouble()

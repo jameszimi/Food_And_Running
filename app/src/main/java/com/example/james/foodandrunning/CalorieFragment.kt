@@ -1,6 +1,7 @@
 package com.example.james.foodandrunning
 
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -20,6 +21,7 @@ import com.example.james.foodandrunning.setupdata.FoodNCal
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import kotlinx.android.synthetic.main.fragment_calorie.view.*
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -37,37 +39,80 @@ private const val ARG_PARAM2 = "param2"
  */private val TAG = "CalorieFragment "
 class CalorieFragment : Fragment() {
 
+    var foodTotal = 0f
+    lateinit var getmeatpath : Query
+    lateinit var v : View
+    lateinit var getfoodname : CollectionReference
+    var countDay = 0
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
 
-        val v = inflater.inflate(R.layout.fragment_calorie, container, false)
+        v = inflater.inflate(R.layout.fragment_calorie, container, false)
+
+        v.progessBar_Main.visibility = View.VISIBLE
 
         val addBF = v.findViewById<ImageView>(R.id.addBF)
         val addLunch = v.findViewById<ImageView>(R.id.addLunch)
         val addDinner = v.findViewById<ImageView>(R.id.addDinner)
         val addSnack = v.findViewById<ImageView>(R.id.addSnack)
         val reportCal = v.findViewById<Button>(R.id.calculateCal)
-        //val calculateCalories = v.findViewById<Button>(R.id.calculateCal)
+
+
+        val formatter: DateFormat = SimpleDateFormat("dd/MM/yyyy")
+
+
+        val getDate = Calendar.getInstance()
+        getDate.add(Calendar.DATE,countDay)
+        val getDaty = getDate.time
+        val todayWithZeroTime = formatter.parse(formatter.format(getDaty)) //ปรับเวลาเป็น 00:00
+        val stringday = formatter.format(todayWithZeroTime)
+        println("testgettime:$todayWithZeroTime, todayWithZeroTime:$getDaty, parsday:$stringday")
+        v.fragmentDate.text = "วันที่ $stringday"
 
         //date
-        val formatter: DateFormat = SimpleDateFormat("dd/MM/yyyy")
-        val today = Date()
-        val todayWithZeroTime = formatter.parse(formatter.format(today))
+        val sharedPreferences = v.context.getSharedPreferences("date", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+
+
+        println("testday:$countDay")
+
+        val dayshow = sharedPreferences.getString("currentday",null)
+
+        println("testdayanathor:"+formatter.parse(dayshow))
+
+
+
+
+        v.yesterdayImg.setOnClickListener {
+            foodTotal = 0f
+            countDay -= 1
+            editor.putInt("countDay",countDay)
+            editor.commit()
+            val ft = fragmentManager!!.beginTransaction()
+            ft.detach(this).attach(this).commit()
+        }
+
+        v.resetDate.setOnClickListener {
+            editor.putInt("day",0)
+            editor.commit()
+            val ft = fragmentManager!!.beginTransaction()
+            ft.detach(this).attach(this).commit()
+        }
+
 
         val appPreferences = AppPreferences(v.context)
         val uid = appPreferences.getPreferenceUID()
         val db = FirebaseFirestore.getInstance()
-        val getmeatpath = db.collection("FOODCONSUME_TABLE").whereEqualTo("foodconsume_date",todayWithZeroTime).whereEqualTo("member_id",uid)
-        val getfoodname = db.collection("FOOD_TABLE")
+        getmeatpath = db.collection("FOODCONSUME_TABLE").whereEqualTo("foodconsume_date",todayWithZeroTime).whereEqualTo("member_id",uid)
+        getfoodname = db.collection("FOOD_TABLE")
         val age = appPreferences.getPreferenceAge()
         val count = appPreferences.getPreferenceCount()
         val sex = appPreferences.getPreferenceSex()
         val weight = appPreferences.getPreferenceWeight()
-        val height = appPreferences.getPreferenceHeight()
-        val status = appPreferences.getPreferenceStatus()
         val routine = appPreferences.getPreferenceRoutine()
         val calories = appPreferences.getPreferenceCal()
         appPreferences.setPreferenceCount(count+1)
@@ -83,30 +128,17 @@ class CalorieFragment : Fragment() {
 
         //show call
         val calperday = v.findViewById<TextView>(R.id.calperday)
-        calperday.text = calories.toInt().toString() + " Cal"
-
-
-        //adapter
-
-
-
-
+        calperday.text = calories.toString() + " Cal"
 
 
         //Get morning List
 
-
-
-
-
-        try { 
-            
-            getBF(v,getmeatpath,getfoodname)
+        try {
+            getBF()
 
         } catch (e: ArithmeticException) {
             Log.d(TAG,"Fail to get data")
         }
-
 
         addBF.setOnClickListener {
             val clickIntent = Intent(activity,SearchFood::class.java)
@@ -150,11 +182,7 @@ class CalorieFragment : Fragment() {
         return v
     }
 
-    private fun getBF(
-        v: View,
-        getmeatpath: Query,
-        getfoodname: CollectionReference
-    ) {
+    private fun getBF() {
         val arrayBFName = mutableListOf<String>()
         val arrayBFCal = mutableListOf<Int>()
         val bfList = ArrayList<FoodNCal>()
@@ -162,6 +190,8 @@ class CalorieFragment : Fragment() {
         val totalBF = v.findViewById<TextView>(R.id.totalBF)
         val listbreakfast = v.findViewById(R.id.listbreakfast) as RecyclerView
         listbreakfast.layoutManager = LinearLayoutManager(activity)
+
+        println("OUTTTTTTT GetBF")
 
         getmeatpath.whereEqualTo("repast_id",1).get().addOnSuccessListener {bf ->
             //arrayBFdata.clear()
@@ -196,21 +226,16 @@ class CalorieFragment : Fragment() {
             }
 
             AppPreferences(this.context!!).setPreferenceBFCal(bfTotal)
-            val foodtotal = bfTotal
-            AppPreferences(this.context!!).setPreferenceTotalEat(foodtotal)
-            getLU(v,getmeatpath,getfoodname,foodtotal)
+            foodTotal += bfTotal
+            AppPreferences(this.context!!).setPreferenceTotalEat(foodTotal)
+            getLU()
 
         }.addOnFailureListener {
             Log.d(TAG,"List Food Name get Fail")
         }
     }
 
-    private fun getLU(
-        v: View,
-        getmeatpath: Query,
-        getfoodname: CollectionReference,
-        bfTotal: Float
-    ) {
+    private fun getLU() {
 
         //Get Lunch List
         val arrayLuName = mutableListOf<String>()
@@ -220,6 +245,8 @@ class CalorieFragment : Fragment() {
         val totalLu = v.findViewById<TextView>(R.id.totalLunch)
         val listLunch = v.findViewById(R.id.listoflunch) as RecyclerView
         listLunch.layoutManager = LinearLayoutManager(activity)
+
+        println("OUTTTTTTT GetLU")
 
         getmeatpath.whereEqualTo("repast_id",2).get().addOnSuccessListener {lu ->
             //arrayLudata.clear()
@@ -253,10 +280,9 @@ class CalorieFragment : Fragment() {
             }
 
             AppPreferences(this.context!!).setPreferenceLUCal(luTotal)
-            val foodtotal = bfTotal+luTotal
-            AppPreferences(this.context!!).setPreferenceTotalEat(foodtotal)
-            getDN(v,getmeatpath,getfoodname,foodtotal)
-
+            foodTotal += luTotal
+            AppPreferences(this.context!!).setPreferenceTotalEat(foodTotal)
+            getDN()
 
         }.addOnFailureListener {
             Log.d(TAG,"List Food Name get Fail")
@@ -264,7 +290,7 @@ class CalorieFragment : Fragment() {
 
     }
 
-    private fun getDN(v: View, getmeatpath: Query, getfoodname: CollectionReference, foodtotalin: Float) {
+    private fun getDN() {
 
         //Get Dinner List
         val arrayDinName = mutableListOf<String>()
@@ -274,6 +300,7 @@ class CalorieFragment : Fragment() {
         val totalDin = v.findViewById<TextView>(R.id.totalDinner)
         val listDin = v.findViewById(R.id.listofDinner) as RecyclerView
         listDin.layoutManager = LinearLayoutManager(activity)
+        println("OUTTTTTTT GetDN")
 
         getmeatpath.whereEqualTo("repast_id",3).get().addOnSuccessListener {lu ->
             //arrayLudata.clear()
@@ -306,9 +333,9 @@ class CalorieFragment : Fragment() {
             }
 
             AppPreferences(this.context!!).setPreferenceDNCal(dinTotal)
-            val foodtotal = foodtotalin+dinTotal
-            AppPreferences(this.context!!).setPreferenceTotalEat(foodtotal)
-            getSN(v,getfoodname,getmeatpath,foodtotal)
+            foodTotal += dinTotal
+            AppPreferences(this.context!!).setPreferenceTotalEat(foodTotal)
+            getSN()
 
         }.addOnFailureListener {
             Log.d(TAG,"List Food Name get Fail")
@@ -317,7 +344,7 @@ class CalorieFragment : Fragment() {
 
     }
 
-    private fun getSN(v: View, getfoodname: CollectionReference, getmeatpath: Query, foodtotalin: Float) {
+    private fun getSN() {
 
         //Get Snack List
         val arraySNName = mutableListOf<String>()
@@ -327,6 +354,7 @@ class CalorieFragment : Fragment() {
         val totalSN = v.findViewById<TextView>(R.id.totalSnack)
         val listSn = v.findViewById(R.id.listofSnack) as RecyclerView
         listSn.layoutManager = LinearLayoutManager(activity)
+        println("OUTTTTTTT GetSN")
 
         getmeatpath.whereEqualTo("repast_id",4).get().addOnSuccessListener {lu ->
             //arrayLudata.clear()
@@ -358,9 +386,9 @@ class CalorieFragment : Fragment() {
             }
 
             AppPreferences(this.context!!).setPreferenceSNCal(sNTotal)
-            val foodtotal = foodtotalin+sNTotal
-            AppPreferences(this.context!!).setPreferenceTotalEat(foodtotal)
-            setTotalCal(foodtotal,v)
+            foodTotal += sNTotal
+            AppPreferences(this.context!!).setPreferenceTotalEat(foodTotal)
+            setTotalCal()
 
         }.addOnFailureListener {
             Log.d(TAG,"List Food Name get Fail")
@@ -368,13 +396,15 @@ class CalorieFragment : Fragment() {
 
     }
 
-    private fun setTotalCal(calAllTotal: Float, v: View) {
+    private fun setTotalCal() {
+        println("OUTTTTTTT")
         val calAllTotalText = v.findViewById<TextView>(R.id.calAllTotal)
         val fullcal = AppPreferences(v.context).getPreferenceCal()
-        calAllTotalText.text = String.format("%.2f", calAllTotal)
-        if ((fullcal - calAllTotal) < 0) {
+        calAllTotalText.text = String.format("%.2f", foodTotal)
+        if ((fullcal - foodTotal) < 0) {
             calAllTotalText.setTextColor(this.resources.getColor(R.color.red));
         }
+        v.progessBar_Main.visibility = View.GONE
     }
 
     private fun sumCalCalories(

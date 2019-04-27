@@ -8,7 +8,7 @@ data class FoodNCal(val foodName : String, val totalCal : Int, val foodConsume :
 
 }
 
-data class WeightId(val dateWeight : Long, val weightValue : Int) {
+data class WeightId(val dateWeight : Any?, val weightValue : Float) {
 
 }
 
