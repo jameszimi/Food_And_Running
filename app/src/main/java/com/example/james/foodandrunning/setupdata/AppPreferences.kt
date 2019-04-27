@@ -69,13 +69,13 @@ class AppPreferences(context : Context) {
         editor.apply()
     }
 
-    fun getPreferenceWeight() : Int {
-        return preferences.getInt(PREFERENCE_WEIGHT,0)
+    fun getPreferenceWeight() : Float {
+        return preferences.getFloat(PREFERENCE_WEIGHT,0f)
     }
 
-    fun setPreferenceWeight(weight : Int) {
+    fun setPreferenceWeight(weight : Float) {
         val editor = preferences.edit()
-        editor.putInt(PREFERENCE_WEIGHT,weight)
+        editor.putFloat(PREFERENCE_WEIGHT,weight)
         editor.apply()
     }
 
@@ -179,13 +179,13 @@ class AppPreferences(context : Context) {
         editor.apply()
     }
 
-    fun getPreferenceBase() : Int {
-        return preferences.getInt(PREFERENCE_BASE,0)
+    fun getPreferenceBase() : Float {
+        return preferences.getFloat(PREFERENCE_BASE,0f)
     }
 
-    fun setPreferenceBase(base : Int) {
+    fun setPreferenceBase(base : Float) {
         val editor = preferences.edit()
-        editor.putInt(PREFERENCE_BASE,base)
+        editor.putFloat(PREFERENCE_BASE,base)
         editor.apply()
     }
 

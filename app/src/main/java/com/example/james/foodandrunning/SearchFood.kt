@@ -42,10 +42,6 @@ class SearchFood : AppCompatActivity() {
         //test adapter
         recyclerView_searchfood.layoutManager = LinearLayoutManager(this)
 
-
-
-
-
         //set Adapter
 
         val arrayofData = ArrayList<FoodDetial>()

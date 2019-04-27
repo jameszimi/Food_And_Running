@@ -77,7 +77,7 @@ class CalorieFragment : Fragment() {
             sumCalCalories(sex, weight, routine, age)
         }
 
-        if (calories == 0 && sex != 0 && weight != 0 && routine != 0 && age != 0) {
+        if (calories == 0 && sex != 0 && weight != 0f && routine != 0 && age != 0) {
            sumCalCalories(sex, weight, routine, age)
         }
 
@@ -379,7 +379,7 @@ class CalorieFragment : Fragment() {
 
     private fun sumCalCalories(
         sex: Int,
-        weight: Int,
+        weight: Float,
         routinein: Int,
         age: Int
     ) {
@@ -446,7 +446,7 @@ class CalorieFragment : Fragment() {
         FirebaseFirestore.getInstance().collection("WEIGHT_TABLE").document(weightpath).get().addOnSuccessListener {
             if (it != null) {
                 val dataHash = it.data as HashMap<String, Any>
-                val weight = dataHash["weight_value"].toString().toInt()
+                val weight = dataHash["weight_value"].toString().toFloat()
                 AppPreferences(this.context!!).setPreferenceWeight(weight)
             }
         }

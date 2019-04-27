@@ -104,11 +104,19 @@ class UserFragment : Fragment() {
             summitgoal!!.setOnClickListener {
                 val goal = linearLayout.findViewById<EditText>(R.id.goal_text).text.toString().toInt()
                 val base = AppPreferences(this.context!!).getPreferenceWeight()
-                var day = ((base-goal)/0.907)*7
+                val height = AppPreferences(this.context!!).getPreferenceHeight() / 100.0
+                val bMIGoal = goal / (height * height).toDouble()
+                println("BMI GOAL : $bMIGoal height:$height")
 
-                if (day.toInt()<day) day += 1
+                if (bMIGoal < 18.5) {
+                    Toast.makeText(
+                        this.context!!,
+                        "น้ำหนักที่คุณระบุต่ำกว่ามาตรฐานมวลกาย\nกรุณาระบุใหม่",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    return@setOnClickListener
+                }
 
-                AppPreferences(this.context!!).setPreferenceDay(day.toInt())
                 AppPreferences(this.context!!).setPreferenceGoal(goal)
                 AppPreferences(this.context!!).setPreferenceBase(base)
                 //refresh
@@ -121,7 +129,7 @@ class UserFragment : Fragment() {
 
         val appPreferences = AppPreferences(this.context!!)
         val weightBase = appPreferences.getPreferenceBase()
-        val weightGoal = appPreferences.getPreferenceGoal()
+        val weightGoal = appPreferences.getPreferenceGoal().toDouble()
         val status = appPreferences.getPreferenceStatus()
         val progressBar = v.findViewById<ProgressBar>(R.id.progressBarToGoal)
         val weightBase_text = v.findViewById<TextView>(R.id.weight_base)
@@ -133,18 +141,18 @@ class UserFragment : Fragment() {
         val userWeight = appPreferences.getPreferenceWeight()
         user_weight.text = userWeight.toString()
 
-        var progress : Double = 100/(userWeight-weightGoal).toDouble()
+        var progress : Double = (userWeight-weightGoal)*100/(weightBase-weightGoal)
         println(TAG + "progress:$progress")
 
         if (progress < 100) {
-            progressBar.progress = progress.toInt()
+            progressBar.progress = (100.0-progress).toInt()
         } else {
             progress = 100.toDouble()
-            progressBar.progress = progress.toInt()
+            progressBar.progress = (100.0-progress).toInt()
         }
 
-        val preday = appPreferences.getPreferenceDay()
-        predictionDay.text = preday.toString() + " วัน"
+        val preday = ((userWeight-weightGoal)/0.907)*7
+        predictionDay.text = preday.toInt().toString() + " วัน"
 
         v.weightchartBtn.setOnClickListener {
             val clickIntent = Intent(activity,WeightchartActivity::class.java)
@@ -166,8 +174,6 @@ class UserFragment : Fragment() {
             startActivity(intent)
         }
 
-
-
         return v
     }
 
@@ -179,13 +185,13 @@ class UserFragment : Fragment() {
 
         //par data
         dataHash["member_uid"] = uid
-        dataHash["weight_value"] = weightInCome
+        dataHash["weight_value"] = weightInCome.toFloat()
         dataHash["weight_update"] = FieldValue.serverTimestamp()
 
         updateWeightCL.set(dataHash).addOnSuccessListener {
             updateTOUID.update("member_weight",updateWeightCL.id).addOnSuccessListener {
                 val ft = fragmentManager!!.beginTransaction()
-                AppPreferences(context!!).setPreferenceWeight(weightInCome.toInt())
+                AppPreferences(context!!).setPreferenceWeight(weightInCome.toFloat())
                 ft.detach(this).attach(this).commit()
                 Toast.makeText(context,updateWeightCL.id,Toast.LENGTH_SHORT).show()
             }.addOnFailureListener {
@@ -193,7 +199,6 @@ class UserFragment : Fragment() {
             }
 
         }
-
 
     }
 

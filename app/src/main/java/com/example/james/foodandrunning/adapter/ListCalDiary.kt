@@ -46,6 +46,9 @@ class BreakfastList(val bfList: ArrayList<FoodNCal>) :RecyclerView.Adapter<Custo
             val dialogEditFood = dialog.findViewById<TextView>(R.id.setfoodlist_edit)
             val dialogDelFood = dialog.findViewById<TextView>(R.id.setfoodlist_del)
 
+            if (bfList[p1].foodName == "รายการอาหารที่ไม่มีอยู่ในระบบ"){
+                dialogEditFood!!.visibility = View.GONE
+            }
 
             dialogEditFood!!.setOnClickListener {
 

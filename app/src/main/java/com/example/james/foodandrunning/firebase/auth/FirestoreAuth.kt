@@ -55,7 +55,7 @@ class FirestoreFoodConsumeAuth(contextin: Context) {
 class FirestoreRunnigAuth(contextin: Context) {
 
     private val uid = AppPreferences(contextin).getPreferenceUID()
-    private val weight = AppPreferences(contextin).getPreferenceWeight()
+    private val weight = AppPreferences(contextin).getPreferenceWeight().toFloat()
     private val db = FirebaseFirestore.getInstance().collection("EXERCISE_TABLE")
     private var queryAuth = db.document()
     private val context = contextin

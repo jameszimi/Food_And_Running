@@ -58,5 +58,6 @@ class UserFoodAdapterList(val mExampleList: ArrayList<Userfood>) : RecyclerView.
             return@setOnLongClickListener true
         }
 
+
     }
 }

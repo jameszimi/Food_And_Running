@@ -49,6 +49,8 @@ class RunningActivity : AppCompatActivity(), OnMapReadyCallback {
     var indexinmap = 0
     var listtoupdate = ArrayList<Runningpath>()
     var timesec = 0.0
+    var onlocationNewTime = 0.0
+    var onlocationOldTime = 0.0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,7 +94,7 @@ class RunningActivity : AppCompatActivity(), OnMapReadyCallback {
 
         locationRequest = LocationRequest.create()
             .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-            .setInterval(3000)
+            .setInterval(5000)
             .setFastestInterval(1000)
 
 
@@ -109,17 +111,17 @@ class RunningActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 if (location != null) {
 
-                    val onlocationOldTime = locationNewTime
-                    val onlocationNewTime = (SystemClock.elapsedRealtime() - cockshow.base) - onlocationOldTime
+                    onlocationOldTime = onlocationNewTime
+                    onlocationNewTime = (SystemClock.elapsedRealtime() - cockshow.base) - onlocationOldTime
 
                     val onsectimeperdistance = (onlocationNewTime - onlocationOldTime).absoluteValue
                     val sec = onsectimeperdistance / 1000
                     timesec += sec
 
 
-                    if (status && timesec > 3) {
-                        timesec = 0.0
+                    if (status && timesec > 5) {
                         println("QWERTYUI:$timesec, $onsectimeperdistance" + (timesec > 5))
+                        timesec = 0.0
                         println("status TRUE")
                         println("map = latitude:${location.latitude} longitude:${location.longitude}")
                         //mMap.clear()
@@ -131,8 +133,6 @@ class RunningActivity : AppCompatActivity(), OnMapReadyCallback {
 
                         val dumy = location.speed / 1000 / 1.609344 * 60 * 60
                         println("Speed:" + location.speed + " mate:" + distance + ", time:" + location.time + ", mph:$dumy")
-
-
 
 
                         calculateCalfun(distance)
@@ -210,8 +210,8 @@ class RunningActivity : AppCompatActivity(), OnMapReadyCallback {
 
         timeperdistance = (locationNewTime-locationOldTime).absoluteValue
 
-        val weight = AppPreferences(this).getPreferenceWeight()
-        var time = 0.000000000
+        val weight = AppPreferences(this).getPreferenceWeight().toFloat()
+        var time = 0.0
         time = (timeperdistance/60000)
         println("TIME/60000 = "+timeperdistance/60000 + "time=$time")
         var totalCalories = 0.00

@@ -70,7 +70,8 @@
                 android:name=".AddCalorieActivity"
                 android:parentActivityName=".MainActivity">
         </activity>
-        <activity android:name=".AddfoodActivity">
+        <activity android:name=".AddfoodActivity"
+                  android:parentActivityName=".MainActivity">
         </activity>
         <activity
                 android:name=".UserEditdataActivity"

@@ -24,6 +24,7 @@ class EditDetailFoodCon : AppCompatActivity() {
         val foodConsumeId = intent.getStringExtra("foodConsumeId").toString()
         println(TAG+foodConsumeId)
         val foodName = intent.getStringExtra("food_name").toString()
+        println("FFFFFFFFFFFFF$foodName")
         val db = FirebaseFirestore.getInstance()
         var energy : Int = 1
         var serving_size = 1
