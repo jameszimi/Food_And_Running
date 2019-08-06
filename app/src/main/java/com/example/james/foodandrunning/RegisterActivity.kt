@@ -1,16 +1,15 @@
 package com.example.james.foodandrunning
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.ActionBar
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.*
+import com.example.james.foodandrunning.setupdata.AppPreferences
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import java.lang.Exception
-
-//import java.util.*
 
 
 class RegisterActivity : AppCompatActivity() {
@@ -29,15 +28,17 @@ class RegisterActivity : AppCompatActivity() {
     lateinit var mRoutine : Spinner
     lateinit var mSex : Spinner
     lateinit var mtexterror : TextView
-    //lateinit var mAuth: FirebaseAuthException
+    lateinit var toolbar : ActionBar
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-
-        //mDatabase = FirebaseDatabase.getInstance().getReference("MEMBER_TABLE")
+        setSupportActionBar(findViewById(R.id.mtoolbar))
+        toolbar = supportActionBar!!
+        toolbar.title = "สมัครสมาชิก"
+        toolbar.setDisplayHomeAsUpEnabled(true)
 
         val listOfDay = ArrayList<Int>(dayList())
         val listOfMonth = ArrayList<Int>(monthList())
@@ -58,7 +59,6 @@ class RegisterActivity : AppCompatActivity() {
         var sex = 0
 
         mRegisterBtn=findViewById(R.id.regisButton)
-        mUsername=findViewById(R.id.regisUsername)
         mPassword=findViewById(R.id.regisPassword)
         mConfPass=findViewById(R.id.regisConfPass)
         mEmail=findViewById(R.id.regisEmail)
@@ -80,18 +80,15 @@ class RegisterActivity : AppCompatActivity() {
 
         mDay.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                //Toast.makeText(this@RegisterActivity,"เลือกวันเกิด",Toast.LENGTH_LONG).show()
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 day = listOfDay[position]
-                // like listOfDay.get(position)
             }
         }
 
         mMonth.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -102,7 +99,6 @@ class RegisterActivity : AppCompatActivity() {
 
         mYear.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -113,7 +109,6 @@ class RegisterActivity : AppCompatActivity() {
 
         mRoutine.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -131,7 +126,6 @@ class RegisterActivity : AppCompatActivity() {
 
         mSex.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -226,6 +220,7 @@ class RegisterActivity : AppCompatActivity() {
             if (it.isSuccessful){
                 println("print is success uid:${it.result!!.user.uid}")
                 saveWeight(preuser, weight)
+                AppPreferences(this).setPreferenceUID(it.result!!.user.uid)
             } else{
                 Toast.makeText(this,"สมัครสมาชิกไม่สำเร็จ หรือเป็นสมาชิกอยู่แล้ว", Toast.LENGTH_SHORT).show()
                 println("println not success:")

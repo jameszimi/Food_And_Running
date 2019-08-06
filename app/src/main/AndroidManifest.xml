@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="com.example.james.foodandrunning">
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
             android:allowBackup="true"
@@ -9,7 +16,62 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".AddfoodActivity">
+        <activity android:name=".AdmineditfoodActivity"
+                  android:parentActivityName=".FoodEditDetailActivity">
+        </activity>
+        <activity
+                android:name=".FoodEditDetailActivity"
+                android:parentActivityName=".MainActivity">
+        </activity>
+        <activity
+                android:name=".RunningListActivity"
+                android:parentActivityName=".MainActivity">
+        </activity>
+        <activity android:name=".ResultsRunningActivity">
+        </activity>
+        <activity android:name=".RunningActivity">
+        </activity>
+        <activity android:name=".AddRunningActivity"
+                  android:parentActivityName=".MainActivity">
+        </activity>
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <meta-data
+                android:name="com.google.android.geo.API_KEY"
+                android:value="@string/google_maps_key"/>
+
+        <activity
+                android:name=".MapsActivity"
+                android:label="@string/title_activity_maps">
+        </activity>
+        <activity
+                android:name=".UserfoodcreatActivity"
+                android:parentActivityName=".MainActivity">
+        </activity>
+        <activity
+                android:name=".WeightchartActivity"
+                android:parentActivityName=".MainActivity">
+        </activity>
+        <activity
+                android:name=".CaloriesReport"
+                android:parentActivityName=".MainActivity">
+        </activity>
+        <activity
+                android:name=".EditDetailFoodCon"
+                android:parentActivityName=".MainActivity">
+        </activity>
+        <activity
+                android:name=".AddCalorieActivity"
+                android:parentActivityName=".MainActivity">
+        </activity>
+        <activity android:name=".AddfoodActivity"
+                  android:parentActivityName=".MainActivity">
         </activity>
         <activity
                 android:name=".UserEditdataActivity"
@@ -17,7 +79,9 @@
         </activity>
         <activity
                 android:name=".SearchFood"
-                android:parentActivityName=".MainActivity">
+                android:parentActivityName=".MainActivity"
+                android:screenOrientation="portrait"
+                tools:replace="screenOrientation">
         </activity>
         <activity
                 android:name=".SplashScreenActivity"
@@ -30,10 +94,15 @@
         </activity>
         <activity android:name=".LoginActivity">
         </activity>
-        <activity android:name=".RegisterActivity">
+        <activity android:name=".RegisterActivity"
+                  android:parentActivityName=".LoginActivity">
         </activity>
         <activity android:name=".MainActivity">
         </activity>
+        <activity
+                android:name="com.journeyapps.barcodescanner.CaptureActivity"
+                android:screenOrientation="fullSensor"
+                tools:replace="screenOrientation"/>
     </application>
 
 </manifest>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/editFoodNCal"
+        android:title="แก้ไขข้อมูล"/>
+
+    <item
+        android:id="@+id/delFood"
+        android:title="ลบรายการ"/>
+
+
+</menu>

@@ -1,14 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              tools:context=".WorkoutFragment">
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              xmlns:map="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:id="@+id/maprunning"
+              tools:context=".WorkoutFragment"
+              android:name="com.google.android.gms.maps.SupportMapFragment"/>
+
+
+    <ImageView
+            android:src="@drawable/baseline_directions_run_black_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addimg"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="90dp"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toEndOf="@+id/btn_startrunning"
+    />
+    <Button
+            android:text="Start Running"
+            android:layout_width="140dp"
+            android:layout_height="60dp"
+            android:background="@drawable/rounded_startrun"
+            android:textColor="@color/white"
+            android:id="@+id/btn_startrunning"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/addimg"
+            android:visibility="gone" app:layout_constraintHorizontal_bias="0.498"/>
+    <ImageView
+            android:src="@drawable/baseline_list_alt_black_48"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listrunBtn"
+            app:layout_constraintBottom_toBottomOf="@+id/maprunning" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_startrunning"
+            android:layout_marginBottom="84dp"/>
+
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/nav_workout"/>
 
-</FrameLayout>
+
+</android.support.constraint.ConstraintLayout>

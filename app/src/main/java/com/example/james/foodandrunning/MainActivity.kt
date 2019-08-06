@@ -1,18 +1,12 @@
 package com.example.james.foodandrunning
 
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
-import android.support.v4.app.Person
 import android.support.v7.app.ActionBar
-import android.util.Log
+import android.support.v7.app.AppCompatActivity
 import android.widget.FrameLayout
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,9 +18,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        //pre data
-        //val testdatahash =
 
         mMainFrame = findViewById(R.id.main_frame)
 

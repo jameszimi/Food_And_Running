@@ -20,7 +20,8 @@
                 android:layout_height="match_parent"
                 android:id="@+id/main_frame"
                 android:layout_marginTop="0dp"
-                android:layout_marginBottom="0dp">
+                android:layout_marginBottom="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/main_nav">
         </FrameLayout>
     </LinearLayout>
     <android.support.design.widget.BottomNavigationView

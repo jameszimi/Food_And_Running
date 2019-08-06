@@ -6,9 +6,12 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.Window
 import android.view.WindowManager
+import com.example.james.foodandrunning.setupdata.AppPreferences
+import com.google.firebase.firestore.FirebaseFirestore
 
 class SplashScreenActivity : AppCompatActivity() {
 
+    private val TAG = "SplashScreenActivity "
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -19,27 +22,37 @@ class SplashScreenActivity : AppCompatActivity() {
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_splash)
 
-        dayfun()
 
-        val dayList = ArrayList<Int>(dayfun())
+        val appPreferences = AppPreferences(this)
+        val loginUID = appPreferences.getPreferenceUID()
 
-        //โชว์ 3 วิ
-        Handler().postDelayed({
-            //Start Login
-            startActivity(Intent(this@SplashScreenActivity, LoginActivity::class.java))
-            finish()
-        }, 50)
-        //3000 is defuait
+        if (loginUID.isNotEmpty()) {
+            FirebaseFirestore.getInstance().collection("MEMBER_TABLE").document(loginUID).get().addOnSuccessListener {
 
-    }
-    fun dayfun(): ArrayList<Int> {
-        val dayArrayList = ArrayList<Int>()
-        for (i in 1..30){
-            dayArrayList.add(i)
-        //    println("i = $i")
+                println(TAG+"data"+it.data)
+                if (it.data != null) {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                } else {
+                    //โชว์ 3 วิ
+                    Handler().postDelayed({
+                        //Start Login
+                        startActivity(Intent(this@SplashScreenActivity, LoginActivity::class.java))
+                        finish()
+                    }, 3000)
+                    //3000 is defuait
+                }
+            }
+        } else {
+            Handler().postDelayed({
+                //Start Login
+                startActivity(Intent(this@SplashScreenActivity, LoginActivity::class.java))
+                finish()
+            }, 3500)
         }
-       // println("funday = $dayArrayList")
-        return dayArrayList
+        println(TAG + loginUID)
+
+
     }
 
 }
